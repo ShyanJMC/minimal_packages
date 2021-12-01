@@ -9,7 +9,7 @@ _aurl="https://gitea.artixlinux.org/artix/alpm-hooks/archive"
 
 pkgbase=openrc-minimal
 pkgname=('openrc' 'openrc-deptree2dot')
-pkgver=0.44.7
+pkgver=0.44.9
 pkgrel=1
 pkgdesc="Gentoo's universal init system"
 arch=('x86_64')
