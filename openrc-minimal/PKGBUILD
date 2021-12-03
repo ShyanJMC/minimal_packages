@@ -32,7 +32,7 @@ sha256sums=('6e3a131dfc5dd8935819560457902d73257cc40a8f3d98b53f5e7f6c1bb9d56a' #
             'ef6e4b8ccdfd79f9098e3e6d48ca26e10fac24d74982729fa83baff96bb4effb')
 
 prepare(){
-    cd "${pkgbase}-${pkgver}"
+    cd "openrc-${pkgver}"
     patch -Np 1 -i ../artix-rc-conf.patch
     patch -Np 1 -i ../artix-meson.patch
 }
@@ -60,7 +60,7 @@ build(){
         -Dlibrcdir=openrc
     )
 
-    CFLAGS="-fstack-protector-all -D_FORTIFY_SOURCE=2 -O2" arch-meson "${pkgbase}-${pkgver}" build "${meson_options[@]}"
+    CFLAGS="-fstack-protector-all -D_FORTIFY_SOURCE=2 -O2" arch-meson "openrc-${pkgver}" build "${meson_options[@]}"
 
     CFLAGS="-fstack-protector-all -D_FORTIFY_SOURCE=2 -O2" meson compile -C build
 }
@@ -87,7 +87,7 @@ package_openrc() {
 
     meson install -C build --destdir="${pkgdir}"
 
-    install -Dm644 "${srcdir}/${pkgbase}".logrotate "${pkgdir}"/etc/logrotate.d/"${pkgbase}"
+    install -Dm644 "${srcdir}/openrc".logrotate "${pkgdir}"/etc/logrotate.d/openrc
 
     install -d "${pkgdir}"/usr/lib/{openrc/cache,binfmt.d,sysctl.d}
 
@@ -95,10 +95,10 @@ package_openrc() {
     install -m755 "${srcdir}"/sysctl.conf "${pkgdir}"/usr/lib/sysctl.d/50-default.conf
 
     # license
-    install -Dm644 ${pkgbase}-${pkgver}/LICENSE "${pkgdir}"/usr/share/licenses/"${pkgbase}"/LICENSE
+    install -Dm644 openrc-${pkgver}/LICENSE "${pkgdir}"/usr/share/licenses/openrc/LICENSE
 
     # openrc extra; agetty,kmod,udev,tmpfiles,sysusers
-    cd "${srcdir}/${pkgbase}-extra"
+    cd "${srcdir}/openrc-extra"
     make DESTDIR="${pkgdir}" install
 
     # pacman hooks
@@ -116,6 +116,6 @@ package_openrc-deptree2dot() {
     pkgdesc="Graph the OpenRC Dependency Tree"
     depends=('perl')
 
-    cd "${pkgbase}-${pkgver}"
+    cd "openrc-${pkgver}"
     install -Dm755 support/deptree2dot/deptree2dot "${pkgdir}"/usr/bin/deptree2dot
 }
