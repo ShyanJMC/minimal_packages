@@ -29,7 +29,7 @@ build() {
 ## The "make DESTDIR="$pkgdir/" install" call will install files into the fakeroot environment so pacman will alow track them.
 
 package() {
-	cd lighttpd1.4
+	cd lighttpd-$pkgver
 	make DESTDIR="$pkgdir/" install
 	libtool --finish $pkgdir/usr/local/lib
 }
