@@ -1,0 +1,92 @@
+pkgname=bash-minimal
+pkgver=5.1.8
+pkgmayorrel=5.1
+pkgrel=1
+pkgdesc='The GNU Bourne Again shell'
+arch=($CARCH)
+license=(GPL)
+url='https://www.gnu.org/software/bash/bash.html'
+backup=(etc/bash.bash{rc,_logout} etc/skel/.bash{rc,_profile,_logout})
+depends=(readline libreadline.so glibc)
+makedepends=()
+
+source=(
+	https://ftp.gnu.org/gnu/bash/bash-${pkgver}.tar.gz
+#	https://ftp.gnu.org/gnu/bash/bash-${pkgmayorrel}-patches/bash51-009
+#	https://ftp.gnu.org/gnu/bash/bash-${pkgmayorrel}-patches/bash51-010
+#	https://ftp.gnu.org/gnu/bash/bash-${pkgmayorrel}-patches/bash51-011
+#	https://ftp.gnu.org/gnu/bash/bash-${pkgmayorrel}-patches/bash51-012
+)
+
+sha256sums=(
+	'SKIP'
+#	'SKIP'
+#	'SKIP'
+#	'SKIP'
+#	'SKIP'
+)
+
+#prepare() {
+#   cd bash-${pkgver}
+#   for patch in ../bash51-0*; do
+#     patch -p0 -i $patch
+#   done
+#}
+
+build() {
+  cd bash-${pkgver}
+
+  ./configure \
+    --prefix=/usr \
+    --with-curses=no \
+    --with-bash-malloc=no \
+    --with-afs=no \
+    --with-installed-readline=no \
+    --enable-threads=posix \
+    --enable-static-link \
+    --enable-minimal-config \
+    --enable-alias \
+    --enable-array-variables=no \
+    --enable-arith-for-command=no \
+    --enable-bang-history=no \
+    --enable-brace-expansion \
+    --enable-casemod-attributes \
+    --enable-casemod-expansions \
+    --enable-command-timing=no \
+    --enable-cond-command \
+    --enable-cond-regexp \
+    --enable-coprocesses \
+    --enable-debugger=no \
+    --enable-dev-fd-stat-broken=no \
+    --enable-direxpand-default=no \
+    --enable-directory-stack=no \
+    --enable-disabled-builtins=no \
+    --enable-dparen-arithmetic=no \
+    --enable-extended-glob=no \
+    --enable-extended-glob-default=no \
+    --enable-function-import=no \
+    --enable-glob-asciiranges-default=no \
+    --enable-help-builtin=no \
+    --enable-history \
+    --enable-job-control=no \
+    --enable-multibyte=no \
+    --enable-net-redirections=no \
+    --enable-process-substitution=no \
+    --enable-progcomp \
+    --enable-readline \
+    --enable-restricted \
+    --enable-select=no \
+    --enable-separate-helpfiles=no \
+    --enable-single-help-strings=no \
+    --enable-strict-posix-default \
+    --enable-usg-echo-default=no \
+    --enable-xpg-echo-default=no \
+    --enable-mem-scramble=no \
+    --enable-profiling=no 
+      make -j$(nproc)
+}
+
+package() {
+  make -C bash-${pkgver} DESTDIR="$pkgdir" install
+  ln -s bash "$pkgdir/usr/bin/sh"
+}
