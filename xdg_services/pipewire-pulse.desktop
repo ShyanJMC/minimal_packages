@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name[de]=PipeWire Mediensystem - Pulseaudio compatibility
+Name=PipeWire Media System - Pulseaudio compatibility
+Comment[de]=Das PipeWire Mediensystem starten - Pulseaudio compatibility
+Comment=Start the PipeWire Media System - Pulseaudio compatibility
+Exec=/usr/bin/pipewire-pulse
+Terminal=false
+Type=Application
+X-GNOME-HiddenUnderSystemd=true
+X-KDE-HiddenUnderSystemd=true
+X-systemd-skip=true
