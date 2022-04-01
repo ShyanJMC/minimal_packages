@@ -16,7 +16,7 @@ validpgpkeys=(3CB7B8416EF6778B409FDC43EBC3FC294452C6D8  # David Rosca <nowrep@gm
 options=(strip !docs staticlibs !debug)
 
 build() {
-  cmake -B build -S $pkgname-$pkgver \
+  cmake -B build -S falkon-$pkgver \
     -DBUILD_TESTING=OFF
   cmake --build build
 }
