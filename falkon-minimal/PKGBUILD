@@ -1,0 +1,26 @@
+# Maintainer: ShyanJMC <shyanjmc@protonmail.com>
+
+pkgname=falkon-minimal
+pkgver=3.2.0
+pkgrel=1
+pkgdesc='Falkon Cross-platform QtWebEngine browser without; python plugins and KDE integration.'
+arch=(x86_64)
+url='https://www.falkon.org/'
+license=(GPL3)
+depends=(qt5-webengine qt5-x11extras qt5-svg karchive openssl)
+makedepends=(extra-cmake-modules qt5-tools )
+source=(https://download.kde.org/stable/falkon/$pkgver/falkon-$pkgver.tar.xz)
+sha256sums=('f4ff925b7572b6e035424face86d05ca2df66723061bc57f2b1615c2c09012aa')
+validpgpkeys=(3CB7B8416EF6778B409FDC43EBC3FC294452C6D8  # David Rosca <nowrep@gmail.com>
+              E0A3EB202F8E57528E13E72FD7574483BB57B18D) # Jonathan Esk-Riddell <jr@jriddell.org>
+options=(strip !docs staticlibs !debug)
+
+build() {
+  cmake -B build -S falkon-$pkgver \
+    -DBUILD_TESTING=OFF
+  cmake --build build
+}
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build
+}
