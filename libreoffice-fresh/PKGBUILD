@@ -1,7 +1,7 @@
 pkgbase=libreoffice-fresh-minimal
 pkgname=('libreoffice-fresh-minimal')
-_LOver=7.2.5.2
-pkgver=7.2.5
+_LOver=7.3.2.2
+pkgver=7.3.2
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
