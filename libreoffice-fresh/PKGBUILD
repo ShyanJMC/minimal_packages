@@ -38,6 +38,8 @@ sha256sums=('SKIP'
 	    'SKIP'
             'SKIP')
 
+options=(strip !docs staticlibs !debug)
+
 build() {
 		cd libreoffice-$_LOver
 
