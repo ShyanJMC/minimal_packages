@@ -6,7 +6,7 @@
 # AUR Maintainer: Joaquin 'ShyanJMC' <shyan@shyanjmc.com>
 
 pkgname=gnucash-minimal
-pkgver=4.9
+pkgver=4.10
 pkgrel=1
 pkgdesc='Personal and small-business financial-accounting application. Compiled with minimal features.'
 arch=(x86_64)
