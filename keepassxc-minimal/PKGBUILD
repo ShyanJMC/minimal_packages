@@ -1,7 +1,7 @@
 # Maintainer: Joaquin "ShyanJMC" Crespo <shyanjmc@artixlinux.org>
 
 pkgname=keepassxc-minimal
-pkgver=2.6.6
+pkgver=2.7.1
 pkgrel=1
 pkgdesc="KeePassXC is a cross-platform community-driven port of the Windows application Keepass Password Safe. "
 arch=('x86_64')
