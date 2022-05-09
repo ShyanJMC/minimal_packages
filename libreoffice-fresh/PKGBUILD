@@ -99,7 +99,7 @@ build() {
 		--disable-ext-wiki-publisher \
 		--disable-ext-nlpsolver \
 		### --without-fonts\ Disabled to enable load external fonts
-		--without-myspell-dicts \
+		### --without-myspell-dicts \
 		--with-external-dict-dir=/usr/share/hunspell \
 		--with-external-hyph-dir=/usr/share/hyphen \
 		--with-external-thes-dir=/usr/share/mythes \
