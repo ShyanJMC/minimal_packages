@@ -8,13 +8,14 @@ arch=('x86_64')
 url="https://keepassxc.org/"
 license=('GPL')
 # depends=('')
-makedepends=('qt5-base' 'qt5-tools' 'zlib' 'argon2' 'qt5-x11extras' 'qrencode' 'libsodium' 'yubico-c' 'asciidoctor' 'qt5-svg' 'cmake')
+makedepends=('qt5-base' 'qt5-tools' 'zlib' 'argon2' 'qt5-x11extras' 'qrencode' 'libsodium' 'yubico-c' 'asciidoctor' 'qt5-svg' 'cmake' 'botan')
 source=("https://github.com/keepassxreboot/keepassxc/releases/download/${pkgver}/keepassxc-${pkgver}-src.tar.xz")
 sha256sums=('6001ba626c35c316dbda6de35736f012a2264f95139fcb4a094b8eb49b15d3e7')
 
 
 build() {
   cd keepassxc-${pkgver}
+  rm -rf build
   mkdir build
   cd build
   cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release -DWITH_XC_BROWSER=OFF -DWITH_XC_NETWORKING=OFF -DWITH_XC_SSHAGENT=OFF -DWITH_XC_KEESHARE=OFF -DWITH_GUI_TESTS=OFF -DKEEPASSXC_BUILD_TYPE=Release -DKEEPASSXC_DIST_TYPE=Other -DWITH_DEV_BUILD=OFF -DWITH_APP_BUNDLE=OFF -DWITH_XC_YUBIKEY=OFF -DWITH_XC_AUTOTYPE=OFF -DWITH_TESTS=OFF ..
