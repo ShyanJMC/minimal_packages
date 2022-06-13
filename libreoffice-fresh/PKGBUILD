@@ -1,7 +1,7 @@
 pkgbase=libreoffice-fresh-minimal
 pkgname=('libreoffice-fresh-minimal')
-_LOver=7.3.3.2
-pkgver=7.3.3
+_LOver=7.3.4.2
+pkgver=7.3.4
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
@@ -35,7 +35,7 @@ source=(${_mirror}/libreoffice-${_LOver}.tar.xz
 
 validpgpkeys=('C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3') # LibreOffice Build Team (CODE SIGNING KEY) <build@documentfoundation.org>
 
-sha256sums=('ee12bdbe1621c20e2744bc5b6c5967810f25a5760b98ac5812d550ab00968685' #libreoffice-7.3.3.2.tar.xz
+sha256sums=('48309056aa797eb2ae3aa3ef1b1bc49bd435fd4f2ad5770c45f4aa56fe6f0ff6' #libreoffice-7.3.4.2.tar.xz
             'd0be8099cbee3c9dfda694a828149b881c345b204ab68826f317580aafb50879' #soffice-template.desktop.in
             'cd1b25ff390e436c6bffa65c6e12382236e3ccbf8d3aae51b1b59bcaed79fd8a' #libreoffice-fresh.sh
             'de20f36d45f0fecc2d94176dd3ec7226ab07fa8ffb9b0bc73c200349a9273de1') #libreoffice-fresh.csh
