@@ -1,7 +1,7 @@
 # Maintainer: ShyanJMC
 
 pkgname=lighttpd_minimal
-pkgver=1.4.64
+pkgver=1.4.65
 pkgrel=1
 arch=('any')
 pkgdesc="Lighttpd with less features to be more minimal as never. Compiled with native support."
