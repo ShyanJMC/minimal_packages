@@ -7,6 +7,6 @@ The target of this is;
 ## Github and gitlab
 If you are seeing this in GitHub or GitLab take under consideration that are mirrors. The official repo is; 
 
-https;//www.git.shyanjmc.com
+https;//git.shyanjmc.com
 
 
