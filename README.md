@@ -1,7 +1,12 @@
 # Minimal_packages
-My collection of programs compiled (using pacman package manager) to be as minimal is possible.
+My collection of programs compiled (using pacman package manager) customized by me.
 
-The target of this repository is;
+The target of this is;
+- Compile programs to be as minimal is possible.
 
-* Be the central point for repo; https://repository.shyanjmc.com
-* Be the central point for common programs with the less features possible.
+## Github and gitlab
+If you are seeing this in GitHub or GitLab take under consideration that are mirrors. The official repo is; 
+
+https;//www.git.shyanjmc.com
+
+
