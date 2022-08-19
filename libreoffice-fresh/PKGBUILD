@@ -1,7 +1,7 @@
 pkgbase=libreoffice-fresh-minimal
 pkgname=('libreoffice-fresh-minimal')
-_LOver=7.3.5.2
-pkgver=7.3.5
+_LOver=7.4.0.3
+pkgver=7.4.0
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
@@ -35,7 +35,7 @@ source=(${_mirror}/libreoffice-${_LOver}.tar.xz
 
 validpgpkeys=('C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3') # LibreOffice Build Team (CODE SIGNING KEY) <build@documentfoundation.org>
 
-sha256sums=('9b3e0db1ee153330ea05f04109bd817dbac2203d2eed83ef54be54d4c741e991' #libreoffice-7.3.5.2.tar.xz
+sha256sums=('acc383a4386e1ceb74266a2f6406dee4b3a78576bda6bc71630f629ea20e3c19' #libreoffice-7.4.0.3.tar.xz
             'd0be8099cbee3c9dfda694a828149b881c345b204ab68826f317580aafb50879' #soffice-template.desktop.in
             'cd1b25ff390e436c6bffa65c6e12382236e3ccbf8d3aae51b1b59bcaed79fd8a' #libreoffice-fresh.sh
             'de20f36d45f0fecc2d94176dd3ec7226ab07fa8ffb9b0bc73c200349a9273de1') #libreoffice-fresh.csh
@@ -43,11 +43,36 @@ sha256sums=('9b3e0db1ee153330ea05f04109bd817dbac2203d2eed83ef54be54d4c741e991' #
 
 options=(strip !docs staticlibs !debug)
 
+prepare() {
+
+        cd libreoffice-$_LOver
+
+        # Workaround to fix build with gpgme 1.18.0
+        export ac_cv_lib_gpgmepp_progress_callback=yes
+
+        # move external sources into place
+        mkdir -p "${srcdir}"/ext_sources && pushd "${srcdir}"/ext_sources
+        for source in "${noextract[@]}"; do
+                ln -s "${srcdir}"/$source .
+        done
+        popd
+        
+        #use the CFLAGS but remove the LibO overridden ones
+        for i in $CFLAGS; do
+                case "$i" in
+                        -O?|-pipe|-Wall|-g|-fexceptions) continue;;
+                esac
+                ARCH_FLAGS="$ARCH_FLAGS $i"
+        done
+}
+
+
 build() {
 		cd libreoffice-$_LOver
 
 		./autogen.sh --with-extra-buildid="${pkgver}-${pkgrel}" \
-			--with-vendor="ShyanJMC Linux" \
+			--with-vendor='ShyanJMC Linux' \
+			--with-product-name='LibreOffice by ShyanJMC' \
 		--enable-split-app-modules \
 		--with-parallelism=${_MAKEFLAGS/-j/} \
 		--with-external-tar="${srcdir}/ext_sources" \
@@ -55,10 +80,16 @@ build() {
 		--prefix=/usr --exec-prefix=/usr --sysconfdir=/etc \
 		--libdir=/usr/lib --mandir=/usr/local/man/man1/ \
 		--with-help=no \
+		--disable-xmlhelp \
+		--enable-wasm-exceptions=no \
+		--enable-cipher-openssl-backend \
+		--disable-extension-update \
+		--with-omindex=no \
+		--without-helppack-integration \
 		--disable-cups \
+		--disable-libcmis \
 		--without-junit \
 		--without-doxygen \
-		--disable-cmis \
 		--disable-librelogo \
 		--disable-lotuswordpro \
 		--disable-cve-tests \
@@ -87,7 +118,7 @@ build() {
 		--disable-gtk3-kde5 \
 		--disable-kf5 \
 		--disable-qt5 \
-		--enable-gtk3 \
+		--enable-gtk4 \
 		--enable-introspection \
 		--enable-openssl \
 		--disable-odk\
@@ -104,9 +135,9 @@ build() {
 		--disable-dependency-tracking 
 
 	touch src.downloaded
-	make build-nocheck
+	make build
 
-	mkdir "${srcdir}"/fakeinstall
+	mkdir -p "${srcdir}"/fakeinstall
 	make DESTDIR="${srcdir}"/fakeinstall distro-pack-install
 }
 
@@ -191,8 +222,4 @@ package_libreoffice-fresh-minimal() {
                 | sed -e "s/@TYPE@/drawing/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odg.desktop
 
-	# make all i18n lang packages with help section ('1') available to
-	# fix "F1" not opening translated offline help opening in browser
-	# see also /usr/lib/libreoffice/help/en-US/langnames.js
-	echo "var languagesSet = new Set(['en-US','en-GB'])" > "${pkgdir}"/usr/lib/libreoffice/help/languages.js
 }
