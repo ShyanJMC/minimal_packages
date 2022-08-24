@@ -1,7 +1,7 @@
 # Maintainer: ShyanJMC <shyanjmc@protonmail.com>
 
 pkgname=falkon-minimal
-pkgver=22.04.2
+pkgver=22.08.0
 pkgrel=1
 pkgdesc='Falkon Cross-platform QtWebEngine browser without; python plugins and KDE integration.'
 arch=(x86_64)
@@ -10,14 +10,20 @@ license=(GPL3)
 depends=(qt5-webengine qt5-x11extras qt5-svg karchive openssl)
 makedepends=(extra-cmake-modules qt5-tools )
 source=(https://github.com/KDE/falkon/archive/refs/tags/v${pkgver}.tar.gz)
-sha256sums=('083028c28dbb97cb272e1ee2bbee3eac069b6a344a40c5df6ec2ce19de3d29f9')
+
+sha256sums=('2f6d9e8a9d82fbf554221f35eaf96574d8eefe99c2e861af8f43633831b6e542') # v22.08.0.tar.gz
+
 validpgpkeys=(3CB7B8416EF6778B409FDC43EBC3FC294452C6D8  # David Rosca <nowrep@gmail.com>
               E0A3EB202F8E57528E13E72FD7574483BB57B18D) # Jonathan Esk-Riddell <jr@jriddell.org>
 options=(strip !docs staticlibs !debug)
 
 build() {
   cmake -B build -S falkon-$pkgver \
-    -DBUILD_TESTING=OFF
+    -DBUILD_TESTING=OFF \
+    -DBUILD_KEYRING=ON \
+    -DENABLE_KDE_FRAMEWORKS_INTEGRATION_PLUGIN=FALSE \
+    -DENABLE_PYTHON_PLUGINS=FALSE \
+
   cmake --build build
 }
 
