@@ -1,0 +1,34 @@
+# https://wiki.archlinux.org/title/PKGBUILD
+# REALMMD
+# Maintainer= ShyanJMC <shyanjmc@protonmail.com>
+# https://shyanjmc.com
+
+pkgname=realmd
+pkgver=0.17.0
+pkgrel=1
+pkgdesc="An asistent to join AD and LDAP domain"
+arch=('x86_64')
+url=https://freedesktop.org/software/realmd/
+depends=('systemd' 'krb5' 'glib2' 'libldap' 'openssl'
+        'glib2' 'e2fsprogs' 'glibc' 'zlib' 'util-linux-libs'
+        'libffi' 'pcre' 'keyutils' 'sssd' 'samba'
+        'libsasl' 'openldap' 'polkit' )
+makedepends=('systemd' 'intltool' 'polkit' 'python' )
+provides=("realmd-$pkgver")
+options=(strip !docs)
+source=(https://gitlab.freedesktop.org/$pkgname/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.bz2)
+sha256sums=(a18ce385862101d734c1382560acc2f10dbeb465d03c587cb80707321634d628) #realmd-0.17.0.tar.bz2
+
+build() {
+        cd $pkgname-$pkgver
+        ./autogen.sh --enable-doc=no --enable-debug=no --with-distro=default --prefix=/usr --sbindir=/usr/bin --sysconfdir=/etc --localstatedir=/var
+	make -j${nproc}
+	touch service/realmd-default.conf
+}
+
+package() {
+        cd $pkgname-$pkgver
+	# Thanks to https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=realmd for this conf of "DBUS_POLICY_DIR"
+        make DESTDIR="$pkgdir" DBUS_POLICY_DIR="/usr/share/dbus-1/system.d" install
+	make uninstall-doc
+}
