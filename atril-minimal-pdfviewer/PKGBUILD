@@ -17,6 +17,8 @@ replaces=('atril-gtk3')
 source=("https://pub.mate-desktop.org/releases/${pkgver%.*}/atril-$pkgver.tar.xz")
 sha256sums=('715e766eaede3fa5d8ca300fa3319fb2b63055dfdc6e971d8750c2aec624e45f')
 
+options=(strip !docs staticlibs !debug)
+
 prepare() {
 	cd "atril-$pkgver"
 
