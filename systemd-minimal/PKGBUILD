@@ -3,7 +3,7 @@
 pkgbase=systemd
 pkgname=('systemd' 'systemd-libs' 'systemd-sysvcompat')
 _tag='615e67a0eeb479009f185d2526acf7cc1ed36e62' # git rev-parse v${_tag_name}
-_tag_name=251.2
+_tag_name=251.4
 pkgver="${_tag_name/-/}"
 pkgrel=1
 arch=('x86_64')
@@ -13,7 +13,7 @@ makedepends=('acl' 'cryptsetup' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
              'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
              'python-jinja' 'shadow' 'git' 
              'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
-             'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync')
+             'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync' 'apparmor')
 options=(!'debug' 'strip')
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
               'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'  # Luca Boccassi <luca.boccassi@gmail.com>
@@ -198,7 +198,8 @@ build() {
     # systemd-sysusers creates system users and groups, based on the file format and location specified in sysusers.d
     -Dsysusers=false
     # support for tmpfiles.d
-    -Dtmpfiles=false
+    # enabled to avoid issues with snapd, asusd and others.
+    -Dtmpfiles=true
     # systemd-importd.service - Virtual Machine and Container Download Service
     -Dimportd=false
     # The content of all hwdb files is read by systemd-hwdb(8) and compiled to a binary database located at /etc/udev/hwdb.bin , or alternatively /usr/lib/udev/hwdb.
@@ -233,8 +234,8 @@ build() {
     -Dsysvinit-path=
     -Dsysvrcnd-path=
 
-    -Dsbat-distro='arch'
-    -Dsbat-distro-summary='arch Linux'
+    -Dsbat-distro='linux'
+    -Dsbat-distro-summary='Linux Systemd Minimal'
     -Dsbat-distro-pkgname="${pkgname}"
     -Dsbat-distro-version="${pkgver}"
     -Dsbat-distro-url="https://archlinux.org/packages/core/x86_64/${pkgname}/"
