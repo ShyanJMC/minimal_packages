@@ -1,7 +1,7 @@
 # Maintainer: ShyanJMC <shyanjmc@protonmail.com>
 
 pkgname=falkon-minimal
-pkgver=22.08.0
+pkgver=22.08.1
 pkgrel=1
 pkgdesc='Falkon Cross-platform QtWebEngine browser without; python plugins and KDE integration.'
 arch=(x86_64)
@@ -11,7 +11,7 @@ depends=(qt5-webengine qt5-x11extras qt5-svg karchive openssl)
 makedepends=(extra-cmake-modules qt5-tools )
 source=(https://github.com/KDE/falkon/archive/refs/tags/v${pkgver}.tar.gz)
 
-sha256sums=('2f6d9e8a9d82fbf554221f35eaf96574d8eefe99c2e861af8f43633831b6e542') # v22.08.0.tar.gz
+sha256sums=('069e8dbaf86aa5b6c905260322307d3dc636a67c011ab71ac711a92c509b7139') # v22.08.1.tar.gz
 
 validpgpkeys=(3CB7B8416EF6778B409FDC43EBC3FC294452C6D8  # David Rosca <nowrep@gmail.com>
               E0A3EB202F8E57528E13E72FD7574483BB57B18D) # Jonathan Esk-Riddell <jr@jriddell.org>
