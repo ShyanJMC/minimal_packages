@@ -9,4 +9,27 @@ If you are seeing this in GitHub or GitLab take under consideration that are mir
 
 https;//git.shyanjmc.com
 
+## Contributions and support
+
+For now I am the main and only dev in this project, maybe in the future I will allow collaborations. 
+
+If you want support this project you can;
+
+Join my patreon;
+
+- https://patreon.com/shyanjmc
+
+Donate me crypto;
+
+- Bitcoin (BTC); 16n6GP4XkZiyoGCZei6uxdpohCkPm7eQ7L
+- Ethereum (ETH); 0x27219354cC70dE84e7fae0B71E9e2605026b10B2
+- Cosmos (ATOM); cosmos1fmyh8kkdmz4wfhec5k5h97g9syl8e9lpufww8n
+- DAI (ERC-20); 0x27219354cC70dE84e7fae0B71E9e2605026b10B2
+- Ravencoin (RVN); RRmpKJyu2TTLA94oXCf9PL3u1dmXUAMTd4
+
+Also you can donate trought crypto-coffee.xyz;
+
+- https://crypto-coffee.xyz/donate/shyanjmc
+
+And if you know me personally, let me know that you have donated, since that moment we will share a beer (or mead if you are man/women of honor).
 
