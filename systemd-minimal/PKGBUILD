@@ -3,7 +3,7 @@
 pkgbase=systemd
 pkgname=('systemd' 'systemd-libs' 'systemd-sysvcompat')
 _tag='615e67a0eeb479009f185d2526acf7cc1ed36e62' # git rev-parse v${_tag_name}
-_tag_name=251.4
+_tag_name=251.6
 pkgver="${_tag_name/-/}"
 pkgrel=1
 arch=('x86_64')
@@ -14,7 +14,8 @@ makedepends=('acl' 'cryptsetup' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
              'python-jinja' 'shadow' 'git' 
              'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
              'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync' 'apparmor')
-options=(!'debug' 'strip')
+options=(!'debug' 'staticlibs' !'docs' 'strip')
+
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
               'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'  # Luca Boccassi <luca.boccassi@gmail.com>
               '9A774DB5DB996C154EBBFBFDA0099A18E29326E1'  # Yu Watanabe <watanabe.yu+github@gmail.com>
