@@ -4,10 +4,12 @@ My collection of programs compiled (using pacman package manager) customized by 
 The target of this is;
 - Compile programs to be as minimal is possible.
 
+I highly recommend use as primary compiler the MUSL standard library.
+
 ## Github and gitlab
 If you are seeing this in GitHub or GitLab take under consideration that are mirrors. The official repo is; 
 
-https;//git.shyanjmc.com
+https://git.shyanjmc.com
 
 ## Contributions and support
 
