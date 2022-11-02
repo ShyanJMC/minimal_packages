@@ -1,7 +1,7 @@
 # Maintainer: Joaquin "ShyanJMC" Crespo <shyanjmc@artixlinux.org>
 
 pkgname=keepassxc-minimal
-pkgver=2.7.1
+pkgver=2.7.4
 pkgrel=1
 pkgdesc="KeePassXC is a cross-platform community-driven port of the Windows application Keepass Password Safe. "
 arch=('x86_64')
@@ -10,7 +10,7 @@ license=('GPL')
 # depends=('')
 makedepends=('qt5-base' 'qt5-tools' 'zlib' 'argon2' 'qt5-x11extras' 'qrencode' 'libsodium' 'yubico-c' 'asciidoctor' 'qt5-svg' 'cmake' 'botan')
 source=("https://github.com/keepassxreboot/keepassxc/releases/download/${pkgver}/keepassxc-${pkgver}-src.tar.xz")
-sha256sums=('6001ba626c35c316dbda6de35736f012a2264f95139fcb4a094b8eb49b15d3e7')
+sha256sums=('560052961da0389327e759171f660230dfa4e0f4e1fab6139600fb85c6e5dece')
 options=(strip !docs staticlibs !debug)
 
 build() {
