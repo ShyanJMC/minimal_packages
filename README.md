@@ -9,7 +9,7 @@ I highly recommend use as primary compiler the MUSL standard library.
 ## Github and gitlab
 If you are seeing this in GitHub or GitLab take under consideration that are mirrors. The official repo is; 
 
-https://git.shyanjmc.com
+- https://git.shyanjmc.com/minimal_packages/
 
 ## Contributions and support
 
@@ -25,9 +25,7 @@ Donate me crypto;
 
 - Bitcoin (BTC); 16n6GP4XkZiyoGCZei6uxdpohCkPm7eQ7L
 - Ethereum (ETH); 0x27219354cC70dE84e7fae0B71E9e2605026b10B2
-- Cosmos (ATOM); cosmos1fmyh8kkdmz4wfhec5k5h97g9syl8e9lpufww8n
 - DAI (ERC-20); 0x27219354cC70dE84e7fae0B71E9e2605026b10B2
-- Ravencoin (RVN); RRmpKJyu2TTLA94oXCf9PL3u1dmXUAMTd4
 
 Also you can donate trought crypto-coffee.xyz;
 
