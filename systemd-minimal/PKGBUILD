@@ -1,21 +1,20 @@
-# Maintainer: Christian Hesse <mail@eworm.de>
+# Maintainer: Joaquin 'ShyanJMC' Crespo <shyanjmc@protonmail.com>
 
 pkgbase=systemd
-pkgname=('systemd' 'systemd-libs' 'systemd-sysvcompat')
-_tag='615e67a0eeb479009f185d2526acf7cc1ed36e62' # git rev-parse v${_tag_name}
-_tag_name=251.6
+pkgname=('systemd' 'systemd-libs' 'systemd-resolvconf' 'systemd-sysvcompat')
+_tag='472b4e59c3c095248b316ccceac5565fcaae9d3a' # git rev-parse v${_tag_name}
+_tag_name=252.1
 pkgver="${_tag_name/-/}"
 pkgrel=1
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
-makedepends=('acl' 'cryptsetup' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
+makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
              'intltool' 'iptables' 'kmod' 'libcap' 'libidn2' 'libgcrypt'
-             'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
-             'python-jinja' 'shadow' 'git' 
+             'libmicrohttpd' 'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
+             'python-jinja' 'python-lxml' 'quota-tools' 'shadow' 'gnu-efi-libs' 'git'
              'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
-             'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync' 'apparmor')
+             'bash-completion' 'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync')
 options=(!'debug' 'staticlibs' !'docs' 'strip')
-
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
               'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'  # Luca Boccassi <luca.boccassi@gmail.com>
               '9A774DB5DB996C154EBBFBFDA0099A18E29326E1'  # Yu Watanabe <watanabe.yu+github@gmail.com>
@@ -42,7 +41,7 @@ source=("git+https://github.com/systemd/systemd-stable#tag=${_tag}?signed"
         '30-systemd-update.hook')
 sha512sums=('SKIP'
             'SKIP'
-            'cc0c2ffb5f7c3a7176cd68f3dddd85ca000dcc4cdf3044746a20147234adb6811800fd28a4713faa6a59bf8c02be9fd43c2d6aa6695fd1dbf03ae773a91d090c'
+            '3ccf783c28f7a1c857120abac4002ca91ae1f92205dcd5a84aff515d57e706a3f9240d75a0a67cff5085716885e06e62597baa86897f298662ec36a940cf410e'
             'f0d933e8c6064ed830dec54049b0a01e27be87203208f6ae982f10fb4eddc7258cb2919d594cbfb9a33e74c3510cfd682f3416ba8e804387ab87d1a217eb4b73'
             'aeefb607471cffb5ed4c3d9f36dc0954a9a08cee4b7b4ff55468b561e089e3d8448398906a7df328049ba51b712e4d50698b96bc152bdb03a35ce39c3f51a7cb'
             'a8c7e4a2cc9c9987e3c957a1fc3afe8281f2281fffd2e890913dcf00cf704024fb80d86cb75f9314b99b0e03bac275b22de93307bfc226d8be9435497e95b7e6'
@@ -107,7 +106,7 @@ build() {
   )
 
   local _meson_options=(
-    # internal version comparison is incompatible with pacman:
+        # internal version comparison is incompatible with pacman:
     #   249~rc1 < 249 < 249.1 < 249rc
     -Dversion-tag="${_tag_name/-/\~}-${pkgrel}-shyanjmc"
     -Dshared-lib-tag="${pkgver}-${pkgrel}"
@@ -215,19 +214,17 @@ build() {
     -Dlibfido2=true
 
 
-
     # We disable DNSSEC by default, it still causes trouble:
     # https://github.com/systemd/systemd/issues/10579
     
     -Ddbuspolicydir=/usr/share/dbus-1/system.d
-    # DNSSec support
     -Ddefault-dnssec=no
     -Ddefault-hierarchy=unified
     -Ddefault-kill-user-processes=false
-    -Ddefault-locale=C
+    -Ddefault-locale='C.UTF-8'
     -Dlocalegen-path=/usr/bin/locale-gen
     -Ddns-over-tls=openssl
-    -Dfallback-hostname='sleipnir'
+    -Dfallback-hostname='archlinux'
     -Dnologin-path=/usr/bin/nologin
     -Dntp-servers="${_timeservers[*]}"
     -Ddns-servers="${_nameservers[*]}"
@@ -259,7 +256,7 @@ package_systemd() {
            'libgcrypt' 'libxcrypt' 'libcrypt.so' 'systemd-libs' 'libidn2' 'lz4' 'pam'
            'libelf' 'libseccomp' 'libseccomp.so' 'util-linux' 'libblkid.so'
            'libmount.so' 'xz' 'pcre2' 'audit' 'libaudit.so' 'libp11-kit'
-           'libp11-kit.so' 'openssl')
+           'libp11-kit.so' 'openssl' 'libcrypto.so' 'libssl.so')
   provides=('nss-myhostname' "systemd-tools=$pkgver" "udev=$pkgver")
   replaces=('nss-myhostname' 'systemd-tools' 'udev')
   conflicts=('nss-myhostname' 'systemd-tools' 'udev')
@@ -280,6 +277,7 @@ package_systemd() {
           etc/systemd/networkd.conf
           etc/systemd/oomd.conf
           etc/systemd/pstore.conf
+          etc/systemd/resolved.conf
           etc/systemd/sleep.conf
           etc/systemd/system.conf
           etc/systemd/timesyncd.conf
@@ -287,7 +285,7 @@ package_systemd() {
           etc/udev/udev.conf)
   install=systemd.install
 
-  DESTDIR="$pkgdir" meson install -C build
+  meson install -C build --destdir "$pkgdir"
 
   # runtime libraries shipped with systemd-libs
   install -d -m0755 systemd-libs
@@ -298,6 +296,8 @@ package_systemd() {
 
   # avoid a potential conflict with [core]/filesystem
   rm "$pkgdir"/usr/share/factory/etc/{issue,nsswitch.conf}
+  sed -i -e '/^C \/etc\/nsswitch\.conf/d' \
+    -e '/^C \/etc\/issue/d' "$pkgdir"/usr/lib/tmpfiles.d/etc.conf
 
   # ship default policy to leave services disabled
   echo 'disable *' >"$pkgdir"/usr/lib/systemd/system-preset/99-default.preset
@@ -309,6 +309,7 @@ package_systemd() {
 
   # The group 'systemd-journal' is allocated dynamically and may have varying
   # gid on different systems. Let's install with gid 0 (root), systemd-tmpfiles
+  # will fix the permissions for us. (see /usr/lib/tmpfiles.d/systemd.conf)
   install -d -o root -g root -m 2755 "$pkgdir"/var/log/journal
 
   # match directory owner/group and mode from [extra]/polkit
@@ -339,6 +340,20 @@ package_systemd-libs() {
   mv systemd-libs "$pkgdir"/usr/lib
 }
 
+package_systemd-resolvconf() {
+  pkgdesc='systemd resolvconf replacement (for use with systemd-resolved)'
+  license=('LGPL2.1')
+  depends=('systemd')
+  provides=('openresolv' 'resolvconf')
+  conflicts=('openresolv')
+
+  install -d -m0755 "$pkgdir"/usr/bin
+  ln -s resolvectl "$pkgdir"/usr/bin/resolvconf
+
+  install -d -m0755 "$pkgdir"/usr/share/man/man1
+  ln -s resolvectl.1.gz "$pkgdir"/usr/share/man/man1/resolvconf.1.gz
+}
+
 package_systemd-sysvcompat() {
   pkgdesc='sysvinit compat for systemd'
   license=('GPL2')
@@ -352,3 +367,4 @@ package_systemd-sysvcompat() {
   done
 }
 
+# vim:ft=sh syn=sh et sw=2:
