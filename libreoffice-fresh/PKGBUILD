@@ -1,12 +1,12 @@
 pkgbase=libreoffice-fresh-minimal
 pkgname=('libreoffice-fresh-minimal')
-_LOver=7.4.2.3
-pkgver=7.4.2
+_LOver=7.4.4.2
+pkgver=7.4.4
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
 url="https://www.libreoffice.org/"
-makedepends=('gtk4' 'curl>=7.20.0' 'hunspell>=1.2.8' 'libwpd>=0.9.2' 'libwps'
+makedepends=('curl>=7.20.0' 'hunspell>=1.2.8' 'libwpd>=0.9.2' 'libwps'
 	'neon>=0.28.6' 'pango' 'nspr' 'libjpeg' 'libxrandr' 'libgl' 'dbus-glib'
 	'libxslt' 'redland' 'hyphen' 'lpsolve' 'gcc-libs' 'sh' 'graphite' 'icu' 
 	'lcms2' 'poppler>=0.24.0' 'libvisio' 'libetonyek' 'libodfgen' 'libcdr'
@@ -14,16 +14,20 @@ makedepends=('gtk4' 'curl>=7.20.0' 'hunspell>=1.2.8' 'libwpd>=0.9.2' 'libwps'
 	'desktop-file-utils' 'shared-mime-info' 'gst-plugins-base-libs'
 	'gperf' 'gtk3' 'cppunit' 'clucene'
 	'libmythes' 'libwpg'  'libgl'
-	'bluez-libs' 'libatomic_ops'  'mdds'
+	'bluez-libs' 'libatomic_ops'  'mdds' 'nasm'
 	'apr' 'serf' 'ttf-liberation' 'ttf-dejavu' 'ttf-carlito' 'libxinerama' 'libpagemaker' 'glm'
 	'libabw' 'libmwaw' 'libe-book' 'coin-or-mp' 'liblangtag' 'liborcus' 'libice' 'libsm'
-	'libexttextcat' 'gobject-introspection' 
+#	'libexttextcat' 'libcmis' 'gobject-introspection' # 'libfbclient'
+	'libexttextcat' 'gobject-introspection' # 'libfbclient'
 	'libtommath' 'libzmf' 'gpgme' 'rxvt-unicode' 
 	'libepubgen' 'libfreehand' 'libqxp' 'libstaroffice'  'boost' 'libnumbertext'
 	'libffi' 'box2d' 'git' 'zip' 'unzip'
 )
 
 _mirror="https://download.documentfoundation.org/libreoffice/src/${pkgver}"
+#_mirror="https://dev-builds.libreoffice.org/pre-releases/src"
+_additional_source_url="https://dev-www.libreoffice.org/src"
+_additional_source_url2="https://dev-www.libreoffice.org/extern"
 
 source=(${_mirror}/libreoffice-${_LOver}.tar.xz
         soffice-template.desktop.in 
@@ -31,7 +35,7 @@ source=(${_mirror}/libreoffice-${_LOver}.tar.xz
 
 validpgpkeys=('C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3') # LibreOffice Build Team (CODE SIGNING KEY) <build@documentfoundation.org>
 
-sha256sums=('82c1ffe02f2ed8ee1451a9f67c35335b27a638db591f9bc539eff86ab14dd95a' #libreoffice-7.4.2.3.tar.xz
+sha256sums=('8ae1d9a91fab98d9601ee5e256389e3da26c6ad9836930b151504b742e729d0b' #libreoffice-7.4.4.2.tar.xz
             'd0be8099cbee3c9dfda694a828149b881c345b204ab68826f317580aafb50879' #soffice-template.desktop.in
             'cd1b25ff390e436c6bffa65c6e12382236e3ccbf8d3aae51b1b59bcaed79fd8a' #libreoffice-fresh.sh
             'de20f36d45f0fecc2d94176dd3ec7226ab07fa8ffb9b0bc73c200349a9273de1') #libreoffice-fresh.csh
@@ -39,36 +43,11 @@ sha256sums=('82c1ffe02f2ed8ee1451a9f67c35335b27a638db591f9bc539eff86ab14dd95a' #
 
 options=(strip !docs staticlibs !debug)
 
-prepare() {
-
-        cd libreoffice-$_LOver
-
-        # Workaround to fix build with gpgme 1.18.0
-        export ac_cv_lib_gpgmepp_progress_callback=yes
-
-        # move external sources into place
-        mkdir -p "${srcdir}"/ext_sources && pushd "${srcdir}"/ext_sources
-        for source in "${noextract[@]}"; do
-                ln -s "${srcdir}"/$source .
-        done
-        popd
-        
-        #use the CFLAGS but remove the LibO overridden ones
-        for i in $CFLAGS; do
-                case "$i" in
-                        -O?|-pipe|-Wall|-g|-fexceptions) continue;;
-                esac
-                ARCH_FLAGS="$ARCH_FLAGS $i"
-        done
-}
-
-
 build() {
 		cd libreoffice-$_LOver
 
 		./autogen.sh --with-extra-buildid="${pkgver}-${pkgrel}" \
-			--with-vendor='ShyanJMC Linux' \
-			--with-product-name='LibreOffice by ShyanJMC' \
+		--with-vendor="ShyanJMC Linux" \
 		--enable-split-app-modules \
 		--with-parallelism=${_MAKEFLAGS/-j/} \
 		--with-external-tar="${srcdir}/ext_sources" \
@@ -76,17 +55,10 @@ build() {
 		--prefix=/usr --exec-prefix=/usr --sysconfdir=/etc \
 		--libdir=/usr/lib --mandir=/usr/local/man/man1/ \
 		--with-help=no \
-		--without-webdav \
-		--disable-xmlhelp \
-		--enable-wasm-exceptions=no \
-		--enable-cipher-openssl-backend \
-		--disable-extension-update \
-		--with-omindex=no \
-		--without-helppack-integration \
 		--disable-cups \
-		--disable-libcmis \
 		--without-junit \
 		--without-doxygen \
+		--disable-libcmis \
 		--disable-librelogo \
 		--disable-lotuswordpro \
 		--disable-cve-tests \
@@ -115,7 +87,7 @@ build() {
 		--disable-gtk3-kde5 \
 		--disable-kf5 \
 		--disable-qt5 \
-		--enable-gtk4 \
+		--enable-gtk3 \
 		--enable-introspection \
 		--enable-openssl \
 		--disable-odk\
@@ -134,7 +106,7 @@ build() {
 	touch src.downloaded
 	make build
 
-	mkdir -p "${srcdir}"/fakeinstall
+	mkdir "${srcdir}"/fakeinstall
 	make DESTDIR="${srcdir}"/fakeinstall distro-pack-install
 }
 
@@ -219,4 +191,8 @@ package_libreoffice-fresh-minimal() {
                 | sed -e "s/@TYPE@/drawing/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odg.desktop
 
+	# make all i18n lang packages with help section ('1') available to
+	# fix "F1" not opening translated offline help opening in browser
+	# see also /usr/lib/libreoffice/help/en-US/langnames.js
+	echo "var languagesSet = new Set(['en-US','en-GB'])" > "${pkgdir}"/usr/lib/libreoffice/help/languages.js
 }
