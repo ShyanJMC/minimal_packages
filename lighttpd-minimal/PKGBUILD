@@ -1,7 +1,7 @@
 # Maintainer: ShyanJMC
 
 pkgname=lighttpd_minimal
-pkgver=1.4.66
+pkgver=1.4.68
 pkgrel=1
 arch=('any')
 pkgdesc="Lighttpd with less features to be more minimal as never. Compiled with native support."
@@ -9,7 +9,7 @@ url="https://www.lighttpd.net/"
 license=('BSD3')
 source=("https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-$pkgver.tar.gz")
 
-sha256sums=('d919c3f9031e2580b94b311a3749eaa1e3b4a6a57b2d5c4cbcad40c0a73a7200') # lighttpd-1.4.66.tar.gz
+sha256sums=('fa8515297cfa7273cf84be8c8d312d26ec272e28b41022f7dcb8ccef02a99c78') # lighttpd-1.4.68.tar.gz
 
 conflicts=('lighttpd')
 provides=('lighttpd')
