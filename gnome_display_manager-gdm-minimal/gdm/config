@@ -1,0 +1,8 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+[remote "origin"]
+	url = https://gitlab.gnome.org/GNOME/gdm.git
+	fetch = +refs/*:refs/*
+	mirror = true
