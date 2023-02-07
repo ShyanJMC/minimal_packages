@@ -1,7 +1,10 @@
 */*.tar.gz
 */*.tar.xz
+*/*.tar.xz.asc
 */*.tar.bz2
-*/*pkg.tar.zst*
+*/*.tar.zst
 */src
 */pkg
-
+systemd-minimal/keys/
+systemd-minimal/systemd-stable/
+systemd-minimal/systemd/
