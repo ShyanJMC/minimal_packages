@@ -1,6 +1,0 @@
-[submodule "librewolf-aur-default"]
-	path = librewolf-aur-default
-	url = https://aur.archlinux.org/librewolf.git
-[submodule "librewolf-bin"]
-	path = librewolf-bin
-	url = https://aur.archlinux.org/librewolf-bin.git
