@@ -16,7 +16,7 @@ depends=(accountsservice gcr-4 gjs upower gnome-session gtk4
          gnome-settings-daemon gsettings-desktop-schemas libcanberra-pulse
          libgdm libsecret mutter libnma unzip libibus gnome-autoar
          gnome-disk-utility libsoup3 libgweather-4)
-makedepends=(gnome-control-center 
+makedepends=(gnome-control-center cmake evolution-data-server
              gobject-introspection git meson sassc asciidoc bash-completion)
 checkdepends=(xorg-server-xvfb)
 optdepends=('gnome-control-center: System settings'
