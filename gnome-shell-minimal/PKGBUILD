@@ -13,11 +13,9 @@ url="https://wiki.gnome.org/Projects/GnomeShell"
 arch=(x86_64)
 license=(GPL)
 depends=(accountsservice gcr-4 gjs upower gnome-session gtk4
-         gnome-settings-daemon gsettings-desktop-schemas libcanberra-pulse
-         libgdm libsecret mutter libnma unzip libibus gnome-autoar
-         gnome-disk-utility libsoup3 libgweather-4)
-makedepends=(gnome-control-center cmake evolution-data-server
-             gobject-introspection git meson sassc asciidoc bash-completion)
+         gnome-settings-daemon gsettings-desktop-schemas libcanberra
+         libgdm libsecret mutter libnma libnma-gtk4 libibus gnome-disk-utility)
+makedepends=(evolution-data-server gnome-control-center cmake gobject-introspection git meson sassc asciidoc bash-completion)
 checkdepends=(xorg-server-xvfb)
 optdepends=('gnome-control-center: System settings'
             'evolution-data-server: Evolution calendar integration'
@@ -26,7 +24,7 @@ optdepends=('gnome-control-center: System settings'
             'gnome-bluetooth-3.0: Bluetooth support'
             'power-profiles-daemon: Power profile switching')
 groups=(gnome)
-options=(!debug)
+options=(!debug staticlibs !docs strip)
 _commit=85f141fabd427fea597dfd87f9a2dedcf8695809  # tags/43.3^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-shell.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git")
