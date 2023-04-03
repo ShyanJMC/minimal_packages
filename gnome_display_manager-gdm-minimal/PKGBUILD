@@ -5,7 +5,7 @@
 
 pkgbase=gdm
 pkgname=(gdm libgdm)
-pkgver=43.0
+pkgver=44.0
 pkgrel=1
 pkgdesc="Display manager and login screen"
 url="https://wiki.gnome.org/Projects/GDM"
@@ -13,14 +13,14 @@ arch=(x86_64)
 license=(GPL)
 depends=(gnome-shell gnome-session upower xorg-xrdb xorg-server xorg-xhost wayland xorg-xwayland 
          libxdmcp systemd libcanberra)
-makedepends=(yelp-tools gobject-introspection git docbook-xsl meson)
+makedepends=(gobject-introspection git meson)
 checkdepends=(check)
 options=(!debug strip staticlibs !docs)
-_commit=afa6f2ef3d34048cd7a3e1a1ec478be2ff464806  # tags/43.0^0
-source=("git+https://gitlab.gnome.org/GNOME/gdm.git#commit=$_commit"
+_commit=6f137e9b59a0bb4b5a47d4af723c64bce053ea1d
+source=("https://gitlab.gnome.org/GNOME/gdm/-/archive/44.0/gdm-${pkgver}.tar.bz2"
         0001-Xsession-Don-t-start-ssh-agent-by-default.patch
         0002-pam-arch-Remove-user_readenv-1-from-pam_env.patch)
-sha256sums=('SKIP'
+sha256sums=('717020c6cce91f3a2bec1e7edb23401226a2d827a441c40b52127d130789ae96'  #gdm-44.0.tar.bz2
             '39a7e1189d423dd428ace9baac77ba0442c6706a861d3c3db9eb3a6643e223f8'
             '7e42077a89a6fcf8b02244b01127af7000a10ed55e09e385eb6fac5aef421c07')
 
@@ -44,19 +44,19 @@ build() {
     -D dbus-sys="/usr/share/dbus-1/system.d"
     -D default-pam-config=arch
     -D default-path="/usr/local/bin:/usr/local/sbin:/usr/bin"
-    -D gdm-xsession=true
-    -D ipv6=false
+    -D gdm-xsession=true 			# Xorg support
+    -D ipv6=false					# Remote access trough gdm support with ipv6
     -D profiling=false
-    -D solaris=false
+    -D solaris=false				# solarisOS
     -D libaudit=disabled
-    -D split-authentication=false
-    -D tcp-wrappers=false
-    -D plymouth=disabled
+    -D split-authentication=false	
+    -D tcp-wrappers=false			# Remote access trough gdm
+    -D plymouth=disabled			# Playmouth theme support
     -D run-dir=/run/gdm
-    -D selinux=disabled
-    -D xdmcp=disabled
-    -D user-display-server=true
-    -D wayland-support=true
+    -D selinux=disabled				# SELinux kernel support
+    -D xdmcp=true					# Xorg support
+    -D user-display-server=true		# Gnome-shell user mode support
+    -D wayland-support=true			# Wayland support
   )
 
   arch-meson gdm build "${meson_options[@]}"

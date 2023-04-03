@@ -2,19 +2,29 @@
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 # Contributor: Flamelab <panosfilip@gmail.com
 
-# Mod: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
+# Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=gnome-shell
-pkgver=43.3
+pkgver=44.0
 pkgrel=1
 epoch=1
 pkgdesc="Next generation desktop shell"
 url="https://wiki.gnome.org/Projects/GnomeShell"
 arch=(x86_64)
 license=(GPL)
-depends=(accountsservice gcr-4 gjs upower gnome-session gtk4
+
+# gjs -> Gnome JavaScript, a must for gnome-shell
+# gtk4 -> the GUI toolkit
+# gnome-settings-daemon -> the name explains it self
+# mutter -> the window manager. Each gnome-shell release requiere the same version in mutter
+# libnma -> Lib Network Manager applet
+# accountsservice and libibus -> the integration with DBus 
+depends=(accountsservice gcr-4 gjs upower gtk4
          gnome-settings-daemon gsettings-desktop-schemas libcanberra
-         libgdm libsecret mutter libnma libnma-gtk4 libibus gnome-disk-utility)
+         libsecret mutter libnma libnma-gtk4 libibus gnome-disk-utility
+         #libgdm -> used as support in gnome-shell to logout or change user with gdm
+         #gnome-session -> used to specify gnome in gdm
+         )
 makedepends=(evolution-data-server gnome-control-center cmake gobject-introspection git meson sassc asciidoc bash-completion)
 checkdepends=(xorg-server-xvfb)
 optdepends=('gnome-control-center: System settings'
@@ -24,32 +34,24 @@ optdepends=('gnome-control-center: System settings'
             'gnome-bluetooth-3.0: Bluetooth support'
             'power-profiles-daemon: Power profile switching')
 groups=(gnome)
-options=(!debug staticlibs !docs strip)
-_commit=85f141fabd427fea597dfd87f9a2dedcf8695809  # tags/43.3^0
-source=("git+https://gitlab.gnome.org/GNOME/gnome-shell.git#commit=$_commit"
-        "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git")
+
+source=("https://gitlab.gnome.org/GNOME/gnome-shell/-/archive/${pkgver}/gnome-shell-${pkgver}.tar.bz2"
+        "https://gitlab.gnome.org/GNOME/libgnome-volume-control/-/archive/master/libgnome-volume-control-master.tar.bz2")
+        
 sha256sums=('SKIP'
             'SKIP')
 
-pkgver() {
-  cd gnome-shell
-  git describe --tags | sed 's/[^-]*-g/r&/;s/-/+/g'
-}
-
 prepare() {
-  cd gnome-shell
+  cd gnome-shell-${pkgver}
 
-  git submodule init
-  git submodule set-url subprojects/gvc "$srcdir/libgnome-volume-control"
-  git -c protocol.file.allow=always submodule update
+  cp -r ../libgnome-volume-control-master libgnome-volume-control 
 }
 
 build() {
-  CFLAGS="${CFLAGS/-O2/-O3} -fno-semantic-interposition"
+  CFLAGS="${CFLAGS/-O2/-O} -fno-semantic-interposition"
   LDFLAGS+=" -Wl,-Bsymbolic-functions"
 
-  #arch-meson gnome-shell build -D gtk_doc=true
-  arch-meson gnome-shell build -D extensions_tool=false -D extensions_app=true -D gtk_doc=false -D man=false -D tests=false -D networkmanager=true -D soup2=false
+  arch-meson build gnome-shell-${pkgver} -D extensions_tool=false -D extensions_app=true -D gtk_doc=false -D man=false -D tests=false -D networkmanager=true -D soup2=false
   meson compile -C build
 }
 
@@ -66,8 +68,7 @@ check() {
 }
 
 package() {
-  depends+=(libmutter-11.so)
+  cd gnome-shell-${pkgver}
+  depends+=(libmutter-12.so)
   meson install -C build --destdir "$pkgdir"
 }
-
-# vim:set sw=2 sts=-1 et:
