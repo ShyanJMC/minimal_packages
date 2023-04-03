@@ -15,6 +15,7 @@ sha256sums=('6c0594f335fb710b9191e7d973252527619012e02b86d75f4a8f074ddc0ed9f8') 
 
 validpgpkeys=(3CB7B8416EF6778B409FDC43EBC3FC294452C6D8  # David Rosca <nowrep@gmail.com>
               E0A3EB202F8E57528E13E72FD7574483BB57B18D) # Jonathan Esk-Riddell <jr@jriddell.org>
+
 #options=(strip !docs staticlibs !debug)
 
 build() {
