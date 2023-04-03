@@ -36,7 +36,7 @@ optdepends=('gnome-control-center: System settings'
 groups=(gnome)
 
 source=("https://gitlab.gnome.org/GNOME/gnome-shell/-/archive/${pkgver}/gnome-shell-${pkgver}.tar.bz2"
-        "https://gitlab.gnome.org/GNOME/libgnome-volume-control/-/archive/master/libgnome-volume-control-master.tar.bz2")
+        "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git")
         
 sha256sums=('SKIP'
             'SKIP')
@@ -44,7 +44,10 @@ sha256sums=('SKIP'
 prepare() {
   cd gnome-shell-${pkgver}
 
-  cp -r ../libgnome-volume-control-master libgnome-volume-control 
+  git submodule init
+  git submodule set-url subprojects/gvc "$srcdir/libgnome-volume-control"
+  git -c protocol.file.allow=always submodule update
+  cp "$srcdir"/libgnome-volume-control/* "$srcdir"/gnome-shell-44.0/subprojects/gvc/
 }
 
 build() {
@@ -70,5 +73,5 @@ check() {
 package() {
   cd gnome-shell-${pkgver}
   depends+=(libmutter-12.so)
-  meson install -C build --destdir "$pkgdir"
+  meson install -C ../build --destdir "$pkgdir"
 }
