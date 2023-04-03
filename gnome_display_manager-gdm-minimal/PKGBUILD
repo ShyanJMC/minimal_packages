@@ -13,34 +13,15 @@ arch=(x86_64)
 license=(GPL)
 depends=(gnome-shell gnome-session upower xorg-xrdb xorg-server xorg-xhost wayland xorg-xwayland 
          libxdmcp systemd libcanberra)
-makedepends=(gobject-introspection git meson)
+makedepends=(gobject-introspection git meson itstool)
 checkdepends=(check)
 options=(!debug strip staticlibs !docs)
 _commit=6f137e9b59a0bb4b5a47d4af723c64bce053ea1d
-source=("https://gitlab.gnome.org/GNOME/gdm/-/archive/44.0/gdm-${pkgver}.tar.bz2"
-        0001-Xsession-Don-t-start-ssh-agent-by-default.patch
-        0002-pam-arch-Remove-user_readenv-1-from-pam_env.patch)
-sha256sums=('717020c6cce91f3a2bec1e7edb23401226a2d827a441c40b52127d130789ae96'  #gdm-44.0.tar.bz2
-            '39a7e1189d423dd428ace9baac77ba0442c6706a861d3c3db9eb3a6643e223f8'
-            '7e42077a89a6fcf8b02244b01127af7000a10ed55e09e385eb6fac5aef421c07')
+source=("https://gitlab.gnome.org/GNOME/gdm/-/archive/44.0/gdm-${pkgver}.tar.bz2")
+sha256sums=( '717020c6cce91f3a2bec1e7edb23401226a2d827a441c40b52127d130789ae96' )
 
-pkgver() {
-  cd gdm
-  git describe --tags | sed 's/[^-]*-g/r&/;s/-/+/g'
-}
-
-prepare() {
-  cd gdm
-
-  # Don't start ssh-agent by default
-  git apply -3 ../0001-Xsession-Don-t-start-ssh-agent-by-default.patch
-
-  # https://bugs.archlinux.org/task/68945
-  git apply -3 ../0002-pam-arch-Remove-user_readenv-1-from-pam_env.patch
-}
-
-build() {
-  local meson_options=(
+build(){
+  	local meson_options=(
     -D dbus-sys="/usr/share/dbus-1/system.d"
     -D default-pam-config=arch
     -D default-path="/usr/local/bin:/usr/local/sbin:/usr/bin"
@@ -54,13 +35,13 @@ build() {
     -D plymouth=disabled			# Playmouth theme support
     -D run-dir=/run/gdm
     -D selinux=disabled				# SELinux kernel support
-    -D xdmcp=true					# Xorg support
+    -D xdmcp=enabled					# Xorg support
     -D user-display-server=true		# Gnome-shell user mode support
     -D wayland-support=true			# Wayland support
-  )
+    )
 
-  arch-meson gdm build "${meson_options[@]}"
-  meson compile -C build
+  	arch-meson gdm-${pkgver} build "${meson_options[@]}"
+  	meson compile -C build -j $(nproc)
 }
 
 check() {
