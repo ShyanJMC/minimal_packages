@@ -1,0 +1,138 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+# Contributor: Michael Kanis <mkanis_at_gmx_dot_de>
+
+# Modder: Joaquin 'ShyanJMC' Crespo <shyanjmc@protonmail.com>
+
+pkgbase=mutter
+pkgname=(mutter)
+pkgver=44.0
+pkgrel=1
+pkgdesc="Window manager and compositor for GNOME"
+url="https://gitlab.gnome.org/GNOME/mutter"
+arch=(x86_64)
+license=(GPL)
+depends=(
+  colord
+  dconf
+  gnome-desktop
+  gnome-settings-daemon
+  graphene
+  gsettings-desktop-schemas
+  lcms2
+  libcanberra
+  libgudev
+  libinput
+  libsm
+  libsysprof-capture
+  libxkbcommon-x11
+  libxkbfile
+  pipewire
+  startup-notification
+  xorg-xwayland
+)
+makedepends=(
+  cmake
+  gnome-desktop-4
+  egl-wayland
+  gi-docgen
+  git
+  gobject-introspection
+  meson
+  sysprof
+  wayland-protocols
+  xorg-server
+)
+checkdepends=(
+  python-dbusmock
+  wireplumber
+  xorg-server-xvfb
+  zenity
+)
+
+
+source=(
+  "https://gitlab.gnome.org/GNOME/mutter/-/archive/${pkgver}/mutter-${pkgver}.tar.bz2"
+)
+
+sha512sums=('ebb47ded3351b54187d5117a1d93a35820aa1ee610035db30de11a69146bff49da134d8b2977c25e0426fffd839da588f1e8a7145915e895037e87ee0600e17f')  #mutter-44.0.tar.bz2
+
+build() {
+  CFLAGS="${CFLAGS/-O2/-O3} -fno-semantic-interposition"
+  CFLAGS="${CFLAGS/-fPIE/-fPIC}"
+  LDFLAGS+=" -Wl,-Bsymbolic-functions"
+
+  arch-meson build mutter-${pkgver} \
+    -D catch=false \
+    -D cogl_tests=false \
+    -D core_tests=false \
+    -D docs=false \
+    -D egl=true \
+    -D egl_device=true \
+    -D gles2=true \
+    -D glx=true \
+    -D installed_tests=false \
+    -D introspection=true \
+    -D kvm_tests=false \
+    -D libgnome_desktop=true \
+    -D libwacom=false \
+    -D native_backend=true \
+    -D native_tests=false \
+    -D remote_desktop=true \
+    -D opengl=true \
+    -D pango_ft2=true \
+    -D profiler=false \
+    -D tests=false \
+    -D tty_tests=false \
+    -D sm=true \
+    -D startup_notification=true \
+    -D sound_player=true \
+    -D systemd=true \
+    -D verbose=false \
+    -D wayland=true \
+    -D wayland_eglstream=true \
+    -D xwayland_initfd=enabled \
+    -D xwayland_grab_default_access_rules="gnome-boxes,remote-viewer,virt-viewer,virt-manager,vinagre,vncviewer,Xephyr" \
+    -D xwayland_path="/usr/bin/Xwayland" \
+    -D xwayland=true \
+    -D udev=true 
+    
+  meson compile -C build
+}
+
+_check() (
+  export XDG_RUNTIME_DIR="$PWD/rdir" GSETTINGS_SCHEMA_DIR="$PWD/build/data"
+  mkdir -p -m 700 "$XDG_RUNTIME_DIR"
+  glib-compile-schemas "$GSETTINGS_SCHEMA_DIR"
+
+  pipewire &
+  _p1=$!
+
+  wireplumber &
+  _p2=$!
+
+  trap "kill $_p1 $_p2; wait" EXIT
+
+  meson test -C build --print-errorlogs -t 3
+)
+
+check() {
+  dbus-run-session xvfb-run -s '-nolisten local +iglx -noreset' \
+    bash -c "$(declare -f _check); _check"
+}
+
+_pick() {
+  local p="$1" f d; shift
+  for f; do
+    d="$srcdir/$p/${f#$pkgdir/}"
+    mkdir -p "$(dirname "$d")"
+    mv "$f" "$d"
+    rmdir -p --ignore-fail-on-non-empty "$(dirname "$f")"
+  done
+}
+
+package_mutter() {
+  provides=(libmutter-12.so)
+
+  meson install -C build --destdir "$pkgdir"
+}
