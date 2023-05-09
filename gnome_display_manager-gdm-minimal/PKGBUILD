@@ -5,7 +5,7 @@
 
 pkgbase=gdm
 pkgname=(gdm libgdm)
-pkgver=44.0
+pkgver=44.1
 pkgrel=1
 pkgdesc="Display manager and login screen"
 url="https://wiki.gnome.org/Projects/GDM"
@@ -13,12 +13,12 @@ arch=(x86_64)
 license=(GPL)
 depends=(gnome-shell gnome-session upower xorg-xrdb xorg-server xorg-xhost wayland xorg-xwayland 
          libxdmcp systemd libcanberra)
-makedepends=(gobject-introspection git meson itstool)
+makedepends=(gobject-introspection git meson itstool libxml2)
 checkdepends=(check)
 options=(!debug strip staticlibs !docs)
 _commit=6f137e9b59a0bb4b5a47d4af723c64bce053ea1d
-source=("https://gitlab.gnome.org/GNOME/gdm/-/archive/44.0/gdm-${pkgver}.tar.bz2")
-sha256sums=( '717020c6cce91f3a2bec1e7edb23401226a2d827a441c40b52127d130789ae96' )
+source=("https://gitlab.gnome.org/GNOME/gdm/-/archive/${pkgver}/gdm-${pkgver}.tar.bz2")
+sha256sums=( 'de89ae8fceb0d781b71da9fb05609a0ae78c10a223b3e707458c251e198e3ec5' )
 
 build(){
   	local meson_options=(
