@@ -1,0 +1,154 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+
+# Moddder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
+
+pkgbase=gtk4
+pkgname=(
+  gtk4
+  gtk-update-icon-cache
+)
+pkgver=4.11.2
+pkgrel=99
+epoch=1
+pkgdesc="GObject-based multi-platform GUI toolkit with minimal features"
+url="https://www.gtk.org/"
+arch=(x86_64)
+license=(LGPL)
+depends=(
+  adwaita-icon-theme
+  cairo
+  cantarell-fonts
+  dconf
+  desktop-file-utils
+  fontconfig
+  fribidi
+  gdk-pixbuf2
+  glib2
+  graphene
+  gst-plugins-bad-libs
+  gobject-introspection
+  harfbuzz
+  iso-codes
+  libcloudproviders
+  libcolord
+  libcups
+  libegl
+  libepoxy
+  libgl
+  libjpeg
+  libpng
+  librsvg
+  libtiff
+  libxcursor
+  libxdamage
+  libxext
+  libxfixes
+  libxi
+  libxinerama
+  libxkbcommon
+  libxrandr
+  libxrender
+  pango
+  shared-mime-info
+  wayland
+)
+makedepends=(
+  docbook-xsl
+  gi-docgen
+  git
+  meson
+  python-docutils
+  python-gobject
+  sassc
+  shaderc
+  wayland-protocols
+)
+checkdepends=(weston)
+
+source=(
+  "https://gitlab.gnome.org/GNOME/gtk/-/archive/${pkgver}/gtk-${pkgver}.tar.bz2"
+  gtk-update-icon-cache.{hook,script}
+  gtk4-querymodules.{hook,script}
+)
+b2sums=('aa8bc5a314fba22d9cb3c5671bcc0043909c1344e8a4713c3170f5e0e4b7fad90910a09837fe8b5572ec830f9b293ac13b1f9543075c582466c35e1da2bacead'
+        '136bdb410c46daf769175e8e8837286576391797a4762b8cf388217e893dd6c5087c5c91c347cbdf7d3e9dcd2c978c2fb275b5af1f3425c9f7979fbc65a81324'
+        '6bcd839ef82296d864587e0cc7acc0145bdea8e5235af304747cf3c0e564c2757cc67c0373dc044bec83dccfc57dc899546c2fccea96cff2bba22f09978a3814'
+        'dd589bd1ad2b13f0e06f6899776a083f20a1aac24d4308d666ffd0d1cff38457b8257b8366f92e767b4233b3d86b6b54fa50339faf84c4801a824986366dce30'
+        '4b90eb8d582509b09aab401313d4399cc139ad21b5dd7d45d79860d0764c7494c60714e0794e09823e51d1894ac032a994f27d79d1499abf24ee6f59bdb0c243')
+
+
+build() {
+  local meson_options=(
+    -D broadway-backend=true
+    -D x11-backend=true
+    -D wayland-backend=true
+    -D win32-backend=false
+    -D macos-backend=false
+    -D media-gstreamer=disabled
+    -D print-cpdb=disabled
+    -D print-cups=enabled
+    -D vulkan=disabled
+    -D cloudproviders=disabled
+    -D sysprof=disabled
+    -D colord=enabled
+    -D f16c=disabled
+    -D introspection=enabled
+    -D demos=false
+    -D profile=default
+    -D demos=false
+    -D build-examples=false
+    -D build-tests=false
+    -D gtk_doc=false
+    -D man-pages=false
+    -D tracker=disabled
+  )
+
+  CFLAGS+=" -DG_DISABLE_CAST_CHECKS"
+  arch-meson gtk-${pkgver} build "${meson_options[@]}"
+  meson compile -C build
+}
+
+_pick() {
+  local p="$1" f d; shift
+  for f; do
+    d="$srcdir/$p/${f#$pkgdir/}"
+    mkdir -p "$(dirname "$d")"
+    mv "$f" "$d"
+    rmdir -p --ignore-fail-on-non-empty "$(dirname "$f")"
+  done
+}
+
+package_gtk4() {
+  depends+=(gtk-update-icon-cache)
+  optdepends=('evince: Default print preview command')
+  provides=(libgtk-4.so)
+
+  meson install -C build --destdir "$pkgdir"
+
+  install -Dm644 /dev/stdin "$pkgdir/usr/share/gtk-4.0/settings.ini" <<END
+[Settings]
+gtk-icon-theme-name = Adwaita
+gtk-theme-name = Adwaita
+gtk-font-name = Cantarell 11
+END
+
+  install -Dt "$pkgdir/usr/share/libalpm/hooks" -m644 gtk4-querymodules.hook
+  install -D gtk4-querymodules.script "$pkgdir/usr/share/libalpm/scripts/gtk4-querymodules"
+
+  cd "$pkgdir"
+  
+  _pick guic usr/bin/gtk4-update-icon-cache
+
+
+
+}
+package_gtk-update-icon-cache() {
+  pkgdesc="GTK icon cache updater"
+  depends=(gdk-pixbuf2 librsvg hicolor-icon-theme)
+
+  mv guic/* "$pkgdir"
+  ln -s gtk4-update-icon-cache "$pkgdir/usr/bin/gtk-update-icon-cache"
+
+  install -Dt "$pkgdir/usr/share/libalpm/hooks" -m644 gtk-update-icon-cache.hook
+  install -D gtk-update-icon-cache.script "$pkgdir/usr/share/libalpm/scripts/gtk-update-icon-cache"
+}
