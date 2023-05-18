@@ -3,7 +3,7 @@
 # AUR Maintainer: Joaquin "ShyanJMC" Crespo <joaquincrespo96@gmail.com>
 
 pkgname=links-minimal
-pkgver=2.27
+pkgver=2.29
 pkgrel=1
 pkgdesc="A text WWW browser, similar to Lynx. This version is very minimal with the lowest features as possible."
 arch=('x86_64')
@@ -12,7 +12,7 @@ license=('GPL')
 depends=('bzip2' 'gpm' 'libevent' 'pcre' 'xz')
 makedepends=('libtiff' 'libxt')
 source=("http://links.twibright.com/download/links-${pkgver}.tar.bz2")
-sha256sums=('d8ddcbfcede7cdde80abeb0a236358f57fa6beb2bcf92e109624e9b896f9ebb4')  # links-2.27.tar.bz2
+sha256sums=('22aa96c0b38e1a6f8f7ed9d7a4167a47fc37246097759ef6059ecf8f9ead7998')  # links-2.29.tar.bz2
 
 configure_options=(
   --prefix=/usr
