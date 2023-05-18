@@ -6,6 +6,28 @@ The target of this is;
 
 I highly recommend use as primary compiler the MUSL standard library.
 
+## Repository for Arch, Manjaro and others 
+
+If you want add the repository to use with pacman package manager do;
+
+1. Add this to /etc/pacman.conf;
+
+```
+[shyanjmc-minimal]
+SigLevel = Required DatabaseOptional
+Server = https://shyanjmc.com
+```
+
+If you have issues with package's signature replace "DatabaseOptional" with "PackageOptional" in above. As each package must be signed maybe that one have not signature yet.
+
+2. Then execute;
+
+```
+sudo pacman-key -u -r 260AF60D90A192057C42D4211A96C89A3A611399 --populate --keyserver pgp.mit.edu
+sudo pacman-key --lsign-key 260AF60D90A192057C42D4211A96C89A3A611399
+sudo pacman -Syy
+```
+
 ## Github and gitlab
 If you are seeing this in GitHub or GitLab take under consideration that are mirrors. The official repo is; 
 
