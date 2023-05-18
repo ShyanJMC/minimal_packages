@@ -2,9 +2,7 @@
 
 pkgbase=systemd
 pkgname=('systemd' 'systemd-libs' 'systemd-resolvconf' 'systemd-sysvcompat')
-_tag='472b4e59c3c095248b316ccceac5565fcaae9d3a' # git rev-parse v${_tag_name}
-_tag_name=253
-pkgver="${_tag_name/-/}"
+pkgver=253
 pkgrel=1
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
@@ -13,14 +11,16 @@ makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
              'libmicrohttpd' 'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
              'python-jinja' 'python-lxml' 'quota-tools' 'shadow' 'gnu-efi-libs' 'git'
              'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
-             'bash-completion' 'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync')
+             'bash-completion' 'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync' 'apparmor')
+             
 options=(!'debug' 'staticlibs' !'docs' 'strip')
+
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
               'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'  # Luca Boccassi <luca.boccassi@gmail.com>
               '9A774DB5DB996C154EBBFBFDA0099A18E29326E1'  # Yu Watanabe <watanabe.yu+github@gmail.com>
               '5C251B5FC54EB2F80F407AAAC54CA336CFEB557E') # Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl>
-source=("git+https://github.com/systemd/systemd-stable#tag=${_tag}?signed"
-        "git+https://github.com/systemd/systemd#tag=v${_tag_name%.*}?signed"
+              
+source=("https://github.com/systemd/systemd/archive/refs/tags/v${pkgver}.tar.gz"
         '0001-Use-Arch-Linux-device-access-groups.patch'
         'initcpio-hook-udev'
         'initcpio-install-systemd'
@@ -39,8 +39,7 @@ source=("git+https://github.com/systemd/systemd-stable#tag=${_tag}?signed"
         '30-systemd-tmpfiles.hook'
         '30-systemd-udev-reload.hook'
         '30-systemd-update.hook')
-sha512sums=('SKIP'
-            'SKIP'
+sha512sums=('3bbc431a292ab590b70d3b490a528f71d30ccf478ddfa66d1c210f40c260ef49ac30651c19f2d073acf38d68398a4a6fbf95391f0e3ea0333d94b9d4e81d514f'
             '3ccf783c28f7a1c857120abac4002ca91ae1f92205dcd5a84aff515d57e706a3f9240d75a0a67cff5085716885e06e62597baa86897f298662ec36a940cf410e'
             'f0d933e8c6064ed830dec54049b0a01e27be87203208f6ae982f10fb4eddc7258cb2919d594cbfb9a33e74c3510cfd682f3416ba8e804387ab87d1a217eb4b73'
             'aeefb607471cffb5ed4c3d9f36dc0954a9a08cee4b7b4ff55468b561e089e3d8448398906a7df328049ba51b712e4d50698b96bc152bdb03a35ce39c3f51a7cb'
@@ -60,31 +59,9 @@ sha512sums=('SKIP'
             'a50d202a9c2e91a4450b45c227b295e1840cc99a5e545715d69c8af789ea3dd95a03a30f050d52855cabdc9183d4688c1b534eaa755ebe93616f9d192a855ee3'
             '825b9dd0167c072ba62cabe0677e7cd20f2b4b850328022540f122689d8b25315005fa98ce867cf6e7460b2b26df16b88bb3b5c9ebf721746dce4e2271af7b97')
 
-_backports=(
-)
-
-_reverts=(
-)
 
 prepare() {
-  cd "$pkgbase-stable"
-
-  # add upstream repository for cherry-picking
-  git remote add -f upstream ../systemd
-
-  local _c
-  for _c in "${_backports[@]}"; do
-    if [[ $_c == *..* ]]; then
-      git log --oneline --reverse "${_c}"
-    else
-      git log --oneline -1 "${_c}"
-    fi
-    git cherry-pick -n -m1 "${_c}"
-  done
-  for _c in "${_reverts[@]}"; do
-    git log --oneline -1 "${_c}"
-    git revert -n "${_c}"
-  done
+  cd "$pkgbase-$pkgver"
 
   # Replace cdrom/dialout/tape groups with optical/uucp/storage
   patch -Np1 -i ../0001-Use-Arch-Linux-device-access-groups.patch
@@ -106,9 +83,7 @@ build() {
   )
 
   local _meson_options=(
-        # internal version comparison is incompatible with pacman:
-    #   249~rc1 < 249 < 249.1 < 249rc
-    -Dversion-tag="${_tag_name/-/\~}-${pkgrel}-shyanjmc"
+    -Dversion-tag="$pkgver-${pkgrel}-shyanjmc"
     -Dshared-lib-tag="${pkgver}-${pkgrel}"
     -Dmode=release
     # gnu-efi works with systemd-boot
@@ -239,7 +214,7 @@ build() {
     -Dsbat-distro-url="https://archlinux.org/packages/core/x86_64/${pkgname}/"
   )
 
-  arch-meson "$pkgbase-stable" build "${_meson_options[@]}"
+  arch-meson "$pkgbase-$pkgver" build "${_meson_options[@]}"
 
   meson compile -C build
 }
@@ -366,5 +341,3 @@ package_systemd-sysvcompat() {
     ln -s systemctl "$pkgdir"/usr/bin/$tool
   done
 }
-
-# vim:ft=sh syn=sh et sw=2:
