@@ -15,7 +15,7 @@ license=(
 depends=(
   dbus-glib
   ffmpeg
-  gtk3
+  gtk4
   libpulse
   libxt
   mime-types
@@ -64,7 +64,7 @@ options=(
   !emptydirs
   !lto
   !makeflags
-  !strip
+  strip
 )
 _arch_git=https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/firefox/trunk
 _arch_git_blob=https://raw.githubusercontent.com/archlinux/svntogit-packages
@@ -125,7 +125,10 @@ ac_add_options --with-system-nss
 # Features
 # keep alsa option in here until merged upstream
 ac_add_options --enable-alsa
-ac_add_options --enable-jack
+ac_add_options --disable-jack
+ac_add_options --disable-crashreporter
+ac_add_options --disable-updater
+ac_add_options --disable-tests
 
 # options for ci / weaker build systems
 # mk_add_options MOZ_MAKE_FLAGS="-j4"
