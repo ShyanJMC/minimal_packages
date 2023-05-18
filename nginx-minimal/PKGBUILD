@@ -19,7 +19,7 @@ provides=('nginx')
 build() {
 	cd nginx-${pkgver}
 	# Just enabled threads,ssl and proxy because are core functions. Use as non-privileged users and group; http
-	CFLAGS="-O2 -fPIE -fstack-protector-all -D_FORTIFY_SOURCE=2" ./configure --user=http --group=http --build=nginx_minimal \
+	./configure --user=http --group=http --build=nginx_minimal \
 	--with-threads --with-http_ssl_module --with-http_v2_module --without-http_charset_module --without-http_gzip_module \
 	--without-http_ssi_module --without-http_userid_module --without-http_access_module --without-http_auth_basic_module \
 	--without-http_mirror_module --without-http_autoindex_module --without-http_geo_module --without-http_map_module \
