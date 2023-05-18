@@ -1,12 +1,13 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 # Contributor: Jakub Schmidtke <sjakub@gmail.com>
-# Mod: Joaquin 'ShyanJMC' Crespo <shyanjmc@protonmail.com>
+
+# Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=firefox
-pkgver=113.0
+pkgver=113.0.1
 pkgrel=1
-pkgdesc="Standalone web browser from mozilla.org with minimal features"
+pkgdesc="Standalone web browser from mozilla.org"
 url="https://www.mozilla.org/firefox/"
 arch=(x86_64)
 license=(
@@ -14,7 +15,6 @@ license=(
   LGPL
   MPL
 )
-
 depends=(
   dbus-glib
   ffmpeg
@@ -25,7 +25,6 @@ depends=(
   nss
   ttf-font
 )
-
 makedepends=(
   cbindgen
   clang
@@ -33,10 +32,7 @@ makedepends=(
   dump_syms
   imake
   inetutils
-  pipewire-jack
-  pipewire
-  pipewire-audio
-  pipewire-pulse
+  jack
   lld
   llvm
   mesa
@@ -53,32 +49,43 @@ makedepends=(
   yasm
   zip
 )
-
 optdepends=(
   'hunspell-en_US: Spell checking, American English'
   'libnotify: Notification integration'
   'networkmanager: Location detection via available WiFi networks'
+  'pulseaudio: Audio support'
   'speech-dispatcher: Text-to-Speech'
   'xdg-desktop-portal: Screensharing with Wayland'
 )
-
+options=(
+  !debug
+  !emptydirs
+  !lto
+  !makeflags
+  !strip
+)
 source=(
   https://archive.mozilla.org/pub/firefox/releases/$pkgver/source/firefox-$pkgver.source.tar.xz{,.asc}
   $pkgname.desktop
   identity-icons-brand.svg
 )
-  
-validpgpkeys=( '14F26682D0916CDD81E37B6D61B7B526D98F0353' ) # Mozilla Software Releases <release@mozilla.com>
-
-sha256sums=('7a266044cb9d0c63079b3453507ea0c80a23389f4cbf6a4f6fd15146c6072627'  #firefox-113.0.source.tar.xz
-			'b0d20fe295aeda30ba60b87241ef9085fabc2a8bbcf390c46d47dc42e09b03ef'  #firefox-113.0.source.tar.xz.asc
+validpgpkeys=(
+  '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
+)
+sha256sums=('c4f86ecbb3f418cf8f0000a3824c0decb6ef2253f468cf6e005c5fd1de33da4d'
+            'SKIP'
             '298eae9de76ec53182f38d5c549d0379569916eebf62149f9d7f4a7edef36abf'
             'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9')
+b2sums=('d87c98d29f9a29568a818bdbaf12a690ff60e16bb4b8f2a97c83280692533d04b089d015dca5b20fd0a03ca3763ef4a3b438f7105cbe877fda6044cc2c462a08'
+        'SKIP'
+        'e18f2c22e394ca3b6758bc130245b254947e4d15921be3da443d6d7c3c4b0d22ead1b39fbc10a4f896edd19e2a1dffbd1cbb34dc4beb0621a6ddb70ccc53b3a7'
+        '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34')
 
 
 prepare() {
-  mkdir -p mozbuild
+  mkdir mozbuild
   cd firefox-$pkgver
+
 
   cat >../mozconfig <<END
 ac_add_options --enable-application=browser
@@ -89,17 +96,16 @@ ac_add_options --enable-release
 ac_add_options --enable-hardening
 ac_add_options --enable-optimize
 ac_add_options --enable-rust-simd
-####ac_add_options --enable-linker=lld
+ac_add_options --enable-linker=lld
 ac_add_options --disable-elf-hack
 ac_add_options --disable-bootstrap
 ac_add_options --with-wasi-sysroot=/usr/share/wasi-sysroot
 
 # Branding
-ac_add_options --disable-official-branding
+ac_add_options --enable-official-branding
 ac_add_options --enable-update-channel=release
 ac_add_options --with-distribution-id=com.shyanjmc
-ac_add_options --with-unsigned-addon-scopes=app,system
-#ac_add_options --disable-addon-sideload
+ac_add_options --allow-addon-sideload
 export MOZILLA_OFFICIAL=1
 export MOZ_APP_REMOTINGNAME=${pkgname//-/}
 
@@ -112,8 +118,6 @@ ac_add_options --enable-alsa
 ac_add_options --disable-jack
 ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
-ac_add_options --disable-debug
-ac_add_options --enable-lto
 ac_add_options --disable-tests
 END
 }
@@ -180,19 +184,19 @@ pref("spellchecker.dictionary_path", "/usr/share/hunspell");
 // Disable default browser checking.
 pref("browser.shell.checkDefaultBrowser", false);
 
-// Dont disable extensions in the application directory
+// Don't disable extensions in the application directory
 pref("extensions.autoDisableScopes", 11);
 END
 
   local distini="$pkgdir/usr/lib/$pkgname/distribution/distribution.ini"
   install -Dvm644 /dev/stdin "$distini" <<END
 [Global]
-id=shyanjmc.com
+id=archlinux
 version=1.0
-about=Mozilla Firefox Minimal for Arch Linux 
+about=Mozilla Firefox for Arch Linux
 
 [Preferences]
-app.distributor=shyanjmc.com
+app.distributor=archlinux
 app.distributor.channel=$pkgname
 app.partner.archlinux=archlinux
 END
@@ -230,4 +234,12 @@ END
     ln -srfv "$pkgdir/usr/lib/libnssckbi.so" "$nssckbi"
   fi
 
+  export SOCORRO_SYMBOL_UPLOAD_TOKEN_FILE="$startdir/.crash-stats-api.token"
+  if [[ -f $SOCORRO_SYMBOL_UPLOAD_TOKEN_FILE ]]; then
+    make -C obj uploadsymbols
+  else
+    cp -fvt "$startdir" obj/dist/*crashreporter-symbols-full.tar.zst
+  fi
 }
+
+# vim:set sw=2 sts=-1 et:
