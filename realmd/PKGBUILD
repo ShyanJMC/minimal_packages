@@ -4,7 +4,7 @@
 # https://shyanjmc.com
 
 pkgname=realmd
-pkgver=0.17.0
+pkgver=0.17.1
 pkgrel=1
 pkgdesc="An asistent to join AD and LDAP domain"
 arch=('x86_64')
@@ -17,7 +17,7 @@ makedepends=('systemd' 'intltool' 'polkit' 'python' )
 provides=("realmd-$pkgver")
 options=(strip !docs)
 source=(https://gitlab.freedesktop.org/$pkgname/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.bz2)
-sha256sums=(a18ce385862101d734c1382560acc2f10dbeb465d03c587cb80707321634d628) #realmd-0.17.0.tar.bz2
+sha256sums=('b514bdb6fe93a72fbc7fd796665d7476615d8ba0c7b61436771951316c333e6a') #realmd-0.17.1.tar.bz2
 
 build() {
         cd $pkgname-$pkgver
