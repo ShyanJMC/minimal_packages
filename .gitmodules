@@ -1,0 +1,2 @@
+[submodule "subprojects/gvc"]
+	url = /data/gnome-shell-minimal/src/libgnome-volume-control
