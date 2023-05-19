@@ -23,10 +23,12 @@ If you have issues with package's signature replace "DatabaseOptional" with "Pac
 2. Then execute;
 
 ```
-sudo pacman-key -u -r 260AF60D90A192057C42D4211A96C89A3A611399 --populate --keyserver pgp.mit.edu
+sudo pacman-key -u -r 260AF60D90A192057C42D4211A96C89A3A611399 --keyserver pgp.mit.edu
 sudo pacman-key --lsign-key 260AF60D90A192057C42D4211A96C89A3A611399
 sudo pacman -Syy
 ```
+
+If you have problems with "pgp.mit.edu" change it to keyserver.ubuntu.com
 
 ## Github and gitlab
 If you are seeing this in GitHub or GitLab take under consideration that are mirrors. The official repo is; 
