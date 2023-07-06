@@ -6,7 +6,7 @@
 
 pkgbase=mutter
 pkgname=(mutter)
-pkgver=44.1
+pkgver=44.2
 pkgrel=1
 pkgdesc="Window manager and compositor for GNOME"
 url="https://gitlab.gnome.org/GNOME/mutter"
@@ -55,7 +55,7 @@ source=(
   "https://gitlab.gnome.org/GNOME/mutter/-/archive/${pkgver}/mutter-${pkgver}.tar.bz2"
 )
 
-sha512sums=('4f22d0db4369db14232332332c5d61fc5bc502e5f097ac8fbc57741771695cc006923a2d924c53f3ba9fb2b28ac8c4971a6213c8b3bdc15df1a6867bb32a260d')  #mutter-44.1.tar.bz2
+sha512sums=('5dfb33891da801c827b88d98b112dfb542b310f94852b4c5068f8402dea726c4ed4ef244fcf4b2f767dcb52524ebedf965102d3f422b7392cd9b4399e3350fd5')  #mutter-44.2.tar.bz2
 
 build() {
   CFLAGS="${CFLAGS/-O2/-O3} -fno-semantic-interposition"
