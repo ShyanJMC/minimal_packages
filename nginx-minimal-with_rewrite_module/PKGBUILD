@@ -1,7 +1,7 @@
 # Maintainer: ShyanJMC
 
 pkgname=nginx-minimal-with_rewrite_module
-pkgver=1.24.0
+pkgver=1.25.1
 pkgrel=1
 arch=('any')
 pkgdesc="Nginx with less features to be more minimal as never,just with SSL for security. Added rewrite module."
@@ -10,7 +10,7 @@ license=('BSD3')
 
 source=("https://nginx.org/download/nginx-${pkgver}.tar.gz")
 
-md5sums=('f95835b55b3cbf05a4368e7bccbb8a46') # nginx-1.24.0
+md5sums=('699dea60ab7aea244da2d874c7066fe6') # nginx-1.25.1
 
 conflicts=('nginx')
 provides=('nginx')
