@@ -14,11 +14,11 @@ If you want add the repository to use with pacman package manager do;
 
 ```
 [shyanjmc-minimal]
-SigLevel = Required DatabaseOptional
+SigLevel = Required
 Server = https://shyanjmc.com
 ```
 
-If you have issues with package's signature replace "DatabaseOptional" with "PackageOptional" in above. As each package must be signed maybe that one have not signature yet.
+Since 05-07-2023 all packages and databases are signed.
 
 2. Then execute;
 
