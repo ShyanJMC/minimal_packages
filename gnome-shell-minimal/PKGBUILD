@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=gnome-shell
-pkgver=44.1
+pkgver=44.2
 pkgrel=1
 epoch=1
 pkgdesc="Next generation desktop shell"
@@ -38,7 +38,7 @@ groups=(gnome)
 source=("https://gitlab.gnome.org/GNOME/gnome-shell/-/archive/${pkgver}/gnome-shell-${pkgver}.tar.bz2"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git")
         
-sha256sums=('8926a22bc5e6c5f313a476248c2fff6365b478fbfa8d4a959dde15cda55c4afc' #gnome-shell-v44.1.tar.bz2
+sha256sums=('349d2d4ef6bda0912726b2c867d3ed0b9435b86942fbc085f00b475dd87886ca' #gnome-shell-v44.2.tar.bz2
             'SKIP')
 
 prepare() {
