@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=firefox
-pkgver=115.0
+pkgver=117.0
 pkgrel=1
 pkgdesc="Standalone web browser from mozilla.org"
 url="https://www.mozilla.org/firefox/"
@@ -33,19 +33,24 @@ makedepends=(
   dump_syms
   imake
   inetutils
-  jack
   lld
   llvm
   mesa
+  mold
   nasm
   nodejs
-  python
+  pipewire
+  pipewire-alsa
+  pipewire-pulse
+  python3
+  python-pip
   rust
   unzip
   wasi-compiler-rt
   wasi-libc
   wasi-libc++
   wasi-libc++abi
+  wireplumber
   xorg-server-xvfb
   yasm
   zip
@@ -63,7 +68,7 @@ options=(
   !emptydirs
   !lto
   !makeflags
-  !strip
+  strip
 )
 source=(
   https://archive.mozilla.org/pub/firefox/releases/$pkgver/source/firefox-$pkgver.source.tar.xz{,.asc}
@@ -73,18 +78,18 @@ source=(
 validpgpkeys=(
   '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
 )
-sha256sums=('7cdb23fe5ccb54334c8fe14c1e5dd89d5788f8e7b79a2bd9cc4eabdc7e54e898'
+sha256sums=('fa524cb9a63334d74ef996f3cbaf1559b5836f6c8ef6e890fa20846029242ac7'
             'SKIP'
             '1f241fdc619f92a914c75aece7c7c717401d7467c9a306458e106b05f34e5044'
             'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9')
-b2sums=('f5489d96be60f3ed5f5657cb43142a876a7ef2bfe46b2ebb54df2b9be8262ab8c8d3aa342adf84fa68ffe0abc63e3b4671f310e0a3dd4c53c137a612e9e67932'
+b2sums=('748e7ea88f493d449e52e94a268190f9beca671aebba057f7089897dee51d3e8d45c6f9721d38891c787b401cb6b32128d3b3b25073e17326c8fca80fe07d015'
         'SKIP'
         'd07557840097dd48a60c51cc5111950781e1c6ce255557693bd11306c7a9258b2a82548329762148f117b2295145f9e66e0483a18e2fe09c5afcffed2e4b8628'
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34')
 
 
 prepare() {
-  mkdir mozbuild
+  mkdir -p mozbuild
   cd firefox-$pkgver
 
 
@@ -97,7 +102,9 @@ ac_add_options --enable-release
 ac_add_options --enable-hardening
 ac_add_options --enable-optimize
 ac_add_options --enable-rust-simd
-ac_add_options --enable-linker=lld
+
+ac_add_options --enable-linker=mold
+
 ac_add_options --disable-elf-hack
 ac_add_options --disable-bootstrap
 ac_add_options --with-wasi-sysroot=/usr/share/wasi-sysroot
@@ -107,8 +114,6 @@ ac_add_options --enable-official-branding
 ac_add_options --enable-update-channel=release
 ac_add_options --with-distribution-id=com.shyanjmc
 ac_add_options --allow-addon-sideload
-export MOZILLA_OFFICIAL=1
-export MOZ_APP_REMOTINGNAME=${pkgname//-/}
 
 # System libraries
 ac_add_options --with-system-nspr
@@ -120,6 +125,8 @@ ac_add_options --disable-jack
 ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
 ac_add_options --disable-tests
+ac_add_options --disable-debug
+ac_add_options --enable-lto
 END
 }
 
@@ -133,46 +140,18 @@ build() {
   # LTO needs more open files
   ulimit -n 4096
 
-  # Do 3-tier PGO
-  echo "Building instrumented browser..."
-  cat >.mozconfig ../mozconfig - <<END
-ac_add_options --enable-profile-generate=cross
-END
+  ./mach configure --without-wasm-sandboxed-libraries
   ./mach build
-
-  echo "Profiling instrumented browser..."
-  ./mach package
-  LLVM_PROFDATA=llvm-profdata \
-    JARLOG_FILE="$PWD/jarlog" \
-    xvfb-run -s "-screen 0 1920x1080x24 -nolisten local" \
-    ./mach python build/pgo/profileserver.py
-
-  stat -c "Profile data found (%s bytes)" merged.profdata
-  test -s merged.profdata
-
-  stat -c "Jar log found (%s bytes)" jarlog
-  test -s jarlog
-
-  echo "Removing instrumented browser..."
-  ./mach clobber
-
-  echo "Building optimized browser..."
-  cat >.mozconfig ../mozconfig - <<END
-ac_add_options --enable-lto=cross
-ac_add_options --enable-profile-use=cross
-ac_add_options --with-pgo-profile-path=${PWD@Q}/merged.profdata
-ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
-END
-  ./mach build
+  
 
 }
 
 package() {
-  cd firefox-$pkgver
-  DESTDIR="$pkgdir" ./mach install
+  	cd firefox-$pkgver
+  	DESTDIR="$pkgdir" ./mach install
 
-  local vendorjs="$pkgdir/usr/lib/$pkgname/browser/defaults/preferences/vendor.js"
-  install -Dvm644 /dev/stdin "$vendorjs" <<END
+  	local vendorjs="$pkgdir/usr/lib/$pkgname/browser/defaults/preferences/vendor.js"
+  	install -Dvm644 /dev/stdin "$vendorjs" <<END
 // Use LANG environment variable to choose locale
 pref("intl.locale.requested", "");
 
@@ -182,19 +161,16 @@ pref("spellchecker.dictionary_path", "/usr/share/hunspell");
 // Disable default browser checking.
 pref("browser.shell.checkDefaultBrowser", false);
 
-// Don't disable extensions in the application directory
+// Dont disable extensions in the application directory
 pref("extensions.autoDisableScopes", 11);
-
-// Enable GNOME Shell search provider
-pref("browser.gnome-search-provider.enabled", true);
 END
 
-  local distini="$pkgdir/usr/lib/$pkgname/distribution/distribution.ini"
-  install -Dvm644 /dev/stdin "$distini" <<END
+  	local distini="$pkgdir/usr/lib/$pkgname/distribution/distribution.ini"
+  	install -Dvm644 /dev/stdin "$distini" <<END
 [Global]
 id=archlinux
 version=1.0
-about=Mozilla Firefox for Arch Linux
+about=Mozilla Firefox for Arch Linux based systems
 
 [Preferences]
 app.distributor=shyanjmc
@@ -235,16 +211,4 @@ END
     ln -srfv "$pkgdir/usr/lib/libnssckbi.so" "$nssckbi"
   fi
 
-  local sprovider="$pkgdir/usr/share/gnome-shell/search-providers/$pkgname.search-provider.ini"
-  install -Dvm644 /dev/stdin "$sprovider" <<END
-[Shell Search Provider]
-DesktopId=$pkgname.desktop
-BusName=org.mozilla.${pkgname//-/}.SearchProvider
-ObjectPath=/org/mozilla/${pkgname//-/}/SearchProvider
-Version=2
-END
-
-
 }
-
-# vim:set sw=2 sts=-1 et:
