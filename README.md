@@ -6,6 +6,34 @@ The target of this is;
 
 I highly recommend use as primary compiler the MUSL standard library.
 
+## Hardening
+
+This are the hardening flags in the build temporal container used to built them;
+
+```
+#########################################################################
+# ARCHITECTURE, COMPILE FLAGS
+#########################################################################
+#
+CARCH="x86_64"
+CHOST="x86_64-pc-linux-gnu"
+
+#-- Compiler and Linker Flags
+#CPPFLAGS=""
+CFLAGS="-O2 -Wp,-D_FORTIFY_SOURCE=2 -fstack-clash-protection -fcf-protection -fstack-protector-strong -fuse-ld=mold"
+CXXFLAGS="$CFLAGS -Wp,-D_GLIBCXX_ASSERTIONS"
+LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now,-z,defs -fuse-ld=mold"
+LTOFLAGS="-flto=auto"
+RUSTFLAGS="-C opt-level=2 -C link-arg=-fuse-ld=mold -C strip=debuginfo -C strip=symbols -C debug-assertions=false"
+#-- Make Flags: change this for DistCC/SMP systems
+MAKEFLAGS="-j20"
+#-- Debugging flags
+#-- This options disable debug
+DEBUG_CFLAGS="-g0"
+DEBUG_CXXFLAGS="$DEBUG_CFLAGS"
+DEBUG_RUSTFLAGS="-C debuginfo=0"
+```
+
 ## Repository for Arch, Manjaro and others 
 
 If you want add the repository to use with pacman package manager do;
