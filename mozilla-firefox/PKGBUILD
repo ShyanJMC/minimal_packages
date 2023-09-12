@@ -89,50 +89,62 @@ b2sums=('748e7ea88f493d449e52e94a268190f9beca671aebba057f7089897dee51d3e8d45c6f9
 
 
 prepare() {
+  export MOZ_APP_REMOTINGNAME=${_pkgname}
   mkdir -p mozbuild
   cd firefox-$pkgver
 
 
   cat >../mozconfig <<END
-ac_add_options --enable-application=browser
-mk_add_options MOZ_OBJDIR=${PWD@Q}/obj
 
+ac_add_options --enable-application=browser
+ac_add_options --enable-linker=mold
 ac_add_options --prefix=/usr
+ac_add_options --disable-debug-symbols
+ac_add_options --disable-rust-debug
+ac_add_options --disable-rust-tests
+#ac_add_options --enable-address-sanitizer
+ac_add_options --disable-fuzzing
+#ac_add_options --enable-signed-overflow-sanitizer
+#ac_add_options --disable-nodejs
+ac_add_options --enable-strip
+ac_add_options --disable-accessibility
+ac_add_options --disable-parental-controls
+ac_add_options --disable-synth-speechd
+ac_add_options --disable-webspeech
+ac_add_options --disable-webspeechtestbackend
+ac_add_options --disable-wmf
+ac_add_options --disable-debug-js-modules
+ac_add_options --enable-sandbox
+ac_add_options --enable-webrtc
+ac_add_options --disable-bootstrap
 ac_add_options --enable-release
+ac_add_options --with-app-name=${pkgname}
+ac_add_options --with-app-basename=${pkgname}
+ac_add_options --enable-update-channel=release
+ac_add_options --with-distribution-id=com.shyanjmc.firefox
+ac_add_options --disable-unverified-updates
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --enable-alsa
+ac_add_options --disable-jack
 ac_add_options --enable-hardening
 ac_add_options --enable-optimize
 ac_add_options --enable-rust-simd
-
-ac_add_options --enable-linker=mold
-
-ac_add_options --disable-elf-hack
-ac_add_options --disable-bootstrap
-ac_add_options --with-wasi-sysroot=/usr/share/wasi-sysroot
-
-# Branding
-ac_add_options --enable-official-branding
-ac_add_options --enable-update-channel=release
-ac_add_options --with-distribution-id=com.shyanjmc
-ac_add_options --allow-addon-sideload
-
-# System libraries
-ac_add_options --with-system-nspr
-ac_add_options --with-system-nss
-
-# Features
-ac_add_options --enable-alsa
-ac_add_options --disable-jack
 ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
 ac_add_options --disable-tests
 ac_add_options --disable-debug
+ac_add_options --disable-elf-hack
 ac_add_options --enable-lto
+ac_add_options --without-wasm-sandboxed-libraries
+
 END
 }
 
 build() {
   cd firefox-$pkgver
 
+  export MOZCONFIG="$srcdir/mozconfig"
   export MOZ_NOSPAM=1
   export MOZBUILD_STATE_PATH="$srcdir/mozbuild"
   export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=pip
@@ -140,7 +152,6 @@ build() {
   # LTO needs more open files
   ulimit -n 4096
 
-  ./mach configure --without-wasm-sandboxed-libraries
   ./mach build
   
 
@@ -203,7 +214,7 @@ END
 
   # Replace duplicate binary with wrapper
   # https://bugzilla.mozilla.org/show_bug.cgi?id=658850
-  ln -srfv "$pkgdir/usr/bin/$pkgname" "$pkgdir/usr/lib/$pkgname/firefox-bin"
+  ln -srfv "$pkgdir/usr/local/bin/$pkgname" "$pkgdir/usr/lib/$pkgname/firefox-bin"
 
   # Use system certificates
   local nssckbi="$pkgdir/usr/lib/$pkgname/libnssckbi.so"
