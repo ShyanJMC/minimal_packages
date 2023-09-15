@@ -2,8 +2,9 @@
 
 pkgbase=libreoffice-fresh
 pkgname=('libreoffice-fresh')
-_LOver=7.5.2.2
-pkgver=7.5.2
+_LOver=7.6.1.2
+pkgver=7.6.1
+pkgdesc="LibreOffice 7.6.1.2 without a lot of features, making it minimal and more secure"
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
@@ -17,15 +18,48 @@ makedepends=('curl>=7.20.0' 'hunspell>=1.2.8' 'python' 'libwpd>=0.9.2' 'libwps'
       'desktop-file-utils' 'shared-mime-info' 'gst-plugins-base-libs'                                                                                                                       
       'sane' 'perl-archive-zip' 'zip' 'unzip' 'unixodbc' 'ant'                                                                                                                              
       'gperf' 'gtk3' 'qt5-base' 'plasma-framework' 'qt6-base' 'cppunit' 'beanshell' 'clucene'                                                                                        
-      'junit' 'libmythes' 'libwpg'  'java-environment=11' 'postgresql-libs' 'mariadb-libs' 'libgl'                                                                                          
-      'bluez-libs' 'gdb' 'doxygen'  'libatomic_ops'  'mdds'                                                                                                                                 
+      'junit' 'libmythes' 'libwpg'  'java-environment' 'postgresql-libs' 'mariadb-libs' 'libgl'                                                                                          
+      'bluez-libs' 'gdb' 'doxygen'  'libatomic_ops'  'mdds' 'mold'                                                                                                                           
       'ttf-liberation' 'ttf-dejavu' 'ttf-carlito' 'libxinerama' 'libpagemaker' 'glm'                                                                                                        
-      'libabw' 'libmwaw' 'libe-book' 'coin-or-mp' 'liblangtag' 'liborcus'                                                                                                                   
+      'libabw' 'libmwaw' 'libe-book' 'coin-or-mp' 'liblangtag' 'liborcus' 'jdk-openjdk' 'jre-openjdk'                                                                                                                   
       'libexttextcat' 'gobject-introspection' # 'libfbclient' 'libcmis'                                                                                                                     
       'libtommath' 'libzmf' 'xmlsec' 'rxvt-unicode' 'gpgme' 'libwebp'                                                                                                                       
-      'libepubgen' 'libfreehand' 'libqxp' 'libstaroffice'  'boost' 'libnumbertext'                                                                                                          
+      'libepubgen' 'libfreehand' 'libqxp' 'libstaroffice'  'boost' 'libnumbertext' 'libtiff'                                                                                                         
       'abseil-cpp' 'clang' 'zxing-cpp'                                                                                                                                                      
-      'libffi' 'box2d' 'git' 'nasm'
+      'libffi' 'box2d' 'git' 'nasm' 'hunspell-de' 'hunspell-el'
+      'hunspell-en_au'
+      'hunspell-en_ca'
+      'hunspell-en_gb'
+      'hunspell-en_us'
+      'hunspell-es_any'
+      'hunspell-es_ar'
+      'hunspell-es_bo'
+      'hunspell-es_cl'
+      'hunspell-es_co'
+      'hunspell-es_cr'
+      'hunspell-es_cu'
+      'hunspell-es_do'
+      'hunspell-es_ec'
+      'hunspell-es_es'
+      'hunspell-es_gt'
+      'hunspell-es_hn'
+      'hunspell-es_mx'
+      'hunspell-es_ni'
+      'hunspell-es_pa'
+      'hunspell-es_pe'
+      'hunspell-es_pr'
+      'hunspell-es_py'
+      'hunspell-es_sv'
+      'hunspell-es_uy'
+      'hunspell-es_ve'
+      'hunspell-fr'
+      'hunspell-he'
+      'hunspell-hu'
+      'hunspell-it'
+      'hunspell-nl'
+      'hunspell-pl'
+      'hunspell-ro'
+      'hunspell-ru'
  )              
 
 options=(!lto)
@@ -34,67 +68,18 @@ _mirror="https://download.documentfoundation.org/libreoffice/src/${pkgver}"
 _additional_source_url="https://dev-www.libreoffice.org/src"
 _additional_source_url2="https://dev-www.libreoffice.org/extern"
 source=(${_mirror}/libreoffice{,-translations}-${_LOver}.tar.xz{,.asc}
-	${_additional_source_url}/35c94d2df8893241173de1d16b6034c0-swingExSrc.zip
-	${_additional_source_url}/798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip # keep old bundled version, new system version ftbs
-	${_additional_source_url}/a7983f859eafb2677d7ff386a023bc40-xsltml_2.1.2.zip
-	${_additional_source_url}/0168229624cfac409e766913506961a8-ucpp-1.3.2.tar.gz
-	${_additional_source_url}/language-subtag-registry-2021-03-05.tar.bz2
-	${_additional_source_url}/17410483b5b5f267aa18b7e00b65e6e0-hsqldb_1_8_0.zip
-	${_additional_source_url}/d8bd5eed178db6e2b18eeed243f85aa8-flute-1.1.6.zip
-	${_additional_source_url}/ba2930200c9f019c2d93a8c88c651a0f-flow-engine-0.9.4.zip
-	${_additional_source_url}/pdfium-5408.tar.bz2
-	${_additional_source_url}/dtoa-20180411.tgz
-	${_additional_source_url}/lxml-4.1.1.tgz
-	${_additional_source_url}/libcmis-0.5.2.tar.xz
-    ${_additional_source_url}/dragonbox-1.1.3.tar.gz
-	${_additional_source_url2}/f543e6e2d7275557a839a164941c0a86e5f2c3f2a0042bfc434c88c6dde9e140-opens___.ttf
-	${_additional_source_url2}/185d60944ea767075d27247c3162b3bc-unowinreg.dll
-	make-pyuno-work-with-system-wide-module-install.diff
-        623ea5c.diff
 	soffice-template.desktop.in 
 	libreoffice-fresh.sh libreoffice-fresh.csh)
 	
-noextract=(35c94d2df8893241173de1d16b6034c0-swingExSrc.zip
-           798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip
-           a7983f859eafb2677d7ff386a023bc40-xsltml_2.1.2.zip
-           0168229624cfac409e766913506961a8-ucpp-1.3.2.tar.gz
-           language-subtag-registry-2021-03-05.tar.bz2
-           17410483b5b5f267aa18b7e00b65e6e0-hsqldb_1_8_0.zip
-           d8bd5eed178db6e2b18eeed243f85aa8-flute-1.1.6.zip
-           ba2930200c9f019c2d93a8c88c651a0f-flow-engine-0.9.4.zip
-           pdfium-5408.tar.bz2
-           dtoa-20180411.tgz
-           lxml-4.1.1.tgz
-           libcmis-0.5.2.tar.xz
-           dragonbox-1.1.3.tar.gz
-           8249374c274932a21846fa7629c2aa9b-officeotron-0.7.4-master.jar  # for test suite
-           odfvalidator-1.2.0-incubating-SNAPSHOT-jar-with-dependencies-971c54fd38a968f5860014b44301872706f9e540.jar  # for test suite
-           f543e6e2d7275557a839a164941c0a86e5f2c3f2a0042bfc434c88c6dde9e140-opens___.ttf
-           185d60944ea767075d27247c3162b3bc-unowinreg.dll
-)
+noextract=()
+
 validpgpkeys=('C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3') # LibreOffice Build Team (CODE SIGNING KEY) <build@documentfoundation.org>
+
 sha256sums=(
-'618b907dd36b8f80e07ddc13a605e8e7c121261df6ddc9a6436e054143242dd3'  #libreoffice-7.5.2.2.tar.xz
-'bd3400ce8c7433545e9df7d260427e4f0ec933d594e80642c6a0b98a2ffbc854'  #libreoffice-7.5.2.2.tar.xz.asc
-'20f7574226ccfb1cf55a893f5e7471c8d56abf087805aad6087f4571eca537fd'  #libreoffice-translations-7.5.2.2.tar.xz
-'99a8aeff0fcf9baddbc3c0740b515cfce5615c85f19941f5b5f2320fbb5c68f2'  #libreoffice-translations-7.5.2.2.tar.xz.asc
-'64585ac36a81291a58269ec5347e7e3e2e8596dbacb9221015c208191333c6e1'  #35c94d2df8893241173de1d16b6034c0-swingExSrc.zip
-'1fb458d6aab06932693cc8a9b6e4e70944ee1ff052fa63606e3131df34e21753'  #798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip
-'75823776fb51a9c526af904f1503a7afaaab900fba83eda64f8a41073724c870'  #a7983f859eafb2677d7ff386a023bc40-xsltml_2.1.2.zip
-'983941d31ee8d366085cadf28db75eb1f5cb03ba1e5853b98f12f7f51c63b776'  #0168229624cfac409e766913506961a8-ucpp-1.3.2.tar.gz
-'ce80e8face06bf2ada363e0c159e3f990c4116fdae9232ca43e6369aa82bf16a'  #language-subtag-registry-2021-03-05.tar.bz2
-'d30b13f4ba2e3b6a2d4f020c0dee0a9fb9fc6fbcc2d561f36b78da4bf3802370'  #17410483b5b5f267aa18b7e00b65e6e0-hsqldb_1_8_0.zip
-'1b5b24f7bc543c0362b667692f78db8bab4ed6dafc6172f104d0bd3757d8a133'  #d8bd5eed178db6e2b18eeed243f85aa8-flute-1.1.6.zip
-'233f66e8d25c5dd971716d4200203a612a407649686ef3b52075d04b4c9df0dd'  #ba2930200c9f019c2d93a8c88c651a0f-flow-engine-0.9.4.zip
-'7db59b1e91f2bc0ab4c5e19d1a4f881e6a47dbb0d3b7e980a7358225b12a0f35'  #pdfium-5408.tar.bz2
-'0082d0684f7db6f62361b76c4b7faba19e0c7ce5cb8e36c4b65fea8281e711b4'  #dtoa-20180411.tgz
-'940caef1ec7c78e0c34b0f6b94fe42d0f2022915ffc78643d28538a5cfd0f40e'  #lxml-4.1.1.tgz
-'d7b18d9602190e10d437f8a964a32e983afd57e2db316a07d87477a79f5000a2'  #libcmis-0.5.2.tar.xz
-'09d63b05e9c594ec423778ab59b7a5aa1d76fdd71d25c7048b0258c4ec9c3384'  #dragonbox-1.1.3.tar.gz
-'f543e6e2d7275557a839a164941c0a86e5f2c3f2a0042bfc434c88c6dde9e140'  #f543e6e2d7275557a839a164941c0a86e5f2c3f2a0042bfc434c88c6dde9e140-opens___.ttf
-'eafde646a7dbe46d20c291685b0beac2382174d78d66ee990e229a1bf6e6cec6'  #185d60944ea767075d27247c3162b3bc-unowinreg.dll
-'c463654a73ecfbc242ff109726fb4faecdbfb3d91affafe919b24bea65afb563'  #make-pyuno-work-with-system-wide-module-install.diff
-'440c9af5f3d1213d8ed7177282380f25cbc981cabc8b590dcb777aaae84178e5'  #623ea5c.diff
+'763a799ff15afee0b0b02bf222000a90e9101d3047b5bfc14f6fc94759833d1d'  #libreoffice-7.6.1.2.tar.xz
+'f0efc6ef14832479c37071d4b7a34014e8e241cf6f58ae5278a3bcf51fb4fc0b'  #libreoffice-7.6.1.2.tar.xz.asc
+'4d942b709869fb504f62e4dec4e213dfe15775a0eb0e12608f6e578632933e46'  #libreoffice-translations-7.6.1.2.tar.xz
+'a278aacdfa0651174ff67050a0a4043a69303f51807fbb609379f4c409a2c1f1'  #libreoffice-translations-7.6.1.2.tar.xz.asc
 'd0be8099cbee3c9dfda694a828149b881c345b204ab68826f317580aafb50879'  #soffice-template.desktop.in
 'b43ed267643fc5ced803dca010427b12b1f10db485173ccb19efb3395e60c82e'  #libreoffice-fresh.sh
 '66f2cb5d2ff9909ee9633aea73d5306fc8c4ff358fa526f45d9994210d3e23ff'  #libreoffice-fresh.csh
@@ -110,18 +95,11 @@ prepare() {
 		ln -sfn "${srcdir}"/$source .
 	done
 	popd
+
+	# symbolic link
+	mkdir -p ../workdir
+	ln -sf ../workdir workdir  
 	
-	# unowinreg.dll must be a file not a symlink or the result will become a broken symlink
-	# /usr/share/libreoffice/sdk/classes/win/unowinreg.dll -> /build/libreoffice/src/185d60944ea767075d27247c3162b3bc-unowinreg.dll
-	rm "${srcdir}"/ext_sources/185d60944ea767075d27247c3162b3bc-unowinreg.dll
-	cp -f "${srcdir}"/185d60944ea767075d27247c3162b3bc-unowinreg.dll "${srcdir}"/ext_sources
-
-        # fix not upstreamable pyuno paths - FS#54250
-        patch -Np1 -i "${srcdir}"/make-pyuno-work-with-system-wide-module-install.diff
-
-        # fix build - https://gerrit.libreoffice.org/c/core/+/145421
-        patch -Np1 -i "${srcdir}"/623ea5c.diff
-
 	#use the CFLAGS but remove the LibO overridden ones
 	for i in $CFLAGS; do
 		case "$i" in
@@ -140,20 +118,27 @@ build() {
     # http://site.icu-project.org/download/61#TOC-Migration-Issues
 	CPPFLAGS+=' -DU_USING_ICU_NAMESPACE=1'
 
-	./autogen.sh --without-java --with-extra-buildid="${pkgver}-${pkgrel}" \
+	# to fix issues when passed --without-java / --disable-java
+	# thanks to;
+	# https://www.linuxfromscratch.org/blfs/view/svn/xsoft/libreoffice.html
+	sed -i '940i #if HAVE_FEATURE_JAVA' cui/source/options/optjava.cxx
+	sed -i '966i #endif'                cui/source/options/optjava.cxx
+
+	./configure \
+	--with-extra-buildid="${pkgver}-${pkgrel}" \
 	--with-parallelism=${_MAKEFLAGS/-j/} \
-	--with-vendor="ShyanJMC Linux" \
-	--build=x86_64-pc-linux-gnu \
-	--host=x86_64-pc-linux-gnu \
-	--target=x86_64-pc-linux-gnu \
+	--with-vendor='ShyanJMC Linux' \
 	--enable-split-app-modules \
+	--enable-split-opt-features \
 	--enable-release-build \
-	--prefix=/usr --exec-prefix=/usr --sysconfdir=/etc \
-	--libdir=/usr/lib --mandir=/usr/share/man \
-	--disable-cups \
+	--with-external-tar="${srcdir}/ext_sources" \
+	--prefix=/usr \
+	--exec-prefix=/usr \
+	--sysconfdir=/etc \
+	--libdir=/usr/lib \
+	--mandir=/usr/share/man \
 	--without-junit \
 	--without-doxygen \
-	--disable-scripting \
 	--disable-coinmp \
 	--disable-skia \
 	--disable-breakpad \
@@ -182,7 +167,6 @@ build() {
 	--disable-report-builder \
 	--without-lxml \
 	--without-gssapi \
-	--without-java \
 	--disable-avahi \
 	--enable-dbus \
 	--disable-evolution2 \
@@ -217,30 +201,52 @@ build() {
 	--disable-ext-wiki-publisher \
 	--without-help \
 	--without-fonts \
-	--disable-extension-update 
-		
+	--disable-extension-update  \
+	--with-system-libtiff \
+	--without-java \
+	--without-system-dicts
 
 
 	touch src.downloaded
 	make build
 
-	mkdir "${srcdir}"/fakeinstall
+	if [ -d "${srcdir}"/fakeinstall ]; then
+		rm -rf "${srcdir}"/fakeinstall
+	else
+		mkdir "${srcdir}"/fakeinstall
+	fi
+		
+	
 	make DESTDIR="${srcdir}"/fakeinstall distro-pack-install
 }
 
 package_libreoffice-fresh() {
 	pkgdesc="LibreOffice branch which contains new features and program enhancements"
-	depends=('curl' 'hunspell' 'libwpd' 'libwps'
-		'neon' 'pango' 'nspr' 'libjpeg' 'libxrandr' 'libgl'
-		'libxslt' 'redland' 'hyphen' 'lpsolve' 'gcc-libs' 'sh' 'graphite' 'icu' 
-		'lcms2' 'libvisio' 'libetonyek' 'libodfgen' 'libcdr'
-		'libmspub' 'harfbuzz-icu' 'nss' 'clucene'
-		'desktop-file-utils' 'shared-mime-info' 'libpagemaker'
-		'libxinerama' 'libabw' 'libmwaw' 'libe-book' 'liblangtag' 'libexttextcat' 'liborcus' 'libwebp' 'libfbclient' 'libcmis'
-		'libtommath' 'libzmf' 'libatomic_ops' 'xmlsec' 'libnumbertext' 'gpgme' 
-		'libfreehand' 'libstaroffice' 'libepubgen' 'libqxp' 'libepoxy' 'box2d'
-		'zxing-cpp'
-		'xdg-utils')
+	depends=('curl>=7.20.0' 'hunspell>=1.2.8' 'python' 'libwpd>=0.9.2' 'libwps'                                                                                                           
+	      'neon>=0.28.6' 'pango' 'nspr' 'libjpeg' 'libxrandr' 'libgl' 'dbus-glib'                                                                                                               
+	      'libxslt' 'redland' 'hyphen' 'lpsolve' 'gcc-libs' 'sh' 'graphite' 'icu'                                                                                                               
+	      'lcms2' 'poppler>=0.24.0' 'libvisio' 'libetonyek' 'libodfgen' 'libcdr'                                                                                                                
+	      'libmspub' 'harfbuzz-icu' 'nss' 'hicolor-icon-theme'                                                                                                                                  
+	      'desktop-file-utils' 'shared-mime-info' 'gst-plugins-base-libs'                                                                                                                       
+	      'sane' 'perl-archive-zip' 'zip' 'unzip' 'unixodbc' 'ant'                                                                                                                              
+	      'gperf' 'gtk3' 'qt5-base' 'plasma-framework' 'qt6-base' 'cppunit' 'beanshell' 'clucene'                                                                                        
+	      'junit' 'libmythes' 'libwpg'  'java-environment' 'postgresql-libs' 'mariadb-libs' 'libgl'                                                                                          
+	      'bluez-libs' 'gdb' 'doxygen'  'libatomic_ops'  'mdds' 'mold'                                                                                                                           
+	      'ttf-liberation' 'ttf-dejavu' 'ttf-carlito' 'libxinerama' 'libpagemaker' 'glm'                                                                                                        
+	      'libabw' 'libmwaw' 'libe-book' 'coin-or-mp' 'liblangtag' 'liborcus' 'jdk-openjdk' 'jre-openjdk'                                                                                                                   
+	      'libexttextcat' 'gobject-introspection' # 'libfbclient' 'libcmis'                                                                                                                     
+	      'libtommath' 'libzmf' 'xmlsec' 'rxvt-unicode' 'gpgme' 'libwebp'                                                                                                                       
+	      'libepubgen' 'libfreehand' 'libqxp' 'libstaroffice'  'boost' 'libnumbertext' 'libtiff'                                                                                                         
+	      'abseil-cpp' 'clang' 'zxing-cpp'                                                                                                                                                      
+	      'libffi' 'box2d' 'git' 'nasm' 'hunspell-de' 'hunspell-el'
+	      'hunspell-en_au' 'hunspell-en_ca' 'hunspell-en_gb' 'hunspell-en_us'
+	      'hunspell-es_any' 'hunspell-es_ar' 'hunspell-es_bo' 'hunspell-es_cl'
+	      'hunspell-es_co' 'hunspell-es_cr' 'hunspell-es_cu' 'hunspell-es_do'
+	      'hunspell-es_ec' 'hunspell-es_es' 'hunspell-es_gt' 'hunspell-es_hn'
+	      'hunspell-es_mx' 'hunspell-es_ni' 'hunspell-es_pa' 'hunspell-es_pe'
+	      'hunspell-es_pr' 'hunspell-es_py' 'hunspell-es_sv' 'hunspell-es_uy'
+	      'hunspell-es_ve' 'hunspell-fr' 'hunspell-he' 'hunspell-hu'
+	      'hunspell-it' 'hunspell-nl' 'hunspell-pl' 'hunspell-ro' 'hunspell-ru')
 	optdepends=('libwpg:  library for importing and converting WordPerfect Graphics format'
 		'sane: for scanner access'
 		'libpaper: takes care of papersize')
@@ -256,14 +262,10 @@ package_libreoffice-fresh() {
 
 	# put configuration files into place
 	install -dm755 "${pkgdir}"/etc/libreoffice
-	install -m644 "${pkgdir}"/usr/lib/libreoffice/program/{bootstraprc,sofficerc} \
-		"${pkgdir}"/etc/libreoffice/
 	install -m644 "${pkgdir}"/usr/lib/libreoffice/share/psprint/psprint.conf \
 	   	"${pkgdir}"/etc/libreoffice/
 
 	# install dummy links to make them found by LibO
-	cd "${pkgdir}"/usr/lib/libreoffice/program/
-	ln -vsf /etc/libreoffice/{bootstraprc,sofficerc} .
 	cd "${pkgdir}"/usr/lib/libreoffice/share/psprint/
 	ln -vsf /etc/libreoffice/psprint.conf .
 
@@ -271,15 +273,6 @@ package_libreoffice-fresh() {
 	install -dm755 "${pkgdir}"/etc/profile.d
 	install -m644 "${srcdir}"/libreoffice-fresh.{sh,csh} "${pkgdir}"/etc/profile.d/
 
-	# make pyuno find its modules
-        local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-
-	install -dm755 "${pkgdir}"/$site_packages
-	ln -svf /usr/lib/libreoffice/program/uno.py \
-		"${pkgdir}"/$site_packages/uno.py
-	ln -svf /usr/lib/libreoffice/program/unohelper.py \
-		"${pkgdir}"/$site_packages/unohelper.py
-		
 	# add a symlink required for gnome-documents; FS#51887
 	# https://lists.freedesktop.org/archives/libreoffice/2016-March/073787.html
 	ln -svf /usr/lib/libreoffice/program/liblibreofficekitgtk.so \
@@ -303,30 +296,20 @@ package_libreoffice-fresh() {
                 | sed -e "s/@EXT@/odt/" \
                 | sed -e "s/@TYPE@/text/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odt.desktop
-        cat "${srcdir}"/soffice-template.desktop.in \
+    cat "${srcdir}"/soffice-template.desktop.in \
                 | sed -e "s/@APP@/Calc/" \
                 | sed -e "s/@EXT@/ods/" \
                 | sed -e "s/@TYPE@/spreadsheet/" \
                 > "${pkgdir}"/usr/share/templates/soffice.ods.desktop
-        cat "${srcdir}"/soffice-template.desktop.in \
+    cat "${srcdir}"/soffice-template.desktop.in \
                 | sed -e "s/@APP@/Impress/" \
                 | sed -e "s/@EXT@/odp/" \
                 | sed -e "s/@TYPE@/presentation/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odp.desktop
-        cat "${srcdir}"/soffice-template.desktop.in \
+    cat "${srcdir}"/soffice-template.desktop.in \
                 | sed -e "s/@APP@/Draw/" \
                 | sed -e "s/@EXT@/odg/" \
                 | sed -e "s/@TYPE@/drawing/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odg.desktop
 
-	# make all i18n lang packages with help section ('1') available to
-	# fix "F1" not opening translated offline help opening in browser
-	# see also /usr/lib/libreoffice/help/en-US/langnames.js
-	echo "var languagesSet = new Set(['en-US','am','ar','ast','bg','bn',\
-	'bn-IN','bo','bs','ca','ca-valencia','cs','da','de','dz','el',\
-	'en-GB','en-ZA','eo','es','et','eu','fi','fr','gl','gu','he',\
-	'hi','hr','hu','id','is','it','ja','ka','km','ko','lo','lt','lv',\
-	'mk','nb','ne','nl','nn','om','pl','pt','pt-BR','ro','ru','si',\
-	'sid','sk','sl','sq','sv','ta','tg','tr','ug','uk','vi','zh-CN','zh-TW'])" \
-		> "${pkgdir}"/usr/lib/libreoffice/help/languages.js
 }
