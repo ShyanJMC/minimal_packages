@@ -2,9 +2,9 @@
 
 pkgbase=libreoffice-fresh
 pkgname=('libreoffice-fresh')
-_LOver=7.6.1.2
-pkgver=7.6.1
-pkgdesc="LibreOffice 7.6.1.2 without a lot of features, making it minimal and more secure"
+_LOver=7.6.2.1
+pkgver=7.6.2
+pkgdesc="LibreOffice 7.6.2.1 without a lot of features, making it minimal and more secure"
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
@@ -22,7 +22,7 @@ makedepends=('curl>=7.20.0' 'hunspell>=1.2.8' 'python' 'libwpd>=0.9.2' 'libwps'
       'bluez-libs' 'gdb' 'doxygen'  'libatomic_ops'  'mdds' 'mold'                                                                                                                           
       'ttf-liberation' 'ttf-dejavu' 'ttf-carlito' 'libxinerama' 'libpagemaker' 'glm'                                                                                                        
       'libabw' 'libmwaw' 'libe-book' 'coin-or-mp' 'liblangtag' 'liborcus' 'jdk-openjdk' 'jre-openjdk'                                                                                                                   
-      'libexttextcat' 'gobject-introspection' # 'libfbclient' 'libcmis'                                                                                                                     
+      'libexttextcat' 'gobject-introspection'                                                                                                                  
       'libtommath' 'libzmf' 'xmlsec' 'rxvt-unicode' 'gpgme' 'libwebp'                                                                                                                       
       'libepubgen' 'libfreehand' 'libqxp' 'libstaroffice'  'boost' 'libnumbertext' 'libtiff'                                                                                                         
       'abseil-cpp' 'clang' 'zxing-cpp'                                                                                                                                                      
@@ -76,16 +76,18 @@ noextract=()
 validpgpkeys=('C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3') # LibreOffice Build Team (CODE SIGNING KEY) <build@documentfoundation.org>
 
 sha256sums=(
-'763a799ff15afee0b0b02bf222000a90e9101d3047b5bfc14f6fc94759833d1d'  #libreoffice-7.6.1.2.tar.xz
-'f0efc6ef14832479c37071d4b7a34014e8e241cf6f58ae5278a3bcf51fb4fc0b'  #libreoffice-7.6.1.2.tar.xz.asc
-'4d942b709869fb504f62e4dec4e213dfe15775a0eb0e12608f6e578632933e46'  #libreoffice-translations-7.6.1.2.tar.xz
-'a278aacdfa0651174ff67050a0a4043a69303f51807fbb609379f4c409a2c1f1'  #libreoffice-translations-7.6.1.2.tar.xz.asc
+'e5d2733bd02ce24c30207795b77b9f5e2b5aba3a14773375fb5cc228ed2b9ca2'  #libreoffice-7.6.2.1.tar.xz
+'1233817394c6b414c30925e04fed63696c7e01910cd7149222701623204d15b5'  #libreoffice-7.6.2.1.tar.xz.asc
+'5b239fa6127e87b00b7990a5edef96b1fa522f80c1d96e3f8749d95190f6d60a'  #libreoffice-translations-7.6.2.1.tar.xz
+'875ba994bcdd164ea096ebd63fd792cb775a54aa28c08b94f22cc1548673f3fa'  #libreoffice-translations-7.6.2.1.tar.xz.asc
 'd0be8099cbee3c9dfda694a828149b881c345b204ab68826f317580aafb50879'  #soffice-template.desktop.in
 'b43ed267643fc5ced803dca010427b12b1f10db485173ccb19efb3395e60c82e'  #libreoffice-fresh.sh
 '66f2cb5d2ff9909ee9633aea73d5306fc8c4ff358fa526f45d9994210d3e23ff'  #libreoffice-fresh.csh
 )
 
 prepare() {
+
+	
 
 	cd libreoffice-$_LOver
 
@@ -107,6 +109,9 @@ prepare() {
 		esac
 		ARCH_FLAGS="$ARCH_FLAGS $i"
 	done
+
+	mv ../libreoffice-translations-${_LOver}.tar.xz ../ext_sources
+	echo libreoffice-translations-${_LOver}.tar.xz >> /data/libreoffice-fresh/src/ext_sources/fetch.log
 }
 
 build() {
@@ -193,7 +198,7 @@ build() {
 	--with-external-dict-dir=/usr/share/hunspell \
 	--with-external-hyph-dir=/usr/share/hyphen \
 	--with-external-thes-dir=/usr/share/mythes \
-	--with-lang="" \
+	--with-lang="en-US es" \
 	--disable-dependency-tracking \
 	--with-tls="openssl" \
 	--disable-poppler \
@@ -222,31 +227,13 @@ build() {
 
 package_libreoffice-fresh() {
 	pkgdesc="LibreOffice branch which contains new features and program enhancements"
-	depends=('curl>=7.20.0' 'hunspell>=1.2.8' 'python' 'libwpd>=0.9.2' 'libwps'                                                                                                           
-	      'neon>=0.28.6' 'pango' 'nspr' 'libjpeg' 'libxrandr' 'libgl' 'dbus-glib'                                                                                                               
-	      'libxslt' 'redland' 'hyphen' 'lpsolve' 'gcc-libs' 'sh' 'graphite' 'icu'                                                                                                               
-	      'lcms2' 'poppler>=0.24.0' 'libvisio' 'libetonyek' 'libodfgen' 'libcdr'                                                                                                                
-	      'libmspub' 'harfbuzz-icu' 'nss' 'hicolor-icon-theme'                                                                                                                                  
-	      'desktop-file-utils' 'shared-mime-info' 'gst-plugins-base-libs'                                                                                                                       
-	      'sane' 'perl-archive-zip' 'zip' 'unzip' 'unixodbc' 'ant'                                                                                                                              
-	      'gperf' 'gtk3' 'qt5-base' 'plasma-framework' 'qt6-base' 'cppunit' 'beanshell' 'clucene'                                                                                        
-	      'junit' 'libmythes' 'libwpg'  'java-environment' 'postgresql-libs' 'mariadb-libs' 'libgl'                                                                                          
-	      'bluez-libs' 'gdb' 'doxygen'  'libatomic_ops'  'mdds' 'mold'                                                                                                                           
-	      'ttf-liberation' 'ttf-dejavu' 'ttf-carlito' 'libxinerama' 'libpagemaker' 'glm'                                                                                                        
-	      'libabw' 'libmwaw' 'libe-book' 'coin-or-mp' 'liblangtag' 'liborcus' 'jdk-openjdk' 'jre-openjdk'                                                                                                                   
-	      'libexttextcat' 'gobject-introspection' # 'libfbclient' 'libcmis'                                                                                                                     
-	      'libtommath' 'libzmf' 'xmlsec' 'rxvt-unicode' 'gpgme' 'libwebp'                                                                                                                       
-	      'libepubgen' 'libfreehand' 'libqxp' 'libstaroffice'  'boost' 'libnumbertext' 'libtiff'                                                                                                         
-	      'abseil-cpp' 'clang' 'zxing-cpp'                                                                                                                                                      
-	      'libffi' 'box2d' 'git' 'nasm' 'hunspell-de' 'hunspell-el'
-	      'hunspell-en_au' 'hunspell-en_ca' 'hunspell-en_gb' 'hunspell-en_us'
-	      'hunspell-es_any' 'hunspell-es_ar' 'hunspell-es_bo' 'hunspell-es_cl'
-	      'hunspell-es_co' 'hunspell-es_cr' 'hunspell-es_cu' 'hunspell-es_do'
-	      'hunspell-es_ec' 'hunspell-es_es' 'hunspell-es_gt' 'hunspell-es_hn'
-	      'hunspell-es_mx' 'hunspell-es_ni' 'hunspell-es_pa' 'hunspell-es_pe'
-	      'hunspell-es_pr' 'hunspell-es_py' 'hunspell-es_sv' 'hunspell-es_uy'
-	      'hunspell-es_ve' 'hunspell-fr' 'hunspell-he' 'hunspell-hu'
-	      'hunspell-it' 'hunspell-nl' 'hunspell-pl' 'hunspell-ro' 'hunspell-ru')
+	depends=('zlib' 'gcc-libs' 'glibc' 'dbus' 'icu' 'curl' 'systemd-libs' 'icu'
+	'gpgme' 'libxml2' 'nss' 'nspr' 'libepoxy' 'lcms2' 'libtiff' 'libx11'
+	'libxext' 'cairo' 'libcups' 'fontconfig' 'freetype2' 'libcap' 'libgcrypt' 'lz4' 'xz' 'zstd' 'gpgme' 'libassuan' 
+	'jbigkit' 'libjpeg-turbo' 'libxcb' 'libpng'
+	'libxrender' 'libxcb' 'pixman' 'expat' 'bzip2' 'harfbuzz' 'brotli' 
+	'libgpg-error' 'libxau' 'libxdmcp' 'glib2' 'graphite' 'brotli' 'pcre2' 'hunspell-es_ar' 'hunspell-en_us')
+	
 	optdepends=('libwpg:  library for importing and converting WordPerfect Graphics format'
 		'sane: for scanner access'
 		'libpaper: takes care of papersize')
