@@ -84,7 +84,7 @@ b2sums=('6105534b60e416d6e2c56af7b47113fb41cd79ebb5dd37bfd8491c5d1987c428c6f6a9b
 build() {
   local meson_options=(
     -D broadway-backend=false
-    -D x11-backend=false
+    -D x11-backend=true
     -D wayland-backend=true
     -D win32-backend=false
     -D macos-backend=false
