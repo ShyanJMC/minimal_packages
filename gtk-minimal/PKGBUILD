@@ -7,7 +7,7 @@ pkgname=(
   gtk4
   gtk-update-icon-cache
 )
-pkgver=4.11.2
+pkgver=4.13.2
 pkgrel=99
 epoch=1
 pkgdesc="GObject-based multi-platform GUI toolkit with minimal features"
@@ -32,6 +32,7 @@ depends=(
   libcloudproviders
   libcolord
   libcups
+  libdrm
   libegl
   libepoxy
   libgl
@@ -56,7 +57,10 @@ makedepends=(
   docbook-xsl
   gi-docgen
   git
+  glib2
+  libdrm
   meson
+  mold
   python-docutils
   python-gobject
   sassc
@@ -70,7 +74,7 @@ source=(
   gtk-update-icon-cache.{hook,script}
   gtk4-querymodules.{hook,script}
 )
-b2sums=('aa8bc5a314fba22d9cb3c5671bcc0043909c1344e8a4713c3170f5e0e4b7fad90910a09837fe8b5572ec830f9b293ac13b1f9543075c582466c35e1da2bacead'
+b2sums=('6105534b60e416d6e2c56af7b47113fb41cd79ebb5dd37bfd8491c5d1987c428c6f6a9b0eeade179724868f12560d7f0c720a2fecb16ff15a4895b074983bb9c'
         '136bdb410c46daf769175e8e8837286576391797a4762b8cf388217e893dd6c5087c5c91c347cbdf7d3e9dcd2c978c2fb275b5af1f3425c9f7979fbc65a81324'
         '6bcd839ef82296d864587e0cc7acc0145bdea8e5235af304747cf3c0e564c2757cc67c0373dc044bec83dccfc57dc899546c2fccea96cff2bba22f09978a3814'
         'dd589bd1ad2b13f0e06f6899776a083f20a1aac24d4308d666ffd0d1cff38457b8257b8366f92e767b4233b3d86b6b54fa50339faf84c4801a824986366dce30'
@@ -79,12 +83,13 @@ b2sums=('aa8bc5a314fba22d9cb3c5671bcc0043909c1344e8a4713c3170f5e0e4b7fad90910a09
 
 build() {
   local meson_options=(
-    -D broadway-backend=true
-    -D x11-backend=true
+    -D broadway-backend=false
+    -D x11-backend=false
     -D wayland-backend=true
     -D win32-backend=false
     -D macos-backend=false
     -D media-gstreamer=disabled
+    -D media-ffmpeg=disabled
     -D print-cpdb=disabled
     -D print-cups=enabled
     -D vulkan=disabled
@@ -93,16 +98,21 @@ build() {
     -D colord=enabled
     -D f16c=disabled
     -D introspection=enabled
-    -D demos=false
-    -D profile=default
-    -D demos=false
+    -D demo-profile=default
     -D build-examples=false
     -D build-tests=false
-    -D gtk_doc=false
     -D man-pages=false
+    -D tracker=disabled
+    -D documentation=false
+    -D screenshots=false
+    -D build-demos=false
+    -D build-testsuite=false
     -D tracker=disabled
   )
 
+  sudo mkdir /usr/include/drm
+  sudo ln -s /usr/include/libdrm/drm_fourcc.h /usr/include/drm/drm_fourcc.h
+  
   CFLAGS+=" -DG_DISABLE_CAST_CHECKS"
   arch-meson gtk-${pkgver} build "${meson_options[@]}"
   meson compile -C build
