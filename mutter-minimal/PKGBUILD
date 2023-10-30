@@ -23,6 +23,7 @@ depends=(
   gsettings-desktop-schemas
   lcms2
   libcanberra
+  libei
   libgudev
   libinput
   libsm
