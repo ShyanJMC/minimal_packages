@@ -3,10 +3,12 @@
 # Contributor: Michael Kanis <mkanis_at_gmx_dot_de>
 
 # Modder: Joaquin 'ShyanJMC' Crespo <shyanjmc@protonmail.com>
+# Note; if compilation fails linking to libdefault.so do in src/build directory; meson setup --wipe
+# and then rerun doing; makepkg -sfe to rebuild and will do it fine
 
 pkgbase=mutter
 pkgname=(mutter)
-pkgver=44.2
+pkgver=45.0
 pkgrel=1
 pkgdesc="Window manager and compositor for GNOME"
 url="https://gitlab.gnome.org/GNOME/mutter"
@@ -25,11 +27,7 @@ depends=(
   libinput
   libsm
   libsysprof-capture
-  libxkbcommon-x11
-  libxkbfile
   pipewire
-  startup-notification
-  xorg-xwayland
 )
 makedepends=(
   cmake
@@ -38,10 +36,12 @@ makedepends=(
   gi-docgen
   git
   gobject-introspection
+  libei
+  libxcvt
   meson
   sysprof
+  mold
   wayland-protocols
-  xorg-server
 )
 checkdepends=(
   python-dbusmock
@@ -52,13 +52,12 @@ checkdepends=(
 
 
 source=(
-  "https://gitlab.gnome.org/GNOME/mutter/-/archive/${pkgver}/mutter-${pkgver}.tar.bz2"
+  "https://gitlab.gnome.org/GNOME/mutter/-/archive/45.0/mutter-${pkgver}.tar.bz2"
 )
 
-sha512sums=('5dfb33891da801c827b88d98b112dfb542b310f94852b4c5068f8402dea726c4ed4ef244fcf4b2f767dcb52524ebedf965102d3f422b7392cd9b4399e3350fd5')  #mutter-44.2.tar.bz2
+sha512sums=('SKIP')  #mutter-45.0.tar.bz2
 
 build() {
-  CFLAGS="${CFLAGS/-O2/-O3} -fno-semantic-interposition"
   CFLAGS="${CFLAGS/-fPIE/-fPIC}"
   LDFLAGS+=" -Wl,-Bsymbolic-functions"
 
@@ -66,11 +65,12 @@ build() {
     -D catch=false \
     -D cogl_tests=false \
     -D core_tests=false \
+    -D clutter_tests=false \
     -D docs=false \
     -D egl=true \
     -D egl_device=true \
     -D gles2=true \
-    -D glx=true \
+    -D glx=false \
     -D installed_tests=false \
     -D introspection=true \
     -D kvm_tests=false \
@@ -78,24 +78,21 @@ build() {
     -D libwacom=false \
     -D native_backend=true \
     -D native_tests=false \
-    -D remote_desktop=true \
+    -D remote_desktop=false \
     -D opengl=true \
     -D pango_ft2=true \
     -D profiler=false \
     -D tests=false \
     -D tty_tests=false \
-    -D sm=true \
-    -D startup_notification=true \
-    -D sound_player=true \
+    -D sm=false \
+    -D startup_notification=false \
+    -D sound_player=false \
     -D systemd=true \
-    -D verbose=false \
+    -D verbose=true \
     -D wayland=true \
     -D wayland_eglstream=true \
-    -D xwayland_initfd=enabled \
-    -D xwayland_grab_default_access_rules="gnome-boxes,remote-viewer,virt-viewer,virt-manager,vinagre,vncviewer,Xephyr" \
-    -D xwayland_path="/usr/bin/Xwayland" \
-    -D xwayland=true \
-    -D udev=true 
+    -D xwayland=false \
+    -D udev=true
     
   meson compile -C build
 }
@@ -132,7 +129,7 @@ _pick() {
 }
 
 package_mutter() {
-  provides=(libmutter-12.so)
+  provides=(libmutter-13.so)
 
   meson install -C build --destdir "$pkgdir"
 }
