@@ -11,7 +11,7 @@ pkgdesc="Display manager and login screen"
 url="https://wiki.gnome.org/Projects/GDM"
 arch=(x86_64)
 license=(GPL)
-depends=(gnome-shell gnome-session upower xorg-xrdb xorg-server xorg-xhost wayland xorg-xwayland 
+depends=(gnome-shell gnome-session upower xorg-xrdb xorg-server xorg-xhost wayland xorg-xwayland libei
          libxdmcp systemd libcanberra)
 makedepends=(gobject-introspection git meson itstool libxml2)
 checkdepends=(check)

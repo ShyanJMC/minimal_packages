@@ -20,7 +20,7 @@ license=(GPL)
 # libnma -> Lib Network Manager applet
 # accountsservice and libibus -> the integration with DBus 
 depends=(accountsservice gcr-4 gjs upower gtk4
-         gnome-settings-daemon gsettings-desktop-schemas libcanberra
+         gnome-settings-daemon gsettings-desktop-schemas libei libcanberra
          libsecret mutter libnma libnma-gtk4 libibus gnome-disk-utility
          #libgdm -> used as support in gnome-shell to logout or change user with gdm
          #gnome-session -> used to specify gnome in gdm
