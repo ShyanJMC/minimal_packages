@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=gnome-shell
-pkgver=44.2
+pkgver=45.0
 pkgrel=1
 epoch=1
 pkgdesc="Next generation desktop shell"
@@ -25,7 +25,7 @@ depends=(accountsservice gcr-4 gjs upower gtk4
          #libgdm -> used as support in gnome-shell to logout or change user with gdm
          #gnome-session -> used to specify gnome in gdm
          )
-makedepends=(evolution-data-server gnome-control-center cmake gobject-introspection git meson sassc asciidoc bash-completion)
+makedepends=(startup-notification evolution-data-server gnome-control-center cmake gobject-introspection git meson mold sassc asciidoc bash-completion)
 checkdepends=(xorg-server-xvfb)
 optdepends=('gnome-control-center: System settings'
             'evolution-data-server: Evolution calendar integration'
@@ -38,7 +38,7 @@ groups=(gnome)
 source=("https://gitlab.gnome.org/GNOME/gnome-shell/-/archive/${pkgver}/gnome-shell-${pkgver}.tar.bz2"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git")
         
-sha256sums=('349d2d4ef6bda0912726b2c867d3ed0b9435b86942fbc085f00b475dd87886ca' #gnome-shell-v44.2.tar.bz2
+sha256sums=('fdd06050504a2c7b928d6aeded8137dba279616f9b3fe96c9b87270248c5b864' #gnome-shell-v45.0.tar.bz2
             'SKIP')
 
 prepare() {
@@ -55,7 +55,7 @@ build() {
   CFLAGS="${CFLAGS/-O2/-O} -fno-semantic-interposition"
   LDFLAGS+=" -Wl,-Bsymbolic-functions"
 
-  arch-meson build gnome-shell-${pkgver} -D extensions_tool=false -D extensions_app=true -D gtk_doc=false -D man=false -D tests=false -D networkmanager=true -D soup2=false
+  arch-meson build gnome-shell-${pkgver} -D camera_monitor=true -D extensions_tool=false -D extensions_app=true -D gtk_doc=false -D man=false -D tests=false -D networkmanager=true 
   meson compile -C build
 }
 
@@ -73,6 +73,6 @@ check() {
 
 package() {
   cd gnome-shell-${pkgver}
-  depends+=(libmutter-12.so)
+  depends+=(libmutter-13.so)
   meson install -C ../build --destdir "$pkgdir"
 }
