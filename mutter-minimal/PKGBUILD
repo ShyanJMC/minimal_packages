@@ -91,7 +91,7 @@ build() {
     -D verbose=true \
     -D wayland=true \
     -D wayland_eglstream=true \
-    -D xwayland=false \
+    -D xwayland=true \
     -D udev=true
     
   meson compile -C build
