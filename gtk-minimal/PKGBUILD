@@ -7,7 +7,7 @@ pkgname=(
   gtk4
   gtk-update-icon-cache
 )
-pkgver=4.13.2
+pkgver=4.13.3
 pkgrel=99
 epoch=1
 pkgdesc="GObject-based multi-platform GUI toolkit with minimal features"
@@ -74,7 +74,7 @@ source=(
   gtk-update-icon-cache.{hook,script}
   gtk4-querymodules.{hook,script}
 )
-b2sums=('6105534b60e416d6e2c56af7b47113fb41cd79ebb5dd37bfd8491c5d1987c428c6f6a9b0eeade179724868f12560d7f0c720a2fecb16ff15a4895b074983bb9c'
+b2sums=('22eb8759a2248a0c8b539e5e28cce9cc2cf0f1630ba3ed71cf1d6f8b4207193a7e37db10c72edcfc6931930aeaf2bdd266fd7dbdc10faa528a2fb195436385fb'
         '136bdb410c46daf769175e8e8837286576391797a4762b8cf388217e893dd6c5087c5c91c347cbdf7d3e9dcd2c978c2fb275b5af1f3425c9f7979fbc65a81324'
         '6bcd839ef82296d864587e0cc7acc0145bdea8e5235af304747cf3c0e564c2757cc67c0373dc044bec83dccfc57dc899546c2fccea96cff2bba22f09978a3814'
         'dd589bd1ad2b13f0e06f6899776a083f20a1aac24d4308d666ffd0d1cff38457b8257b8366f92e767b4233b3d86b6b54fa50339faf84c4801a824986366dce30'
