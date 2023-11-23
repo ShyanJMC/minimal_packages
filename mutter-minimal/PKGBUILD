@@ -8,7 +8,7 @@
 
 pkgbase=mutter
 pkgname=(mutter)
-pkgver=45.0
+pkgver=45.1
 pkgrel=1
 pkgdesc="Window manager and compositor for GNOME"
 url="https://gitlab.gnome.org/GNOME/mutter"
@@ -29,6 +29,7 @@ depends=(
   libsm
   libsysprof-capture
   pipewire
+  xorg-xwayland
 )
 makedepends=(
   cmake
@@ -43,6 +44,7 @@ makedepends=(
   sysprof
   mold
   wayland-protocols
+  xorg-xwayland
 )
 checkdepends=(
   python-dbusmock
@@ -53,10 +55,10 @@ checkdepends=(
 
 
 source=(
-  "https://gitlab.gnome.org/GNOME/mutter/-/archive/45.0/mutter-${pkgver}.tar.bz2"
+  "https://gitlab.gnome.org/GNOME/mutter/-/archive/${pkgver}/mutter-${pkgver}.tar.bz2"
 )
 
-sha512sums=('SKIP')  #mutter-45.0.tar.bz2
+sha512sums=('59dac1f9e1a3911d009b2ff83b61392c725431b6c5f671144315f0a4c448f8d10206659127f878f65ade8fd033b8d09017b622ba672514fc05fa92981899327e')  #mutter-45.1.tar.bz2
 
 build() {
   CFLAGS="${CFLAGS/-fPIE/-fPIC}"
