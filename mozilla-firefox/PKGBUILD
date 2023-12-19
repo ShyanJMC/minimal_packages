@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=firefox
-pkgver=120.0
+pkgver=121.0
 pkgrel=1
 pkgdesc="Standalone web browser from mozilla.org"
 url="https://www.mozilla.org/firefox/"
@@ -31,6 +31,7 @@ makedepends=(
   clang
   diffutils
   dump_syms
+  gtk3
   imake
   inetutils
   lld
@@ -44,14 +45,14 @@ makedepends=(
   pipewire-pulse
   python3
   python-pip
-  rust
+  rustup
   unzip
   wasi-compiler-rt
   wasi-libc
   wasi-libc++
   wasi-libc++abi
+  wayland
   wireplumber
-  xorg-server-xvfb
   yasm
   zip
 )
@@ -78,23 +79,23 @@ source=(
 validpgpkeys=(
   '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
 )
-sha256sums=('e710058701074eda53ca9f5fd52c57254858a027984f735bdcd58d6906f6b574'
-            'SKIP'
-            '1f241fdc619f92a914c75aece7c7c717401d7467c9a306458e106b05f34e5044'
-            'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9')
-b2sums=('06f11d9d6f705c13c3288f1757d68c7c910e258b3efa643f0f0168fba0d585f758082af3905c951e227894df0c092965663f52196ee1fc3477195748e0049767'
+
+b2sums=('80905caeb208ef5dce7b62e248c86598ca786eb7032e114ad5d10812623bfceb688832f646dfbe220ef2fcecacf11cefae2afb0f1cdc0f7952647b71c58c9602'
         'SKIP'
         'd07557840097dd48a60c51cc5111950781e1c6ce255557693bd11306c7a9258b2a82548329762148f117b2295145f9e66e0483a18e2fe09c5afcffed2e4b8628'
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34')
 
 
 prepare() {
+  
   export MOZ_APP_REMOTINGNAME=${_pkgname}
   mkdir -p mozbuild
   cd firefox-$pkgver
 
-
   cat >../mozconfig <<END
+
+export MOZILLA_OFFICIAL=1
+export MOZ_APP_REMOTINGNAME=${pkgname//-/}
 
 ac_add_options --enable-application=browser
 ac_add_options --enable-linker=mold
@@ -125,7 +126,7 @@ ac_add_options --with-distribution-id=com.shyanjmc.firefox
 ac_add_options --disable-unverified-updates
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
-ac_add_options --enable-alsa
+ac_add_options --disable-alsa
 ac_add_options --disable-jack
 ac_add_options --enable-hardening
 ac_add_options --enable-optimize
@@ -144,6 +145,25 @@ ac_add_options --enable-wasm-relaxed-simd
 ac_add_options --enable-wasm-avx
 ac_add_options --enable-wasm-simd
 
+ac_add_options --disable-valgrind
+ac_add_options --disable-gtest-in-build
+
+# This requires cargo nightly, do not enable
+#ac_add_options --enable-thread-sanitizer
+
+#ac_add_options --enable-undefined-sanitizer
+#ac_add_options --enable-unsigned-overflow-sanitizer
+
+ac_add_options --enable-frame-pointers
+ac_add_options --enable-audio-backends=pulseaudio
+ac_add_options --enable-pulseaudio
+ac_add_options --enable-sndio
+ac_add_options --enable-default-toolkit=cairo-gtk3-wayland-only
+ac_add_options --disable-webdriver
+ac_add_options --enable-proxy-bypass-protection
+ac_add_options --disable-proxy-direct-failover
+ac_add_options --disable-backgroundtasks
+ac_add_options --disable-legacy-profile-creation
 
 END
 }
