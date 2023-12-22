@@ -2,7 +2,7 @@
 
 pkgname=librewolf
 _pkgname=LibreWolf
-pkgver=120.0
+pkgver=121.0
 pkgrel=1
 pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom."
 url="https://librewolf.net/"
@@ -55,6 +55,7 @@ makedepends=(
   yasm
   zip
 ) # pciutils: only to avoid some PGO warning
+
 optdepends=(
   'hunspell-en_US: Spell checking, American English'
   'libnotify: Notification integration'
@@ -65,12 +66,14 @@ optdepends=(
 )
 backup=('usr/lib/librewolf/librewolf.cfg'
         'usr/lib/librewolf/distribution/policies.json')
+        
 options=(
   !debug
   !emptydirs
   !lto
   !makeflags
   strip
+  
 )
 _arch_git=https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/firefox/trunk
 _arch_git_blob=https://raw.githubusercontent.com/archlinux/svntogit-packages
@@ -82,7 +85,7 @@ source=(
   "default192x192.png"
 )
 
-sha256sums=('9654cf9ee9083193b5e4311c136735c23a834cba740fc65dd7da72c790119283'
+sha256sums=('8e630a8a78a9fb2febb14fcc0d5b3991b8f21aca401362f6105100e495540339'
             '21054a5f41f38a017f3e1050ccc433d8e59304864021bef6b99f0d0642ccbe93'
             '959c94c68cab8d5a8cff185ddf4dca92e84c18dccc6dc7c8fe11c78549cdc2f1')
 
@@ -144,6 +147,26 @@ ac_add_options --enable-wasm-multi-memory
 ac_add_options --enable-wasm-relaxed-simd
 ac_add_options --enable-wasm-avx
 ac_add_options --enable-wasm-simd
+
+ac_add_options --disable-valgrind
+ac_add_options --disable-gtest-in-build
+
+# This requires cargo nightly, do not enable
+#ac_add_options --enable-thread-sanitizer
+
+#ac_add_options --enable-undefined-sanitizer
+#ac_add_options --enable-unsigned-overflow-sanitizer
+
+ac_add_options --enable-frame-pointers
+ac_add_options --enable-audio-backends=pulseaudio
+ac_add_options --enable-pulseaudio
+ac_add_options --enable-sndio
+ac_add_options --enable-default-toolkit=cairo-gtk3-wayland-only
+ac_add_options --disable-webdriver
+ac_add_options --enable-proxy-bypass-protection
+ac_add_options --disable-proxy-direct-failover
+ac_add_options --disable-backgroundtasks
+ac_add_options --disable-legacy-profile-creation
 
 END
 
