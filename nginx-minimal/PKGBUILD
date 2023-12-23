@@ -1,14 +1,14 @@
 # Maintainer: ShyanJMC
 
 pkgname=nginx-minimal
-pkgver=1.25.1
+pkgver=1.25.3
 pkgrel=1
 arch=('any')
 pkgdesc="Nginx with less features to be more minimal as never,just with SSL for security."
 url="https://nginx.org"
 license=('BSD3')
 source=("https://nginx.org/download/nginx-${pkgver}.tar.gz")
-md5sums=('699dea60ab7aea244da2d874c7066fe6') # nginx-1.25.1
+md5sums=('92f07d33918ca0a09612665337d67f2b') # nginx-1.25.1
 conflicts=('nginx')
 provides=('nginx')
 
