@@ -1,0 +1,36 @@
+# Maintainer: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
+# Based on Arch Linux work
+
+pkgname=crun
+pkgver=1.12
+pkgrel=1
+pkgdesc="A fast and lightweight fully featured OCI runtime and C library for running containers"
+url="https://github.com/containers/crun"
+license=('LGPL')
+arch=('x86_64')
+provides=('oci-runtime')
+depends=('yajl' 'libcap' 'libseccomp')
+makedepends=('libtool' 'mold' 'go-md2man' 'git')
+source=("https://github.com/containers/crun/releases/download/$pkgver/$pkgname-$pkgver.tar.xz"{,.asc})
+sha256sums=('860f4d1972dd2fdb17e4a1aae4386c4da2989e547d1e17f909b3ca0aff135c28'
+            'SKIP')
+
+build() {
+    cd "$pkgname-$pkgver"
+    ./autogen.sh
+    ./configure \
+        --prefix=/usr \
+        --enable-crun \
+        --enable-libcrun \
+        --enable-embedded-yajl \
+        --enable-systemd \
+        --disable-criu \
+        --without-lua-bindings \
+        --without-python-bindings
+    make
+}
+
+package() {
+    cd "$pkgname-$pkgver"
+    make DESTDIR="$pkgdir" install
+}
