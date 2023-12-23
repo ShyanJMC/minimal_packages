@@ -2,7 +2,7 @@
 
 pkgbase=systemd
 pkgname=('systemd' 'systemd-libs' 'systemd-resolvconf' 'systemd-sysvcompat')
-pkgver=254
+pkgver=255
 pkgrel=1
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
@@ -11,7 +11,7 @@ makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
              'libmicrohttpd' 'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
              'python-jinja' 'python-lxml' 'quota-tools' 'shadow' 'gnu-efi-libs' 'git'
              'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
-             'bash-completion' 'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync' 'apparmor')
+             'bash-completion' 'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync' 'apparmor' 'mold' 'clang')
              
 options=(!'debug' 'staticlibs' !'docs' 'strip')
 
@@ -41,7 +41,7 @@ source=("https://github.com/systemd/systemd/archive/refs/tags/v${pkgver}.tar.gz"
         '30-systemd-tmpfiles.hook'
         '30-systemd-udev-reload.hook'
         '30-systemd-update.hook')
-sha512sums=('84b4d16980fe2e64d5c3c95b9b4fbaad1076f368f493fdd745cbafbe7ce825293384f5fa0b6360ba8188da23c4575e87402fb666a3b71f84ff8b323aba0c07ff'
+sha512sums=('51728de604c2169d8643718ac72acb8f70f613cfcca9e9abb7dac519f291fa26a16d48f24cae6897356319096cfe8f4d9377743e7870127374f98d432e0c557c'
             '3ccf783c28f7a1c857120abac4002ca91ae1f92205dcd5a84aff515d57e706a3f9240d75a0a67cff5085716885e06e62597baa86897f298662ec36a940cf410e'
             'f0d933e8c6064ed830dec54049b0a01e27be87203208f6ae982f10fb4eddc7258cb2919d594cbfb9a33e74c3510cfd682f3416ba8e804387ab87d1a217eb4b73'
             'aeefb607471cffb5ed4c3d9f36dc0954a9a08cee4b7b4ff55468b561e089e3d8448398906a7df328049ba51b712e4d50698b96bc152bdb03a35ce39c3f51a7cb'
@@ -90,6 +90,8 @@ build() {
     -Dmode=release
     -Dima=false
     -Dlibidn2=true
+    -Dstatic-libsystemd=true
+    -Dstatic-libudev=true
     # LZ4 compress support
     -Dlz4=true
     # Manual documentation
@@ -102,6 +104,8 @@ build() {
     -Dselinux=false
     -Dmicrohttpd=false
     -Dtests=false
+    -Dpcre2=false
+    -Dbootloader=false
     # Systemd-analyze
     -Danalyze=true
     # What color use when "OK" service is displayed
@@ -168,6 +172,8 @@ build() {
     -Dvconsole=true
     # Support for sets and rise quotas support
     -Dquotacheck=false
+    -Dvmspawn=false
+    -Dstoragetm=false
     # Build and install html pages
     -Dhtml=false
     # systemd-sysusers creates system users and groups, based on the file format and location specified in sysusers.d
@@ -175,10 +181,13 @@ build() {
     # support for tmpfiles.d
     # enabled to avoid issues with snapd, asusd and others.
     -Dtmpfiles=true
+    -Dtpm=true
+    -Dxenctrl=false
+    -Dqrencode=false
     # systemd-importd.service - Virtual Machine and Container Download Service
     -Dimportd=false
     # The content of all hwdb files is read by systemd-hwdb(8) and compiled to a binary database located at /etc/udev/hwdb.bin , or alternatively /usr/lib/udev/hwdb.
-    -Dhwdb=true
+    -Dhwdb=false
     # support for the rfkill tools
     -Drfkill=true
     # install the xdg-autostart-generator and unit
@@ -188,6 +197,8 @@ build() {
     # enable use FIDO key to unlock LUKS2 disks
     -Dlibfido2=true
 
+    -Denvironment-d=false
+    -Dbinfmt=false
 
     # We disable DNSSEC by default, it still causes trouble:
     # https://github.com/systemd/systemd/issues/10579
