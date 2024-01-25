@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=firefox
-pkgver=121.0
+pkgver=122.0
 pkgrel=1
 pkgdesc="Standalone web browser from mozilla.org"
 url="https://www.mozilla.org/firefox/"
@@ -46,6 +46,7 @@ makedepends=(
   python3
   python-pip
   rustup
+  sndio
   unzip
   wasi-compiler-rt
   wasi-libc
@@ -80,7 +81,7 @@ validpgpkeys=(
   '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
 )
 
-b2sums=('80905caeb208ef5dce7b62e248c86598ca786eb7032e114ad5d10812623bfceb688832f646dfbe220ef2fcecacf11cefae2afb0f1cdc0f7952647b71c58c9602'
+b2sums=('7252cd58fef9f5fcb504c8c9f885567109c05e6ec92157459cc384edc6935adb206e3be0b805aeaa37dbd72656c3243db1291b745dd0f705f37a61319a4dc820'
         'SKIP'
         'd07557840097dd48a60c51cc5111950781e1c6ce255557693bd11306c7a9258b2a82548329762148f117b2295145f9e66e0483a18e2fe09c5afcffed2e4b8628'
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34')
@@ -91,6 +92,7 @@ prepare() {
   export MOZ_APP_REMOTINGNAME=${_pkgname}
   mkdir -p mozbuild
   cd firefox-$pkgver
+  rustup default stable
 
   cat >../mozconfig <<END
 
