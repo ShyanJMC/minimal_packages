@@ -2,65 +2,19 @@
 
 pkgbase=libreoffice-fresh
 pkgname=('libreoffice-fresh')
-_LOver=7.6.2.1
-pkgver=7.6.2
-pkgdesc="LibreOffice 7.6.2.1 without a lot of features, making it minimal and more secure"
+_LOver=24.2.2.2
+pkgver=24.2.2
+pkgdesc="LibreOffice 24.2.2 without a lot of features, making it minimal and more secure"
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
 url="https://www.libreoffice.org/"
 
-makedepends=('curl>=7.20.0' 'hunspell>=1.2.8' 'python' 'libwpd>=0.9.2' 'libwps'                                                                                                           
-      'neon>=0.28.6' 'pango' 'nspr' 'libjpeg' 'libxrandr' 'libgl' 'dbus-glib'                                                                                                               
-      'libxslt' 'redland' 'hyphen' 'lpsolve' 'gcc-libs' 'sh' 'graphite' 'icu'                                                                                                               
-      'lcms2' 'poppler>=0.24.0' 'libvisio' 'libetonyek' 'libodfgen' 'libcdr'                                                                                                                
-      'libmspub' 'harfbuzz-icu' 'nss' 'hicolor-icon-theme'                                                                                                                                  
-      'desktop-file-utils' 'shared-mime-info' 'gst-plugins-base-libs'                                                                                                                       
-      'sane' 'perl-archive-zip' 'zip' 'unzip' 'unixodbc' 'ant'                                                                                                                              
-      'gperf' 'gtk3' 'qt5-base' 'plasma-framework' 'qt6-base' 'cppunit' 'beanshell' 'clucene'                                                                                        
-      'junit' 'libmythes' 'libwpg'  'java-environment' 'postgresql-libs' 'mariadb-libs' 'libgl'                                                                                          
-      'bluez-libs' 'gdb' 'doxygen'  'libatomic_ops'  'mdds' 'mold'                                                                                                                           
-      'ttf-liberation' 'ttf-dejavu' 'ttf-carlito' 'libxinerama' 'libpagemaker' 'glm'                                                                                                        
-      'libabw' 'libmwaw' 'libe-book' 'coin-or-mp' 'liblangtag' 'liborcus' 'jdk-openjdk' 'jre-openjdk'                                                                                                                   
-      'libexttextcat' 'gobject-introspection'                                                                                                                  
-      'libtommath' 'libzmf' 'xmlsec' 'rxvt-unicode' 'gpgme' 'libwebp'                                                                                                                       
-      'libepubgen' 'libfreehand' 'libqxp' 'libstaroffice'  'boost' 'libnumbertext' 'libtiff'                                                                                                         
-      'abseil-cpp' 'clang' 'zxing-cpp'                                                                                                                                                      
-      'libffi' 'box2d' 'git' 'nasm' 'hunspell-de' 'hunspell-el'
-      'hunspell-en_au'
-      'hunspell-en_ca'
-      'hunspell-en_gb'
-      'hunspell-en_us'
-      'hunspell-es_any'
-      'hunspell-es_ar'
-      'hunspell-es_bo'
-      'hunspell-es_cl'
-      'hunspell-es_co'
-      'hunspell-es_cr'
-      'hunspell-es_cu'
-      'hunspell-es_do'
-      'hunspell-es_ec'
-      'hunspell-es_es'
-      'hunspell-es_gt'
-      'hunspell-es_hn'
-      'hunspell-es_mx'
-      'hunspell-es_ni'
-      'hunspell-es_pa'
-      'hunspell-es_pe'
-      'hunspell-es_pr'
-      'hunspell-es_py'
-      'hunspell-es_sv'
-      'hunspell-es_uy'
-      'hunspell-es_ve'
-      'hunspell-fr'
-      'hunspell-he'
-      'hunspell-hu'
-      'hunspell-it'
-      'hunspell-nl'
-      'hunspell-pl'
-      'hunspell-ro'
-      'hunspell-ru'
- )              
+makedepends=('clang' 'gcc-libs' 'mold' 'fontconfig' 'gperf' 'curl'
+	'libxslt' 'python' 'zip' 'unzip' 'liblangtag' 'libtiff' 'libetonyek'
+	'hunspell-de' 'hunspell-el' 'hunspell-en_us' 'hunspell-es_any'
+	'openssl' 'gtk3' 'atk' 'nasm' 'nss' 'libice' 'libsm' 'cairo' 'python-cairo' 
+	'pigz' 'ccache' 'jq' 'java-environment' 'libxt' 'ant' 'gobject-introspection')
 
 options=(!lto)
 
@@ -76,19 +30,16 @@ noextract=()
 validpgpkeys=('C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3') # LibreOffice Build Team (CODE SIGNING KEY) <build@documentfoundation.org>
 
 sha256sums=(
-'e5d2733bd02ce24c30207795b77b9f5e2b5aba3a14773375fb5cc228ed2b9ca2'  #libreoffice-7.6.2.1.tar.xz
-'1233817394c6b414c30925e04fed63696c7e01910cd7149222701623204d15b5'  #libreoffice-7.6.2.1.tar.xz.asc
-'5b239fa6127e87b00b7990a5edef96b1fa522f80c1d96e3f8749d95190f6d60a'  #libreoffice-translations-7.6.2.1.tar.xz
-'875ba994bcdd164ea096ebd63fd792cb775a54aa28c08b94f22cc1548673f3fa'  #libreoffice-translations-7.6.2.1.tar.xz.asc
+'c205a65042f65c94b54ea310344b851043633c3eb5259f4e567d9341aae5e45e'  #libreoffice-24.2.2.2.tar.xz
+'ad77748a79597fccab8ffb3c400cd17ac4685ce839ce08d69f3cee7ff626bf12'  #libreoffice-24.2.2.2.tar.xz.asc
+'925016b4172c1dcfb2774cdb0376df949241e369375399b9875b154e65f319b2'  #libreoffice-translations-24.2.2.2.tar.xz
+'5d0791c9128b8981b65089a6aada21dd1c4ec0891772956df62afb9264018831'  #libreoffice-translations-24.2.2.2.tar.xz.asc
 'd0be8099cbee3c9dfda694a828149b881c345b204ab68826f317580aafb50879'  #soffice-template.desktop.in
 'b43ed267643fc5ced803dca010427b12b1f10db485173ccb19efb3395e60c82e'  #libreoffice-fresh.sh
 '66f2cb5d2ff9909ee9633aea73d5306fc8c4ff358fa526f45d9994210d3e23ff'  #libreoffice-fresh.csh
 )
 
 prepare() {
-
-	
-
 	cd libreoffice-$_LOver
 
 	# move external sources into place
@@ -98,24 +49,21 @@ prepare() {
 	done
 	popd
 
-	# symbolic link
-	mkdir -p ../workdir
-	ln -sf ../workdir workdir  
-	
-	#use the CFLAGS but remove the LibO overridden ones
-	for i in $CFLAGS; do
-		case "$i" in
-			-O?|-pipe|-Wall|-g|-fexceptions) continue;;
-		esac
-		ARCH_FLAGS="$ARCH_FLAGS $i"
-	done
-
 	mv ../libreoffice-translations-${_LOver}.tar.xz ../ext_sources
 	echo libreoffice-translations-${_LOver}.tar.xz >> /data/libreoffice-fresh/src/ext_sources/fetch.log
 }
 
 build() {
+
 	cd libreoffice-${_LOver}
+	if [ -d ../workdir ]
+	then
+		echo "cleaning workdir...."
+		make clean
+	else
+		mkdir -p ../workdir
+		ln -sf ../workdir workdir
+	fi
 
 	# strip -s from Makeflags in case you use it to shorten build logs
 	_MAKEFLAGS=${MAKEFLAGS/-s/}
@@ -123,25 +71,43 @@ build() {
     # http://site.icu-project.org/download/61#TOC-Migration-Issues
 	CPPFLAGS+=' -DU_USING_ICU_NAMESPACE=1'
 
+	# this uses malloc_usable_size, which is incompatible with fortification level 3
+	# /usr/lib/libreoffice/program/libskialo.so uses malloc_usable_size
+	export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+	export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+	
+
 	# to fix issues when passed --without-java / --disable-java
 	# thanks to;
 	# https://www.linuxfromscratch.org/blfs/view/svn/xsoft/libreoffice.html
-	sed -i '940i #if HAVE_FEATURE_JAVA' cui/source/options/optjava.cxx
-	sed -i '966i #endif'                cui/source/options/optjava.cxx
+	#sed -i '940i #if HAVE_FEATURE_JAVA' cui/source/options/optjava.cxx
+	#sed -i '966i #endif'                cui/source/options/optjava.cxx
 
-	./configure \
+	sed -i '/icuuc \\/a zlib\\' writerperfect/Library_wpftdraw.mk
+	sed -e /LBCM/d -i i18npool/source/breakiterator/data/line.txt
+
+	./autogen.sh \
+	CXXFLAGS="$(echo $CXXFLAGS -fpermissive -g0)"\
+	C=clang \
+	--with-java \
+	--with-jdk-home="/usr/lib/jvm/default" \
+	--with-ant-home="/usr/share/ant"\
 	--with-extra-buildid="${pkgver}-${pkgrel}" \
+	--with-external-tar="${srcdir}/ext_sources" \
 	--with-parallelism=${_MAKEFLAGS/-j/} \
 	--with-vendor='ShyanJMC Linux' \
-	--enable-split-app-modules \
-	--enable-split-opt-features \
-	--enable-release-build \
-	--with-external-tar="${srcdir}/ext_sources" \
+	--without-system-libetonyek \
 	--prefix=/usr \
 	--exec-prefix=/usr \
 	--sysconfdir=/etc \
 	--libdir=/usr/lib \
 	--mandir=/usr/share/man \
+	--enable-split-app-modules \
+	--enable-release-build \
+	--enable-dbus \
+	--enable-openssl \
+	--with-system-openssl \
+	--enable-optimized=yes \
 	--without-junit \
 	--without-doxygen \
 	--disable-coinmp \
@@ -173,130 +139,138 @@ build() {
 	--without-lxml \
 	--without-gssapi \
 	--disable-avahi \
-	--enable-dbus \
 	--disable-evolution2 \
 	--disable-gio \
 	--disable-dbgutil \
 	--disable-symbols \
-	--enable-optimized=yes \
 	--disable-gtk3-kde5 \
 	--disable-kf5 \
 	--disable-qt5 \
 	--disable-qt6 \
 	--enable-gtk3 \
 	--disable-gtk4 \
-	--disable-introspection \
-	--enable-openssl \
-	--enable-cipher-openssl-backend \
+	--enable-introspection \
 	--disable-odk \
 	--disable-python \
 	--disable-scripting-beanshell \
 	--disable-scripting-javascript \
 	--disable-dconf \
 	--disable-report-builder \
-	--disable-ext-nlpsolver \
 	--with-external-dict-dir=/usr/share/hunspell \
 	--with-external-hyph-dir=/usr/share/hyphen \
 	--with-external-thes-dir=/usr/share/mythes \
 	--with-lang="en-US es" \
+	--with-locales="en es" \
+	--without-omindex \
 	--disable-dependency-tracking \
-	--with-tls="openssl" \
 	--disable-poppler \
 	--disable-xmlhelp \
 	--disable-ext-wiki-publisher \
 	--without-help \
 	--without-fonts \
 	--disable-extension-update  \
+	--disable-extension-integration \
 	--with-system-libtiff \
-	--without-java \
-	--without-system-dicts
-
-
+	--without-system-dragonbox \
+	--without-system-libfixmath \
+	--without-system-frozen \
+	--without-system-zxcvbn \
+	--without-system-dicts \
+	--enable-avmedia \
+	--disable-extensions \
+	--with-system-liblangtag \
+	--disable-opencl \
+	--without-system-xmlsec \
+	--disable-atspi-tests
+	#--without-theme 
+	#--disable-cups
+	#--enable-wasm-strip 
+	#--disable-compiler-plugins-analyzer-pch 
+	#--enable-library-bin-tar 
+	#--disable-ext-nlpsolver 
+	#--disable-database-connectivity 
 	touch src.downloaded
 	make build
 
 	if [ -d "${srcdir}"/fakeinstall ]; then
-		rm -rf "${srcdir}"/fakeinstall
+	    rm -rf "${srcdir}"/fakeinstall
 	else
-		mkdir "${srcdir}"/fakeinstall
+	   	mkdir "${srcdir}"/fakeinstall
 	fi
-		
-	
+	    
 	make DESTDIR="${srcdir}"/fakeinstall distro-pack-install
+	
 }
 
 package_libreoffice-fresh() {
-	pkgdesc="LibreOffice branch which contains new features and program enhancements"
-	depends=('zlib' 'gcc-libs' 'glibc' 'dbus' 'icu' 'curl' 'systemd-libs' 'icu'
-	'gpgme' 'libxml2' 'nss' 'nspr' 'libepoxy' 'lcms2' 'libtiff' 'libx11'
-	'libxext' 'cairo' 'libcups' 'fontconfig' 'freetype2' 'libcap' 'libgcrypt' 'lz4' 'xz' 'zstd' 'gpgme' 'libassuan' 
-	'jbigkit' 'libjpeg-turbo' 'libxcb' 'libpng'
-	'libxrender' 'libxcb' 'pixman' 'expat' 'bzip2' 'harfbuzz' 'brotli' 
-	'libgpg-error' 'libxau' 'libxdmcp' 'glib2' 'graphite' 'brotli' 'pcre2' 'hunspell-es_ar' 'hunspell-en_us')
-	
-	optdepends=('libwpg:  library for importing and converting WordPerfect Graphics format'
-		'sane: for scanner access'
-		'libpaper: takes care of papersize')
-	backup=(etc/libreoffice/sofficerc
-		etc/libreoffice/bootstraprc
-		etc/libreoffice/psprint.conf
-		etc/profile.d/libreoffice-fresh.sh
-		etc/profile.d/libreoffice-fresh.csh)
-	provides=('libreoffice' 'libreoffice-en-US')
-	conflicts=('libreoffice-still')
+    pkgdesc="LibreOffice 24.2.2 without a lot of features, making it minimal and more secure"
+    depends=('fontconfig' 'gperf' 'curl' 'libxslt' 'zip' 'unzip' 'liblangtag' 'libtiff' 'libetonyek'
+    	'hunspell-en_us' 'hunspell-es_any'
+    	'openssl' 'gtk3' 'atk' 'nasm' 'nss' 'libice' 'libsm' 'cairo' 'python-cairo' 
+    	'pigz' 'ccache' 'jq' 'libxt' 'gobject-introspection')
+    backup=(etc/libreoffice/sofficerc
+        etc/libreoffice/bootstraprc
+        etc/libreoffice/psprint.conf
+        etc/profile.d/libreoffice-fresh.sh
+        etc/profile.d/libreoffice-fresh.csh)
+    provides=('libreoffice' 'libreoffice-fresh')
+    conflicts=('libreoffice-still')
 
-	mv fakeinstall/* "${pkgdir}"/
+    mv "${srcdir}"/fakeinstall/* "${pkgdir}"/
 
-	# put configuration files into place
-	install -dm755 "${pkgdir}"/etc/libreoffice
-	install -m644 "${pkgdir}"/usr/lib/libreoffice/share/psprint/psprint.conf \
-	   	"${pkgdir}"/etc/libreoffice/
+    # put configuration files into place
+    install -dm755 "${pkgdir}"/etc/libreoffice.
 
-	# install dummy links to make them found by LibO
-	cd "${pkgdir}"/usr/lib/libreoffice/share/psprint/
-	ln -vsf /etc/libreoffice/psprint.conf .
+    # allow to preset desired VLC
+    install -dm755 "${pkgdir}"/etc/profile.d
+    install -m644 "${srcdir}"/libreoffice-fresh.{sh,csh} "${pkgdir}"/etc/profile.d/
 
-	# allow to preset desired VLC
-	install -dm755 "${pkgdir}"/etc/profile.d
-	install -m644 "${srcdir}"/libreoffice-fresh.{sh,csh} "${pkgdir}"/etc/profile.d/
+    # make pyuno find its modules
+    local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
 
-	# add a symlink required for gnome-documents; FS#51887
-	# https://lists.freedesktop.org/archives/libreoffice/2016-March/073787.html
-	ln -svf /usr/lib/libreoffice/program/liblibreofficekitgtk.so \
-		"${pkgdir}"/usr/lib/liblibreofficekitgtk.so  
+    install -dm755 "${pkgdir}"/$site_packages
+    ln -svf /usr/lib/libreoffice/program/uno.py \
+        "${pkgdir}"/$site_packages/uno.py
+    ln -svf /usr/lib/libreoffice/program/unohelper.py \
+        "${pkgdir}"/$site_packages/unohelper.py
+        
+    # add a symlink required for gnome-documents; FS#51887
+    # https://lists.freedesktop.org/archives/libreoffice/2016-March/073787.html
+    ln -svf /usr/lib/libreoffice/program/liblibreofficekitgtk.so \
+        "${pkgdir}"/usr/lib/liblibreofficekitgtk.so  
 
-	# cleanup
-	rm -rf "${pkgdir}"/usr/share/libreoffice/sdk
+    # cleanup
+    rm -rf "${pkgdir}"/usr/share/libreoffice/sdk
 
-	# add application descriptions
-	install -dm755 "${pkgdir}"/usr/share/metainfo
-	install -v -m644 "${srcdir}"/libreoffice-$_LOver/sysui/desktop/appstream-appdata/*.xml \
-		"${pkgdir}"/usr/share/metainfo
+    # add application descriptions
+    install -dm755 "${pkgdir}"/usr/share/metainfo
+    install -v -m644 "${srcdir}"/libreoffice-$_LOver/sysui/desktop/appstream-appdata/*.xml \
+    "${pkgdir}"/usr/share/metainfo
 
-	# add kde filemanager templates; FS#61662 - file taken from Debian
-	install -dm755 "${pkgdir}"/usr/share/templates/.source
-	install -v -m644 "${srcdir}"/libreoffice-$_LOver/extras/source/shellnew/soffice.* \
-		"${pkgdir}"/usr/share/templates/.source
+    # add kde filemanager templates; FS#61662 - file taken from Debian
+    install -dm755 "${pkgdir}"/usr/share/templates/.source
+    install -v -m644 "${srcdir}"/libreoffice-$_LOver/extras/source/shellnew/soffice.* \
+    "${pkgdir}"/usr/share/templates/.source
 
-	cat "${srcdir}"/soffice-template.desktop.in \
+    cat "${srcdir}"/soffice-template.desktop.in \
                 | sed -e "s/@APP@/Writer/" \
                 | sed -e "s/@EXT@/odt/" \
                 | sed -e "s/@TYPE@/text/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odt.desktop
-    cat "${srcdir}"/soffice-template.desktop.in \
+        cat "${srcdir}"/soffice-template.desktop.in \
                 | sed -e "s/@APP@/Calc/" \
                 | sed -e "s/@EXT@/ods/" \
                 | sed -e "s/@TYPE@/spreadsheet/" \
                 > "${pkgdir}"/usr/share/templates/soffice.ods.desktop
-    cat "${srcdir}"/soffice-template.desktop.in \
+        cat "${srcdir}"/soffice-template.desktop.in \
                 | sed -e "s/@APP@/Impress/" \
                 | sed -e "s/@EXT@/odp/" \
                 | sed -e "s/@TYPE@/presentation/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odp.desktop
-    cat "${srcdir}"/soffice-template.desktop.in \
+        cat "${srcdir}"/soffice-template.desktop.in \
                 | sed -e "s/@APP@/Draw/" \
                 | sed -e "s/@EXT@/odg/" \
                 | sed -e "s/@TYPE@/drawing/" \
                 > "${pkgdir}"/usr/share/templates/soffice.odg.desktop
-
 }
+
