@@ -87,8 +87,11 @@ build() {
 	sed -e /LBCM/d -i i18npool/source/breakiterator/data/line.txt
 
 	./autogen.sh \
+	# If -fpermissive is not enabled will have errors with some functions in C++ files
+	# -g0 disables debug 
 	CXXFLAGS="$(echo $CXXFLAGS -fpermissive -g0)"\
 	C=clang \
+	# Java is needed by C++ wrapper for some reason
 	--with-java \
 	--with-jdk-home="/usr/lib/jvm/default" \
 	--with-ant-home="/usr/share/ant"\
@@ -182,6 +185,7 @@ build() {
 	--disable-opencl \
 	--without-system-xmlsec \
 	--disable-atspi-tests
+	# This options failed in my compilation tests
 	#--without-theme 
 	#--disable-cups
 	#--enable-wasm-strip 
