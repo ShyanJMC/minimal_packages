@@ -2,7 +2,7 @@
 
 pkgname=librewolf
 _pkgname=LibreWolf
-pkgver=123.0
+pkgver=125.0.1
 pkgrel=1
 pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom."
 url="https://librewolf.net/"
@@ -24,38 +24,11 @@ depends=(
   ttf-font
 )
 makedepends=(
-  binutils
-  cbindgen
-  ccache
-  clang
-  diffutils
-  dump_syms
-  git
-  imake
-  inetutils
-  lld
-  llvm
-  mesa
-  mold
-  nasm
-  nodejs
-  pciutils
-  pipewire
-  pipewire-alsa
-  pipewire-pulse
-  python
-  rust
-  sndio
-  unzip
-  'wasi-compiler-rt>15'
-  'wasi-libc++>15'
-  'wasi-libc++abi>15'
-  'wasi-libc>=1:0+314+a1c7c2c'
-  wireplumber
-  xorg-server-xvfb
-  yasm
-  zip
-) # pciutils: only to avoid some PGO warning
+  binutils cbindgen ccache clang diffutils dump_syms git imake inetutils lld
+  llvm mesa mold nasm nodejs pciutils pipewire pipewire-alsa pipewire-pulse
+  python rust sndio unzip 'wasi-compiler-rt>15' 'wasi-libc++>15' 'wasi-libc++abi>15'
+  'wasi-libc>=1:0+314+a1c7c2c' wireplumber xorg-server-xvfb yasm  zip
+)
 
 optdepends=(
   'hunspell-en_US: Spell checking, American English'
@@ -86,7 +59,7 @@ source=(
   "default192x192.png"
 )
 
-sha256sums=('e3209efbddd0c0a79bc62cb9c5cc57b816816bf32a24e8e476e07879c2791314'
+sha256sums=('957cf9db7fd9bc0a7fc54f0169d4e3f76ed9da2d9bb4c4e6cb40fc871d7e5494'
             '21054a5f41f38a017f3e1050ccc433d8e59304864021bef6b99f0d0642ccbe93'
             '959c94c68cab8d5a8cff185ddf4dca92e84c18dccc6dc7c8fe11c78549cdc2f1')
 
@@ -176,6 +149,10 @@ END
 
 build() {
   cd librewolf-$pkgver-$pkgrel
+
+  echo "Cleaning old files"
+  make clean
+  
   export MOZCONFIG="$srcdir/mozconfig"
   export MOZ_NOSPAM=1
   export MOZBUILD_STATE_PATH="$srcdir/mozbuild"
