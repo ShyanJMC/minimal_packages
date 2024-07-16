@@ -2,9 +2,9 @@
 
 pkgbase=libreoffice-fresh
 pkgname=('libreoffice-fresh')
-_LOver=24.2.2.2
-pkgver=24.2.2
-pkgdesc="LibreOffice 24.2.2 without a lot of features, making it minimal and more secure"
+_LOver=24.2.5.2
+pkgver=24.2.5
+pkgdesc="LibreOffice 24.2.5 without a lot of features, making it minimal and more secure"
 pkgrel=1
 arch=('x86_64')
 license=('LGPL3')
@@ -30,10 +30,10 @@ noextract=()
 validpgpkeys=('C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3') # LibreOffice Build Team (CODE SIGNING KEY) <build@documentfoundation.org>
 
 sha256sums=(
-'c205a65042f65c94b54ea310344b851043633c3eb5259f4e567d9341aae5e45e'  #libreoffice-24.2.2.2.tar.xz
-'ad77748a79597fccab8ffb3c400cd17ac4685ce839ce08d69f3cee7ff626bf12'  #libreoffice-24.2.2.2.tar.xz.asc
-'925016b4172c1dcfb2774cdb0376df949241e369375399b9875b154e65f319b2'  #libreoffice-translations-24.2.2.2.tar.xz
-'5d0791c9128b8981b65089a6aada21dd1c4ec0891772956df62afb9264018831'  #libreoffice-translations-24.2.2.2.tar.xz.asc
+'SKIP'  #libreoffice-${_LOver}.tar.xz
+'SKIP'  #libreoffice-${_LOver}.tar.xz.asc
+'SKIP'  #libreoffice-translations-${_LOver}.tar.xz
+'SKIP'  #libreoffice-translations-${_LOver}.tar.xz.asc
 'd0be8099cbee3c9dfda694a828149b881c345b204ab68826f317580aafb50879'  #soffice-template.desktop.in
 'b43ed267643fc5ced803dca010427b12b1f10db485173ccb19efb3395e60c82e'  #libreoffice-fresh.sh
 '66f2cb5d2ff9909ee9633aea73d5306fc8c4ff358fa526f45d9994210d3e23ff'  #libreoffice-fresh.csh
@@ -86,15 +86,23 @@ build() {
 	sed -i '/icuuc \\/a zlib\\' writerperfect/Library_wpftdraw.mk
 	sed -e /LBCM/d -i i18npool/source/breakiterator/data/line.txt
 
-	./autogen.sh \
 	# If -fpermissive is not enabled will have errors with some functions in C++ files
 	# -g0 disables debug 
+	# This options failed in my compilation tests
+	#--without-theme 
+	#--disable-cups
+	#--enable-wasm-strip 
+	#--disable-compiler-plugins-analyzer-pch 
+	#--enable-library-bin-tar 
+	#--disable-ext-nlpsolver 
+	#--disable-database-connectivity 
+	####
+	#--with-jdk-home="/usr/lib/jvm/default" \
+	#--with-ant-home="/usr/share/ant"\
+	./autogen.sh \
 	CXXFLAGS="$(echo $CXXFLAGS -fpermissive -g0)"\
-	C=clang \
-	# Java is needed by C++ wrapper for some reason
-	--with-java \
-	--with-jdk-home="/usr/lib/jvm/default" \
-	--with-ant-home="/usr/share/ant"\
+	C=/usr/sbin/clang \
+	--without-java \
 	--with-extra-buildid="${pkgver}-${pkgrel}" \
 	--with-external-tar="${srcdir}/ext_sources" \
 	--with-parallelism=${_MAKEFLAGS/-j/} \
@@ -125,6 +133,7 @@ build() {
 	--disable-cve-tests \
 	--disable-sdremote-bluetooth \
 	--disable-sdremote \
+	--enable-avmedia \
 	--disable-gstreamer-1-0 \
 	--disable-gdb-index \
 	--without-helppack-integration \
@@ -179,20 +188,12 @@ build() {
 	--without-system-frozen \
 	--without-system-zxcvbn \
 	--without-system-dicts \
-	--enable-avmedia \
 	--disable-extensions \
 	--with-system-liblangtag \
 	--disable-opencl \
 	--without-system-xmlsec \
 	--disable-atspi-tests
-	# This options failed in my compilation tests
-	#--without-theme 
-	#--disable-cups
-	#--enable-wasm-strip 
-	#--disable-compiler-plugins-analyzer-pch 
-	#--enable-library-bin-tar 
-	#--disable-ext-nlpsolver 
-	#--disable-database-connectivity 
+	
 	touch src.downloaded
 	make build
 
