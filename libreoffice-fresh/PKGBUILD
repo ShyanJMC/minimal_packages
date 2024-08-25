@@ -2,8 +2,8 @@
 
 pkgbase=libreoffice-fresh
 pkgname=('libreoffice-fresh')
-_LOver=24.2.5.2
-pkgver=24.2.5
+_LOver=24.8.0.3
+pkgver=24.8.0
 pkgdesc="LibreOffice 24.2.5 without a lot of features, making it minimal and more secure"
 pkgrel=1
 arch=('x86_64')
