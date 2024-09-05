@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=firefox
-pkgver=128.0
+pkgver=130.0
 pkgrel=99
 pkgdesc="Standalone web browser from mozilla.org"
 url="https://www.mozilla.org/firefox/"
@@ -81,7 +81,7 @@ validpgpkeys=(
   '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
 )
 
-b2sums=('a50c7ded69d86c9d45475e701f83295ab6ccfc4eb59d9c91379504bc35dd0e7e1fb59e8c7737684709fe62969b9762e2960fa90607c83f9e8d637b78e60f56b3'
+b2sums=('9c7dfc43145e442d60f6971806848e4ecd0145713e31105da6bd13a82a50655f5c4095beff4d61505e26e188b60f49b16dc17fb42dc03a9fb9ef509a7010b0ab'
         'SKIP'
         'd07557840097dd48a60c51cc5111950781e1c6ce255557693bd11306c7a9258b2a82548329762148f117b2295145f9e66e0483a18e2fe09c5afcffed2e4b8628'
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34')
