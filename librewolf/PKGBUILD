@@ -2,7 +2,7 @@
 
 pkgname=librewolf
 _pkgname=LibreWolf
-pkgver=132.0
+pkgver=136.0
 pkgrel=1
 pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom."
 url="https://librewolf.net/"
@@ -24,10 +24,37 @@ depends=(
   ttf-font
 )
 makedepends=(
-  binutils cbindgen ccache clang diffutils dump_syms git imake inetutils lld
-  llvm mesa mold nasm nodejs pciutils pipewire pipewire-alsa pipewire-pulse
-  python rust sndio unzip 'wasi-compiler-rt>15' 'wasi-libc++>15' 'wasi-libc++abi>15'
-  'wasi-libc>=1:0+314+a1c7c2c' wireplumber xorg-server-xvfb yasm  zip
+  binutils
+  cbindgen
+#  ccache
+  clang
+  diffutils
+  dump_syms
+  git
+  imake
+  inetutils
+  lld
+  llvm 
+  mesa 
+  mold 
+  nasm 
+  nodejs 
+  pciutils 
+  pipewire 
+  pipewire-alsa 
+  pipewire-pulse
+  python 
+#  rust 
+  sndio
+  unzip 
+  'wasi-compiler-rt>15' 
+  'wasi-libc++>15' 
+  'wasi-libc++abi>15'
+  'wasi-libc>=1:0+314+a1c7c2c' 
+  wireplumber 
+#  xorg-server-xvfb 
+  yasm 
+  zip
 )
 
 optdepends=(
@@ -59,7 +86,7 @@ source=(
   "default192x192.png"
 )
 
-sha256sums=('f4ba8d96e73cc3f8449979e8ff47aaa4baa9d229c24f50793b6f0bed73eeed7c'
+sha256sums=('90df6cd83f772d8ac820a6800cbdcedc1940bd7a80646728788775bf946065bf'
             '21054a5f41f38a017f3e1050ccc433d8e59304864021bef6b99f0d0642ccbe93'
             '959c94c68cab8d5a8cff185ddf4dca92e84c18dccc6dc7c8fe11c78549cdc2f1')
 
