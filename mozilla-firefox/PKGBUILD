@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=firefox
-pkgver=138.0.1
+pkgver=138.0.3
 pkgrel=99
 pkgdesc="Standalone web browser from mozilla.org"
 url="https://www.mozilla.org/firefox/"
@@ -81,7 +81,7 @@ validpgpkeys=(
   '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
 )
 
-b2sums=('071b266dacd3bc65c4f5353c2e508e2cced215651263715e66213a5887753a58a851dc0e4b64ba1d97e14c52c27cf0576df766e74680ea65c54dd3a285c28807'
+b2sums=('3357a02fda9bd4d8cc08687ffc96b609ff6567a2892347a71b627c6aa140e653f168989a96c652b18905e414b961093bdd9e02fddf69c3cde613ac9bea6148b1'
         'SKIP'
         'd07557840097dd48a60c51cc5111950781e1c6ce255557693bd11306c7a9258b2a82548329762148f117b2295145f9e66e0483a18e2fe09c5afcffed2e4b8628'  #firefox.desktop
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'  #identity-icons-brand.svg
