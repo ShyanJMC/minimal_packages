@@ -5,7 +5,7 @@
 # Modder: Joaquin 'ShyanJMC' Crespo <shyan@shyanjmc.com>
 
 pkgname=firefox
-pkgver=139.0.1
+pkgver=142.0
 pkgrel=99
 pkgdesc="Standalone web browser from mozilla.org"
 url="https://www.mozilla.org/firefox/"
@@ -81,7 +81,7 @@ validpgpkeys=(
   '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
 )
 
-b2sums=('b3c9841a060461ae2a0317a39a8999c15f8b0130874a270c308a751097be33f436ec37d4881581eb33b28c6e038be0bd1556af82e2f91e409ff84fa51852978d'
+b2sums=('d6b2f541359159fc6302d59c60e28facd931db1dd82d0692e0a185a63d2dcf3bcf99968247b05d46134c3dd05aaf83b4299d23d6a5ff6041da196785d09b7277'
         'SKIP'
         'd07557840097dd48a60c51cc5111950781e1c6ce255557693bd11306c7a9258b2a82548329762148f117b2295145f9e66e0483a18e2fe09c5afcffed2e4b8628'  #firefox.desktop
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'  #identity-icons-brand.svg
@@ -111,10 +111,10 @@ ac_add_options --prefix=/usr
 ac_add_options --disable-debug-symbols
 ac_add_options --disable-rust-debug
 ac_add_options --disable-rust-tests
-#ac_add_options --enable-address-sanitizer
+ac_add_options --enable-address-sanitizer
 ac_add_options --disable-fuzzing
-#ac_add_options --enable-signed-overflow-sanitizer
-#ac_add_options --disable-nodejs
+ac_add_options --enable-signed-overflow-sanitizer
+ac_add_options --disable-nodejs
 ac_add_options --enable-strip
 ac_add_options --disable-accessibility
 ac_add_options --disable-parental-controls
@@ -146,9 +146,9 @@ ac_add_options --disable-debug
 ac_add_options --disable-elf-hack
 ac_add_options --enable-lto
 ac_add_options --without-wasm-sandboxed-libraries
-ac_add_options --enable-wasm-memory64
+#ac_add_options --enable-wasm-memory64
 ac_add_options --enable-wasm-memory-control
-ac_add_options --enable-wasm-multi-memory
+#ac_add_options --enable-wasm-multi-memory
 ac_add_options --enable-wasm-relaxed-simd
 ac_add_options --enable-wasm-avx
 ac_add_options --enable-wasm-simd
