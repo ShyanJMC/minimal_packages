@@ -2,7 +2,7 @@
 
 pkgname=librewolf
 _pkgname=LibreWolf
-pkgver=142.0
+pkgver=143.0
 pkgrel=1
 pkgdesc="Community-maintained fork of Firefox, focused on privacy, security and freedom."
 url="https://librewolf.net/"
@@ -86,7 +86,7 @@ source=(
   "default192x192.png"
 )
 
-sha256sums=('93038bb47402efefdc67a068a8b483ad1cac08286ec5083a4593816531fd1d12'
+sha256sums=('95e12aca5828c7e1b0b0077ad812554b1573d135264d3f17f0e5e0a1ca9270af'
             '21054a5f41f38a017f3e1050ccc433d8e59304864021bef6b99f0d0642ccbe93'
             '959c94c68cab8d5a8cff185ddf4dca92e84c18dccc6dc7c8fe11c78549cdc2f1')
 
@@ -107,7 +107,7 @@ ac_add_options --prefix=/usr
 ac_add_options --disable-debug-symbols
 ac_add_options --disable-rust-debug
 ac_add_options --disable-rust-tests
-ac_add_options --enable-address-sanitizer
+#ac_add_options --enable-address-sanitizer
 ac_add_options --disable-fuzzing
 #ac_add_options --enable-signed-overflow-sanitizer
 ac_add_options --disable-nodejs
