@@ -2,8 +2,8 @@
 
 pkgbase=libreoffice-fresh
 pkgname=('libreoffice-fresh')
-_LOver=24.8.0.3
-pkgver=24.8.0
+_LOver=25.8.3.1
+pkgver=25.8.3
 pkgdesc="LibreOffice 24.2.5 without a lot of features, making it minimal and more secure"
 pkgrel=1
 arch=('x86_64')
@@ -12,9 +12,10 @@ url="https://www.libreoffice.org/"
 
 makedepends=('clang' 'gcc-libs' 'mold' 'fontconfig' 'gperf' 'curl'
 	'libxslt' 'python' 'zip' 'unzip' 'liblangtag' 'libtiff' 'libetonyek'
-	'hunspell-de' 'hunspell-el' 'hunspell-en_us' 'hunspell-es_any'
-	'openssl' 'gtk3' 'atk' 'nasm' 'nss' 'libice' 'libsm' 'cairo' 'python-cairo' 
-	'pigz' 'ccache' 'jq' 'java-environment' 'libxt' 'ant' 'gobject-introspection')
+	'hunspell-en_us' 'hunspell-es_any' 'openssl' 'gtk3' 'atk' 'nasm' 'nss' 'libice' 'libsm' 'cairo' 'python-cairo' 
+	'pigz' 'ccache' 'jq'  'libxt'  'gobject-introspection')
+
+# 'java-environment' 'ant'
 
 options=(!lto)
 
@@ -50,7 +51,8 @@ prepare() {
 	popd
 
 	mv ../libreoffice-translations-${_LOver}.tar.xz ../ext_sources
-	echo libreoffice-translations-${_LOver}.tar.xz >> /data/libreoffice-fresh/src/ext_sources/fetch.log
+	touch ../ext_sources/fetch.log
+	echo libreoffice-translations-${_LOver}.tar.xz >> ../ext_sources/fetch.log
 }
 
 build() {
@@ -73,8 +75,8 @@ build() {
 
 	# this uses malloc_usable_size, which is incompatible with fortification level 3
 	# /usr/lib/libreoffice/program/libskialo.so uses malloc_usable_size
-	export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
-	export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+	export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2} -fexceptions"
+	export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2} -fexceptions"
 	
 
 	# to fix issues when passed --without-java / --disable-java
